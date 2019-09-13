@@ -11,7 +11,7 @@ class DateTimeView {
 		$currentYear = date('Y');
 		$currentTime = date('H:i:s');
 
-		$timeString = "$dayOfWeek the $currentDateOfMonth of $currentMonth, The time is $currentTime";
+		$timeString = "$dayOfWeek, the $currentDateOfMonth of $currentMonth $currentYear, The time is $currentTime";
 
 		return '<p>' . $timeString . '</p>';
 	}
