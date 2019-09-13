@@ -1,5 +1,7 @@
 <?php
 
+namespace login\view;
+
 class DateTimeView {
 
 
