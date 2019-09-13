@@ -23,9 +23,8 @@ $db = new \login\model\Database();
 $loginView = new \login\model\LoginModel(); 
 $loginController = new \login\controller\LoginController($v);
 
-$dbSettings = new \login\DatabaseConfig();
 
-$db->connect($dbSettings);
+$db->connect();
 
 
 $lv->render(false, $v, $dtv);

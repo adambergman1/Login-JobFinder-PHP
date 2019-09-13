@@ -3,10 +3,10 @@
 namespace login;
 
 class DatabaseConfig {
-    public $DB_HOST;
-    public $DB_NAME;
-    public $DB_USERNAME;
-    public $DB_PASSWORD;
+    protected $DB_HOST;
+    protected $DB_NAME;
+    protected $DB_USERNAME;
+    protected $DB_PASSWORD;
 
     public function __construct () {
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
