@@ -28,10 +28,4 @@ $db->connect();
 
 $lv->render(false, $v, $dtv);
 
-$serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-echo $serverName;
-
-if ($serverName == 'localhost') {
-    echo "You are on localhost";
-}
 ?>
