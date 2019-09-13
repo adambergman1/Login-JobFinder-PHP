@@ -3,12 +3,12 @@
 namespace login;
 
 class DatabaseConfig {
-    public static $DB_HOST;
-    public static $DB_NAME;
-    public static $DB_USERNAME;
-    public static $DB_PASSWORD;
+    public $DB_HOST;
+    public $DB_NAME;
+    public $DB_USERNAME;
+    public $DB_PASSWORD;
 
-    public function configure () {
+    public function __construct () {
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 
         if ($serverName == 'localhost') {
@@ -16,6 +16,7 @@ class DatabaseConfig {
             $this->DB_NAME = "1dv610";
             $this->DB_USERNAME = "root";
             $this->DB_PASSWORD = "root";
+
             echo "You are on localhost";
         } else {
             $url = getenv('JAWSDB_URL');
@@ -25,6 +26,7 @@ class DatabaseConfig {
             $this->DB_USERNAME = $dbparts['user'];
             $this->DB_PASSWORD = $dbparts['pass'];
             $this->DB_NAME = ltrim($dbparts['path'],'/');
+
             echo "You are live"; 
         }
     }
