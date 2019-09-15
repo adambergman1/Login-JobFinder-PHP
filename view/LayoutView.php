@@ -5,7 +5,8 @@ namespace login\view;
 class LayoutView {
   
   public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
-    echo '<!DOCTYPE html>
+    echo '
+    <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">

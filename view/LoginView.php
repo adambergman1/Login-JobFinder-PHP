@@ -73,9 +73,6 @@ class LoginView {
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	private function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
-		// $this->name = $_POST["username"];
-		// return $this->name;
-
 		if (isset($_POST[self::$name])) {
 			return $_POST[self::$name];
 		}
