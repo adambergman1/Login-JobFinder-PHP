@@ -24,11 +24,8 @@ $v = new \login\view\LoginView();
 $dtv = new \login\view\DateTimeView();
 $db = new \login\model\Database();
 $loginController = new \login\controller\LoginController($v);
-$loginView = new \login\model\LoginModel("admin", "admin", false); 
-
 
 $db->connect();
-
 
 $lv->render(false, $v, $dtv);
 

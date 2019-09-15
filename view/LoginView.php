@@ -71,11 +71,47 @@ class LoginView {
 	}
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
-		if (isset($_POST[self::$name])) {
-			return $_POST[self::$name];
-		}
+
+	public function getUsername () : string {
+		return isset($_POST[self::$name]) ? $_POST[self::$name] : '';
 	}
+
+	public function getPassword () : string {
+		return isset($_POST[self::$password]) ? $_POST[self::$password] : '';
+	}
+
+	public function getKeepLoggedIn () : bool {
+		return isset($_POST[self::$keep]);
+	}
+
+	public function hasUsername () : bool {
+		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
+	}
+
+	public function hasPassword () : bool {
+		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
+	}
+
+	public function hasRequiredInput () : bool {
+		return $this->hasUsername() && $this->hasPassword();
+	}
+
+	// CREATE COOKIES
+
+	public function setCookie () {
+		$user = array(
+			'name' => self::$name,
+			'password' => self::$password,
+			'stayLoggedIn' => self::$keep
+		);
+
+		setcookie("userCredentials", $user, time() * 1800);
+
+	}
+
+	public function removeCookie () {
+		setcookie("userCredentials", "", time() - 1800);
+	}
+
 	
 }

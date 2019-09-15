@@ -4,7 +4,6 @@ namespace login\view;
 
 class DateTimeView {
 
-
 	public function show() {
 
 		$dayOfWeek = date('l');
