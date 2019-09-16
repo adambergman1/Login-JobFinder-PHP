@@ -3,20 +3,23 @@
 namespace login\model;
 
 class LoginModel {
-    private $userName;
+    private $username;
     private $password;
     private $stayLoggedIn;
 
-    public function __construct (string $userName, string $password, bool $stayLoggedIn) {
-        if (!$userName) {
-            throw new \Exception("Missing username");
+    public function __construct (string $username, string $password, bool $stayLoggedIn) {
+        if (!$username) {
+            throw new \Exception("Username is missing");
         }
-        $this->userName = $userName;
+        if (!$password) {
+            throw new \Exception("Password is missing");
+        }
+        $this->username = $username;
         $this->password = $password;
         $this->stayLoggedIn = $stayLoggedIn;
     }
 
-    public function getUserName () : string {
+    public function getUsername () : string {
         return $this->username;
     }
 

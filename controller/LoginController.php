@@ -9,16 +9,14 @@ class LoginController {
 
     public function __construct(\login\view\LoginView $view) {
         $this->loginView = $view;
-
-        if ($this->loginView->hasRequiredInput()) {
-            $this->login();
-
-        }
-        var_dump($this->loginView->hasRequiredInput());
+        $this->login();
     }
 
     private function login () {
-        $loginCredentials = new \login\model\LoginModel($this->loginView->getUsername(), $this->loginView->getPassword(), $this->loginView->getKeepLoggedIn());
+        if ($this->loginView->shouldLogin()) {
+            $userCredentials = $this->loginView->getUserCredentials();
+    
+        }
     }
 }
 

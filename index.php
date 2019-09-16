@@ -10,7 +10,7 @@ require_once('view/LayoutView.php');
 require_once('DatabaseConfig.php');
 
 require_once('model/Database.php');
-require_once('model/LoginModel.php');
+require_once('model/UserCredentials.php');
 
 require_once('controller/LoginController.php');
 

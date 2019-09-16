@@ -12,7 +12,7 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	
+	private $message;
 
 	/**
 	 * Create HTTP response
@@ -22,10 +22,11 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = '';
+		$message = $this->getMessage();
+		// $this->message = '';
 		
 		$response = $this->generateLoginFormHTML($message);
-		//$response .= $this->generateLogoutButtonHTML($message);
+		// $response .= $this->generateLogoutButtonHTML($message);
 		return $response;
 	}
 
@@ -84,6 +85,12 @@ class LoginView {
 		return isset($_POST[self::$keep]);
 	}
 
+	public function getUserCredentials () : \login\model\UserCredentials {
+		if ($this->hasUsername() && $this->hasPassword()) {
+			return new \login\model\UserCredentials($this->getUsername(), $this->getPassword(), $this->getKeepLoggedIn());
+		}
+	}
+
 	public function hasUsername () : bool {
 		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
 	}
@@ -92,26 +99,47 @@ class LoginView {
 		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
 	}
 
-	public function hasRequiredInput () : bool {
-		return $this->hasUsername() && $this->hasPassword();
+	public function userHasClickedLogin () : bool {
+		return isset($_POST[self::$login]);
+	}
+
+	public function shouldLogin () : bool {
+		if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function getMessage () {
+
+		if ($this->userHasClickedLogin()) {
+			if (!$this->hasUsername()) {
+				return "Username is missing";
+			}
+	
+			if (!$this->hasPassword()) {
+				return "Password is missing";
+			}
+		}
 	}
 
 	// CREATE COOKIES
 
-	public function setCookie () {
-		$user = array(
-			'name' => self::$name,
-			'password' => self::$password,
-			'stayLoggedIn' => self::$keep
-		);
+	// public function setCookie () {
+	// 	$user = array(
+	// 		'name' => self::$name,
+	// 		'password' => self::$password,
+	// 		'stayLoggedIn' => self::$keep
+	// 	);
 
-		setcookie("userCredentials", $user, time() * 1800);
+	// 	setcookie("userCredentials", $user, time() * 1800);
 
-	}
+	// }
 
-	public function removeCookie () {
-		setcookie("userCredentials", "", time() - 1800);
-	}
+	// public function removeCookie () {
+	// 	setcookie("userCredentials", "", time() - 1800);
+	// }
 
-	
+
 }
