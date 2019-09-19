@@ -79,7 +79,7 @@ class LoginView {
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 
 	public function userWantsToLogin () : bool {
-		$this->message = $this->getMessage();
+		$this->getMessage();
 		
 		// Store the submitted username
 		$this->hasUsername() && self::$rememberedName = $_POST[self::$name];
