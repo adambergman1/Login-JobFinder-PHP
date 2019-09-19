@@ -13,6 +13,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $rememberedName = "";
 
 	private $message;
 
@@ -23,9 +24,12 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response() {
-		$response = $this->generateLoginFormHTML($this->message);
-		// $response .= $this->generateLogoutButtonHTML($message);
+	public function response($isLoggedIn) {
+		if (!$isLoggedIn) {
+			$response = $this->generateLoginFormHTML($this->message);
+		} else {
+			$response = $this->generateLogoutButtonHTML($this->message);
+		}
 		return $response;
 	}
 
@@ -56,7 +60,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . self::$rememberedName . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -74,6 +78,7 @@ class LoginView {
 
 	public function userWantsToLogin () : bool {
 		if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
+			self::$rememberedName = $_POST[self::$name];
 			return true;
 		} else {
 			$this->message = $this->getMessage();

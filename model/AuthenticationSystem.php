@@ -2,6 +2,8 @@
 
 namespace login\model;
 
+require_once('model/Exceptions.php');
+
 class AuthenticationSystem {
     private $isLoggedIn;
     private $loggedInUser;
@@ -15,8 +17,10 @@ class AuthenticationSystem {
         if ($userCredentials->getUsername()->getUsername() == 'Admin' 
         && $userCredentials->getPassword()->getPassword() == 'Password' ) {
             // Förändra session
-            $this->isLoggedIn = true;
-            var_dump("Successfully logged in");
+            return true;
+        } else {
+            throw new InvalidCredentialsException("Wrong name or password");
+            return false;
         }
 
         // $db = new \login\model\Database();

@@ -7,7 +7,8 @@ require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 
-require_once('DatabaseConfig.php');
+require_once('LocalSettings.php');
+require_once('ProductionSettings.php');
 
 require_once('model/Database.php');
 require_once('model/AuthenticationSystem.php');
@@ -39,7 +40,7 @@ class Application {
     $dtv = new \login\view\DateTimeView();
     // Kolla sessionen
     $isLoggedIn = $this->loginController->login();
-    $this->layoutView->render(false, $this->loginView, $dtv);
+    $this->layoutView->render($isLoggedIn, $this->loginView, $dtv);
 
   }
 
