@@ -126,12 +126,11 @@ class LoginView {
 
 	private function getMessage () {
 		if ($this->userHasClickedLogin()) {
+			if (!$this->hasPassword()) {
+					$this->setMessage("Password is missing");
+			}
 			if (!$this->hasUsername()) {
 				$this->setMessage("Username is missing");
-			}
-	
-			if (!$this->hasPassword()) {
-				$this->setMessage("Password is missing");
 			}
 		}
 	}
