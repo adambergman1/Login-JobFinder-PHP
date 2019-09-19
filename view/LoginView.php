@@ -13,7 +13,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	private static $rememberedName = "";
+	private static $rememberedName = '';
 
 	private $message;
 
@@ -26,8 +26,10 @@ class LoginView {
 	 */
 	public function response($isLoggedIn) {
 		if (!$isLoggedIn) {
+			$this->userHasClickedLogout() && $this->setMessage("Bye bye!");
 			$response = $this->generateLoginFormHTML($this->message);
 		} else {
+			$this->userHasClickedLogin() && $this->setMessage("Welcome");
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		return $response;
@@ -77,13 +79,14 @@ class LoginView {
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 
 	public function userWantsToLogin () : bool {
-		if ($this->userHasClickedLogin() && $this->hasUsername()) {
-			self::$rememberedName = $_POST[self::$name];
-			return false;
-		} else if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
+		$this->message = $this->getMessage();
+		
+		// Store the submitted username
+		$this->hasUsername() && self::$rememberedName = $_POST[self::$name];
+		
+		if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
 			return true;
 		} else {
-			$this->message = $this->getMessage();
 			return false;
 		}
 	}
@@ -135,6 +138,10 @@ class LoginView {
 
 	public function setMessage ($message) {
 		$this->message = $message;
+	}
+
+	public function userHasClickedLogout () {
+		return isset($_POST[self::$logout]);
 	}
 
 	// CREATE COOKIES
