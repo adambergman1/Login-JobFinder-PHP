@@ -2,6 +2,8 @@
 
 namespace login\view;
 
+include_once('model/Exceptions.php');
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -22,10 +24,7 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = $this->getMessage();
-		// $this->message = '';
-		
-		$response = $this->generateLoginFormHTML($message);
+		$response = $this->generateLoginFormHTML($this->message);
 		// $response .= $this->generateLogoutButtonHTML($message);
 		return $response;
 	}
@@ -73,46 +72,49 @@ class LoginView {
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 
-	public function getUsername () : string {
-		return isset($_POST[self::$name]) ? $_POST[self::$name] : '';
-	}
-
-	public function getPassword () : string {
-		return isset($_POST[self::$password]) ? $_POST[self::$password] : '';
-	}
-
-	public function getKeepLoggedIn () : bool {
-		return isset($_POST[self::$keep]);
-	}
-
-	public function getUserCredentials () : \login\model\UserCredentials {
-		if ($this->hasUsername() && $this->hasPassword()) {
-			return new \login\model\UserCredentials($this->getUsername(), $this->getPassword(), $this->getKeepLoggedIn());
-		}
-	}
-
-	public function hasUsername () : bool {
-		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
-	}
-
-	public function hasPassword () : bool {
-		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
-	}
-
-	public function userHasClickedLogin () : bool {
-		return isset($_POST[self::$login]);
-	}
-
-	public function shouldLogin () : bool {
+	public function userWantsToLogin () : bool {
 		if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
 			return true;
 		} else {
+			$this->message = $this->getMessage();
 			return false;
 		}
 	}
 
-	private function getMessage () {
+	public function getUsername () : \login\model\Username {
+		return new \login\model\Username($_POST[self::$name]);
+	}
 
+	private function getPassword () : \login\model\Password {
+			return new \login\model\Password($_POST[self::$password]);
+	}
+
+	private function getKeepLoggedIn () : bool {
+		return isset($_POST[self::$keep]);
+	}
+
+	private function hasUsername () : bool {
+		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
+	}
+
+	private function hasPassword () : bool {
+		return isset($_POST[self::$password]) && !empty($_POST[self::$password]);
+	}
+
+	private function userHasClickedLogin () : bool {
+		return isset($_POST[self::$login]);
+	}
+
+	public function getUserCredentials () : \login\model\UserCredentials {
+		if ($this->hasUsername() && $this->hasPassword()) {
+			$name = $this->getUsername();
+			$pass = $this->getPassword();
+			$keepLoggedIn = $this->getKeepLoggedIn();
+			return new \login\model\UserCredentials($name, $pass, $keepLoggedIn);
+		}
+	}
+
+	private function getMessage () {
 		if ($this->userHasClickedLogin()) {
 			if (!$this->hasUsername()) {
 				return "Username is missing";
@@ -122,6 +124,10 @@ class LoginView {
 				return "Password is missing";
 			}
 		}
+	}
+
+	public function setMessage ($message) {
+		$this->message = $message;
 	}
 
 	// CREATE COOKIES

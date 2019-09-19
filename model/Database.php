@@ -17,4 +17,3 @@ class Database extends \login\DatabaseConfig {
     }
 }
 
-?>

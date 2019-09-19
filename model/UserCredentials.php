@@ -7,23 +7,21 @@ class UserCredentials {
   private $password;
   private $stayLoggedIn;
 
-  public function __construct(string $username, string $password, bool $stayLoggedIn) {
+  public function __construct(Username $username, Password $password, bool $stayLoggedIn) {
     $this->username = $username;
     $this->password = $password;
     $this->stayLoggedIn = $stayLoggedIn;
   }
 
-  public function getUsername () : string {
+  public function getUsername () {
     return $this->username;
   }
 
-  public function getPassword () : string {
-      return $this->username;
+  public function getPassword () {
+      return $this->password;
   }
 
   public function stayLoggedIn () : bool {
       return $this->stayLoggedIn;
   }
 }
-
-?>
