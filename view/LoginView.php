@@ -122,7 +122,7 @@ class LoginView {
 			$name = $this->getUsername();
 			$pass = $this->getPassword();
 			$keepLoggedIn = $this->getKeepLoggedIn();
-			
+
 			return new \login\model\UserCredentials($name, $pass, $keepLoggedIn);
 		}
 	}
@@ -145,23 +145,4 @@ class LoginView {
 	public function userHasClickedLogout () {
 		return isset($_POST[self::$logout]) && $this->storage->hasStoredUser();
 	}
-
-	// CREATE COOKIES
-
-	// public function setCookie () {
-	// 	$user = array(
-	// 		'name' => self::$name,
-	// 		'password' => self::$password,
-	// 		'stayLoggedIn' => self::$keep
-	// 	);
-
-	// 	setcookie("userCredentials", $user, time() * 1800);
-
-	// }
-
-	// public function removeCookie () {
-	// 	setcookie("userCredentials", "", time() - 1800);
-	// }
-
-
 }

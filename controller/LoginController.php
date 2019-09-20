@@ -25,6 +25,11 @@ class LoginController {
         }
     }
 
+    public function loginByCookie () {
+        $credentials = $this->authSystem->getCookieCredentials();
+        $this->authSystem->tryToLogin($credentials);
+    }
+
     // public function logout () {
     //     if ($this->loginView->userHasClickedLogout()) {
     //         $this->storage->destroySession();

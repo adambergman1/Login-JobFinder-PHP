@@ -37,11 +37,16 @@ class Application {
   public function run () {
     $dtv = new \login\view\DateTimeView();
 
+    if ($this->authSystem->hasCookie()) {
+      $this->loginController->loginByCookie();
+    }
+
     if ($this->storage->hasStoredUser()) {
       $isLoggedIn = true;
       
       if ($this->loginView->userHasClickedLogout()) {
         $this->storage->destroySession();
+        $this->authSystem->removeCookie();
         $isLoggedIn = false;
         $this->loginView->setMessage("Bye bye!");
      }

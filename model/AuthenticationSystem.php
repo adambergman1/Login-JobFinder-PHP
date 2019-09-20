@@ -19,6 +19,7 @@ class AuthenticationSystem {
         && $userCredentials->getPassword()->getPassword() == 'Password' ) {
             // Förändra session
             $this->setLoggedInUser($userCredentials->getUsername());
+            $this->setCookie($userCredentials);
             $this->isLoggedIn = true;
             return true;
         } else {
@@ -41,6 +42,33 @@ class AuthenticationSystem {
 
     public function setLoggedInUser ($username) {
         $this->loggedInUser = $this->storage->saveUser($username);
+    }
+
+    private function setCookie (UserCredentials $userCredentials) {
+		if ($userCredentials->stayLoggedIn()) {
+            $username = $userCredentials->getUsername()->getUsername();
+            $password = $userCredentials->getPassword()->getPassword();
+            
+
+			setcookie("username", $username, time() + 1800);
+			setcookie("password", $password, time() + 1800);
+		}
+	}
+
+	public function removeCookie () {
+		setcookie("username", "", time() - 1800);
+		setcookie("password", "", time() - 1800);
+    }
+    
+    public function hasCookie () {
+        return isset($_COOKIE["username"]) && isset($_COOKIE["password"]);
+    }
+
+    public function getCookieCredentials () {
+        $username = new \login\model\Username($_COOKIE["username"]);
+        $pass = new \login\model\Password($_COOKIE["password"]);
+
+        return new \login\model\UserCredentials($username, $pass, true);
     }
 
 }
