@@ -7,16 +7,19 @@ require_once('model/Exceptions.php');
 class AuthenticationSystem {
     private $isLoggedIn;
     private $loggedInUser;
-    private $userCredentials;
+    private $storage;
 
-    public function __construct () {
+    public function __construct (\login\model\UserStorage $storage) {
         // Ta in databasen
+        $this->storage = $storage;
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) {
         if ($userCredentials->getUsername()->getUsername() == 'Admin' 
         && $userCredentials->getPassword()->getPassword() == 'Password' ) {
             // Förändra session
+            $this->setLoggedInUser($userCredentials->getUsername());
+            $this->isLoggedIn = true;
             return true;
         } else {
             throw new InvalidCredentialsException("Wrong name or password");
@@ -28,12 +31,16 @@ class AuthenticationSystem {
 
     }
 
-    public function isLoggedIn () : bool {
+    public function getIsUserLoggedIn () : bool {
         return $this->isLoggedIn;
     }
 
     public function getLoggedInUser () {
-        throw new Exception("Not implemented yet");
+        return $this->loggedInUser;
+    }
+
+    public function setLoggedInUser ($username) {
+        $this->loggedInUser = $this->storage->saveUser($username);
     }
 
 }

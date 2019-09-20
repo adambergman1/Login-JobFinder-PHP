@@ -16,6 +16,11 @@ class LoginView {
 	private static $rememberedName = '';
 
 	private $message;
+	private $storage;
+
+	public function __construct (\login\model\UserStorage $storage) {
+		$this->storage = $storage;
+	}
 
 	/**
 	 * Create HTTP response
@@ -26,10 +31,8 @@ class LoginView {
 	 */
 	public function response($isLoggedIn) {
 		if (!$isLoggedIn) {
-			$this->userHasClickedLogout() && $this->setMessage("Bye bye!");
 			$response = $this->generateLoginFormHTML($this->message);
 		} else {
-			$this->userHasClickedLogin() && $this->setMessage("Welcome");
 			$response = $this->generateLogoutButtonHTML($this->message);
 		}
 		return $response;
@@ -81,7 +84,7 @@ class LoginView {
 	public function userWantsToLogin () : bool {
 		$this->getMessage();
 		
-		// Store the submitted username
+		// Store the submitted username in the input field
 		$this->hasUsername() && self::$rememberedName = $_POST[self::$name];
 		
 		if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {

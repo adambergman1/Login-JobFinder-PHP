@@ -18,7 +18,7 @@ class LoginController {
             try {
                 $credentials = $this->loginView->getUserCredentials();
                 $isLoggedIn = $this->authSystem->tryToLogin($credentials);
-                if ($isLoggedIn) return true;
+                return $isLoggedIn ? true : false;
             } catch (\Exception $e) {
                 $this->loginView->setMessage($e->getMessage());
             } 

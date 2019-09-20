@@ -22,6 +22,7 @@ class UserCredentials {
   }
 
   public function stayLoggedIn () : bool {
+    var_dump($this->stayLoggedIn());
       return $this->stayLoggedIn;
   }
 }

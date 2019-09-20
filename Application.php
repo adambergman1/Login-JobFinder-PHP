@@ -15,6 +15,7 @@ require_once('model/AuthenticationSystem.php');
 require_once('model/Username.php');
 require_once('model/Password.php');
 require_once('model/UserCredentials.php');
+require_once('model/UserStorage.php');
 
 require_once('controller/LoginController.php');
 
@@ -26,20 +27,33 @@ class Application {
   private $loginController;
 
   public function __construct () {
-    // $this->storage = new \login\model\UserStorage();
+    $this->storage = new \login\model\UserStorage();
     // $this->user = $this->storage->loadUser();
 
     
-    $this->authSystem = new \login\model\AuthenticationSystem();
+    $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
     $this->layoutView = new \login\view\layoutView();
-    $this->loginView = new \login\view\LoginView();
+    $this->loginView = new \login\view\LoginView($this->storage);
     $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem);
   }
 
   public function run () {
     $dtv = new \login\view\DateTimeView();
+
+    if ($this->storage->hasStoredUser()) {
+      $isLoggedIn = true;
+    } else {
+      $isLoggedIn = $this->loginController->login();
+      if ($isLoggedIn) $this->loginView->setMessage("Welcome");
+    }
+
+    if ($this->loginView->userHasClickedLogout()) {
+      $this->storage->hasStoredUser() && $this->loginView->setMessage("Bye bye!");
+      $isLoggedIn = false;
+      $_SESSION = array();
+      session_destroy();
+  }
     // Kolla sessionen
-    $isLoggedIn = $this->loginController->login();
     $this->layoutView->render($isLoggedIn, $this->loginView, $dtv);
 
   }

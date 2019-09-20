@@ -2,8 +2,6 @@
 
 namespace login\model;
 
-session_start();
-
 class UserStorage {
   private static $SESSION_KEY =  __CLASS__ .  "::UserName";
   
@@ -24,7 +22,7 @@ class UserStorage {
   }
   
 	public function saveUser(Username $toBeSaved) {
-		$_SESSION[self::$SESSION_KEY] = $toBeSaved;
+		$_SESSION[self::$SESSION_KEY] = $toBeSaved->getUsername();
   }
   
 }
