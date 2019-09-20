@@ -16,6 +16,7 @@ require_once('model/Username.php');
 require_once('model/Password.php');
 require_once('model/UserCredentials.php');
 require_once('model/UserStorage.php');
+require_once('model/Cookie.php');
 
 require_once('controller/LoginController.php');
 
@@ -25,9 +26,11 @@ class Application {
   private $layoutView;
   private $loginView;
   private $loginController;
+  private $cookie;
 
   public function __construct () {
     $this->storage = new \login\model\UserStorage();
+    $this->cookie = new \login\model\Cookie();
     $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
     $this->layoutView = new \login\view\layoutView();
     $this->loginView = new \login\view\LoginView($this->storage);
@@ -38,13 +41,13 @@ class Application {
     $dtv = new \login\view\DateTimeView();
 
     try {
-      if ($this->authSystem->hasCookie() && !$this->storage->hasStoredUser()) {
+      if ($this->cookie->hasCookie("name") && !$this->storage->hasStoredUser()) {
         $this->loginController->loginByCookie();
         $this->loginView->setMessage("Welcome back with cookie");
       }
     } catch (\Exception $e) {
-      $this->storage->destroySession();
-      $this->authSystem->removeCookie();
+      $this->cookie->removeCookie("name");
+      $this->cookie->removeCookie("password");
       $this->loginView->setMessage("Wrong information in cookies");
     }
     
@@ -52,7 +55,8 @@ class Application {
       $isLoggedIn = true;
       if ($this->loginView->userHasClickedLogout()) {
         $this->storage->destroySession();
-        $this->authSystem->removeCookie();
+        $this->cookie->removeCookie("name");
+        $this->cookie->removeCookie("password");
         $this->loginView->setMessage("Bye bye!");
         $isLoggedIn = false;
      } 

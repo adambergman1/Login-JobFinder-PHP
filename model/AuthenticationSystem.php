@@ -8,18 +8,25 @@ class AuthenticationSystem {
     private $isLoggedIn;
     private $loggedInUser;
     private $storage;
+    private $cookie;
 
     public function __construct (\login\model\UserStorage $storage) {
         // Ta in databasen
         $this->storage = $storage;
+        $this->cookie = new \login\model\Cookie();
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) {
-        if ($userCredentials->getUsername()->getUsername() == 'Admin' 
-        && $userCredentials->getPassword()->getPassword() == 'Password' ) {
+        $username = $userCredentials->getUsername()->getUsername();
+        $password = $userCredentials->getPassword()->getPassword();
+
+        if ($username == 'Admin' && $password == 'Password' ) {
             // Förändra session
             $this->setLoggedInUser($userCredentials->getUsername());
-            $this->setCookie($userCredentials);
+            $this->cookie->setCookie("username", $username);
+            $this->cookie->setCookie("password", $password);
+
+            // $this->setCookie($userCredentials);
             $this->isLoggedIn = true;
             return true;
         } else {
@@ -44,32 +51,32 @@ class AuthenticationSystem {
         $this->loggedInUser = $this->storage->saveUser($username);
     }
 
-    private function setCookie (UserCredentials $userCredentials) {
-		if ($userCredentials->stayLoggedIn()) {
-            $username = $userCredentials->getUsername()->getUsername();
-            $password = $userCredentials->getPassword()->getPassword();
+    // private function setCookie (UserCredentials $userCredentials) {
+	// 	if ($userCredentials->stayLoggedIn()) {
+    //         $username = $userCredentials->getUsername()->getUsername();
+    //         $password = $userCredentials->getPassword()->getPassword();
             
 
-			setcookie("username", $username, time() + 1800);
-			setcookie("password", $password, time() + 1800);
-		}
-	}
+	// 		setcookie("username", $username, time() + 1800);
+	// 		setcookie("password", $password, time() + 1800);
+	// 	}
+	// }
 
-	public function removeCookie () {
-		setcookie("username", "", time() - 1800);
-		setcookie("password", "", time() - 1800);
-    }
+	// public function removeCookie () {
+	// 	setcookie("username", "", time() - 1800);
+	// 	setcookie("password", "", time() - 1800);
+    // }
     
-    public function hasCookie () {
-        return isset($_COOKIE["username"]) && isset($_COOKIE["password"]);
-    }
+    // public function hasCookie () {
+    //     return isset($_COOKIE["username"]) && isset($_COOKIE["password"]);
+    // }
 
-    public function getCookieCredentials () {
-        $username = new \login\model\Username($_COOKIE["username"]);
-        $pass = new \login\model\Password($_COOKIE["password"]);
+    // public function getCookieCredentials () {
+    //     $username = new \login\model\Username($_COOKIE["username"]);
+    //     $pass = new \login\model\Password($_COOKIE["password"]);
 
-        return new \login\model\UserCredentials($username, $pass, true);
-    }
+    //     return new \login\model\UserCredentials($username, $pass, true);
+    // }
 
 }
 

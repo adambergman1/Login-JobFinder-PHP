@@ -7,10 +7,12 @@ include_once('view/LoginView.php');
 class LoginController {
     private $loginView;
     private $authSystem;
+    private $cookie;
 
     public function __construct(\login\view\LoginView $view, \login\model\AuthenticationSystem $authSystem) {
         $this->loginView = $view;
         $this->authSystem = $authSystem;
+        $this->cookie = new \login\model\Cookie();
     }
 
     public function login () {
@@ -26,7 +28,17 @@ class LoginController {
     }
 
     public function loginByCookie () {
-        $credentials = $this->authSystem->getCookieCredentials();
+        $cookieName = $this->loginView->getCookieName();
+        $cookiePassword = $this->loginView->getCookiePassword();
+        $stayLoggedIn = $this->loginView->getKeepLoggedIn();
+
+        $this->cookie->setCookie("username", $cookieName);
+        $this->cookie->setCookie("password", $cookiePassword);
+
+        $username = new \login\model\Username($cookieName);
+        $password = new \login\model\Password($cookiePassword);
+
+        $credentials = new \login\model\UserCredentials($username, $password, $stayLoggedIn);
         $this->authSystem->tryToLogin($credentials);
     }
 
