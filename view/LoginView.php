@@ -101,7 +101,7 @@ class LoginView {
 			return new \login\model\Password($_POST[self::$password]);
 	}
 
-	private function getKeepLoggedIn () : bool {
+	public function getKeepLoggedIn () : bool {
 		return isset($_POST[self::$keep]);
 	}
 

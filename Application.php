@@ -37,22 +37,33 @@ class Application {
   public function run () {
     $dtv = new \login\view\DateTimeView();
 
-    if ($this->authSystem->hasCookie()) {
-      $this->loginController->loginByCookie();
+    try {
+      if ($this->authSystem->hasCookie() && !$this->storage->hasStoredUser()) {
+        $this->loginController->loginByCookie();
+        $this->loginView->setMessage("Welcome back with cookie");
+      }
+    } catch (\Exception $e) {
+      $this->storage->destroySession();
+      $this->authSystem->removeCookie();
+      $this->loginView->setMessage("Wrong information in cookies");
     }
-
+    
     if ($this->storage->hasStoredUser()) {
       $isLoggedIn = true;
-      
       if ($this->loginView->userHasClickedLogout()) {
         $this->storage->destroySession();
         $this->authSystem->removeCookie();
-        $isLoggedIn = false;
         $this->loginView->setMessage("Bye bye!");
-     }
+        $isLoggedIn = false;
+     } 
     } else {
       $isLoggedIn = $this->loginController->login();
-      if ($isLoggedIn) $this->loginView->setMessage("Welcome");
+
+      if ($this->loginView->getKeepLoggedIn() && $isLoggedIn) {
+        $this->loginView->setMessage("Welcome and you will be remembered");
+      } else if ($isLoggedIn) {
+        $this->loginView->setMessage("Welcome");
+      }
     }
     $this->layoutView->render($isLoggedIn, $this->loginView, $dtv);
   }
