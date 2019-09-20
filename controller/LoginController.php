@@ -24,5 +24,14 @@ class LoginController {
             } 
         }
     }
+
+    // public function logout () {
+    //     if ($this->loginView->userHasClickedLogout()) {
+    //         $this->storage->destroySession();
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 }
 

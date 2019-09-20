@@ -28,9 +28,6 @@ class Application {
 
   public function __construct () {
     $this->storage = new \login\model\UserStorage();
-    // $this->user = $this->storage->loadUser();
-
-    
     $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
     $this->layoutView = new \login\view\layoutView();
     $this->loginView = new \login\view\LoginView($this->storage);
@@ -42,24 +39,21 @@ class Application {
 
     if ($this->storage->hasStoredUser()) {
       $isLoggedIn = true;
+      
+      if ($this->loginView->userHasClickedLogout()) {
+        $this->storage->destroySession();
+        $isLoggedIn = false;
+        $this->loginView->setMessage("Bye bye!");
+     }
     } else {
       $isLoggedIn = $this->loginController->login();
       if ($isLoggedIn) $this->loginView->setMessage("Welcome");
     }
-
-    if ($this->loginView->userHasClickedLogout()) {
-      $this->storage->hasStoredUser() && $this->loginView->setMessage("Bye bye!");
-      $isLoggedIn = false;
-      $_SESSION = array();
-      session_destroy();
-  }
-    // Kolla sessionen
     $this->layoutView->render($isLoggedIn, $this->loginView, $dtv);
-
   }
 
-  private function changeState () {
-    // $this->loginController->doChangeUsername();
-    // $this->storage->saveUser($this->user);
-  }
+  // private function changeState () {
+  //   // $this->loginController->doChangeUsername();
+  //   // $this->storage->saveUser($this->user);
+  // }
 }

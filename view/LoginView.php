@@ -83,7 +83,6 @@ class LoginView {
 
 	public function userWantsToLogin () : bool {
 		$this->getMessage();
-		
 		// Store the submitted username in the input field
 		$this->hasUsername() && self::$rememberedName = $_POST[self::$name];
 		
@@ -115,7 +114,7 @@ class LoginView {
 	}
 
 	private function userHasClickedLogin () : bool {
-		return isset($_POST[self::$login]);
+		return isset($_POST[self::$login]) && !$this->storage->hasStoredUser();
 	}
 
 	public function getUserCredentials () : \login\model\UserCredentials {
@@ -123,6 +122,7 @@ class LoginView {
 			$name = $this->getUsername();
 			$pass = $this->getPassword();
 			$keepLoggedIn = $this->getKeepLoggedIn();
+			
 			return new \login\model\UserCredentials($name, $pass, $keepLoggedIn);
 		}
 	}
@@ -143,7 +143,7 @@ class LoginView {
 	}
 
 	public function userHasClickedLogout () {
-		return isset($_POST[self::$logout]);
+		return isset($_POST[self::$logout]) && $this->storage->hasStoredUser();
 	}
 
 	// CREATE COOKIES

@@ -23,6 +23,11 @@ class UserStorage {
   
 	public function saveUser(Username $toBeSaved) {
 		$_SESSION[self::$SESSION_KEY] = $toBeSaved->getUsername();
-  }
+	}
+	
+	public function destroySession () {
+		$_SESSION = array();
+		session_destroy();
+	}
   
 }
