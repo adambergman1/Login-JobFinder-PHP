@@ -25,6 +25,7 @@ class Application {
   private $authSystem;
   private $layoutView;
   private $loginView;
+  private $dateTimeView;
   private $loginController;
   private $cookie;
 
@@ -33,43 +34,27 @@ class Application {
     $this->cookie = new \login\model\Cookie();
     $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
     $this->layoutView = new \login\view\layoutView();
+    $this->dateTimeView = new \login\view\DateTimeView();
     $this->loginView = new \login\view\LoginView($this->storage);
     $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem);
   }
 
   public function run () {
-    $dtv = new \login\view\DateTimeView();
 
-    try {
-      if ($this->cookie->hasCookie("name") && !$this->storage->hasStoredUser()) {
-        $this->loginController->loginByCookie();
-        $this->loginView->setMessage("Welcome back with cookie");
-      }
-    } catch (\Exception $e) {
-      $this->cookie->removeCookie("name");
-      $this->cookie->removeCookie("password");
-      $this->loginView->setMessage("Wrong information in cookies");
-    }
-    
-    if ($this->storage->hasStoredUser()) {
-      $isLoggedIn = true;
-      if ($this->loginView->userHasClickedLogout()) {
-        $this->storage->destroySession();
-        $this->cookie->removeCookie("name");
-        $this->cookie->removeCookie("password");
-        $this->loginView->setMessage("Bye bye!");
-        $isLoggedIn = false;
-     } 
-    } else {
+    $isLoggedIn = $this->storage->hasStoredUser();
+
+    if ($this->cookie->hasCookie() && !$isLoggedIn) {
+      echo "LOGIN BY COOKIE";
+      $isLoggedIn = $this->loginController->loginByCookie();
+    } else if ($this->loginView->userWantsToLogin() && !$isLoggedIn) {
+      echo "LOGIN WITHOUT BEING LOGGED IN";
       $isLoggedIn = $this->loginController->login();
-
-      if ($this->loginView->getKeepLoggedIn() && $isLoggedIn) {
-        $this->loginView->setMessage("Welcome and you will be remembered");
-      } else if ($isLoggedIn) {
-        $this->loginView->setMessage("Welcome");
-      }
+    } else if ($this->loginView->userHasClickedLogout() && $isLoggedIn) {
+      echo "LOGOUT WHILE BEING LOGGED IN";
+      $isLoggedIn = $this->loginController->logout();
     }
-    $this->layoutView->render($isLoggedIn, $this->loginView, $dtv);
+
+      $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);
   }
 
   // private function changeState () {
