@@ -8,12 +8,10 @@ class AuthenticationSystem {
     private $isLoggedIn;
     private $loggedInUser;
     private $storage;
-    private $cookie;
 
     public function __construct (\login\model\UserStorage $storage) {
         // Ta in databasen
         $this->storage = $storage;
-        $this->cookie = new \login\model\Cookie();
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) : bool {
@@ -23,7 +21,6 @@ class AuthenticationSystem {
         if ($username == 'Admin' && $password == 'Password' ) {
             // Förändra session
             $this->setLoggedInUser($userCredentials->getUsername());
-            $this->cookie->setCookie($username, $password);
             // $this->isLoggedIn = true;
             return true;
         } else {

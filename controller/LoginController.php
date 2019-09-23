@@ -23,6 +23,7 @@ class LoginController {
                 $this->authSystem->tryToLogin($credentials);
 
                 if ($credentials->stayLoggedIn()) {
+                    $this->cookie->setCookie($credentials->getUsername()->getUsername(), $credentials->getPassword()->getPassword());
                     $this->loginView->setMessage("Welcome and you will be remembered");
                 } else {
                     $this->loginView->setMessage("Welcome");
