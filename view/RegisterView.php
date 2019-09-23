@@ -28,10 +28,10 @@ class RegisterView {
           <input type="text" size="20" name="' . self::$name . '" id="' . self::$name . '" value="" />
           
           <label for="' . self::$password . '">Password :</label>
-          <input type="password" size="20" name="' . self::$name . '" id="' . self::$name . '" value="" />
+          <input type="password" size="20" name="' . self::$password . '" id="' . self::$password . '" value="" />
         
           <label for="' . self::$passwordRepeat . '" >Repeat password  :</label>
-          <input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$name . '" value="" />
+          <input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$passwordRepeat . '" value="" />
         
           <input type="submit" name="' . self::$doRegistration . '"  value="register" />
       </fieldset>
