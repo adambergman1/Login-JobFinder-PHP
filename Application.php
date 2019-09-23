@@ -33,14 +33,15 @@ class Application {
     $this->storage = new \login\model\UserStorage();
     $this->cookie = new \login\model\Cookie();
     $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
+
     $this->layoutView = new \login\view\layoutView();
     $this->dateTimeView = new \login\view\DateTimeView();
     $this->loginView = new \login\view\LoginView($this->storage);
+
     $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem);
   }
 
   public function run () {
-
     $isLoggedIn = $this->storage->hasStoredUser();
 
     if ($this->cookie->hasCookie() && !$isLoggedIn) {
@@ -56,9 +57,4 @@ class Application {
 
       $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);
   }
-
-  // private function changeState () {
-  //   // $this->loginController->doChangeUsername();
-  //   // $this->storage->saveUser($this->user);
-  // }
 }

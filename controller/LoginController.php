@@ -18,42 +18,34 @@ class LoginController {
     }
 
     public function login () : bool {
-            try {
-                $credentials = $this->loginView->getUserCredentials();
-                $this->authSystem->tryToLogin($credentials);
+        $credentials = $this->loginView->getUserCredentials();
+        $isAuthenticated = $this->authSystem->tryToLogin($credentials);
 
-                if ($credentials->stayLoggedIn()) {
-                    $this->cookie->setCookie($credentials->getUsername()->getUsername(), $credentials->getPassword()->getPassword());
-                    $this->loginView->setMessage("Welcome and you will be remembered");
-                } else {
-                    $this->loginView->setMessage("Welcome");
-                }
-                return true;
-            } catch (\Exception $e) {
-                $this->loginView->setMessage($e->getMessage());
-                return false;
+        if ($isAuthenticated) {
+            if ($credentials->stayLoggedIn()) {
+                $this->cookie->setCookie($credentials->getUsername()->getUsername(), $credentials->getPassword()->getPassword());
+                $this->loginView->setMessage("Welcome and you will be remembered");
+            } else {
+                $this->loginView->setMessage("Welcome");
             }
+            return true;
+        } else {
+            $this->loginView->setMessage("Wrong name or password");
+            return false;
+        }
     }
 
     public function loginByCookie () : bool {
-            // $cookieName = $this->loginView->getCookieName();
-            // $cookiePassword = $this->loginView->getCookiePassword();
-            // $this->cookie->setCookie($cookieName, $cookiePassword);
-
-            // $stayLoggedIn = $this->loginView->getKeepLoggedIn();
-            // $credentials = new \login\model\UserCredentials(new \login\model\Username($cookieName), 
-            // new \login\model\Password($cookiePassword), $stayLoggedIn);
-
             $credentials = $this->cookie->getUserCredentialsByCookie();
+            $isAuthenticated = $this->authSystem->tryToLogin($credentials);
 
-            try {
-                $this->authSystem->tryToLogin($credentials);
+            if ($isAuthenticated) {
                 $this->loginView->setMessage("Welcome back with cookie");
                 return true;
-            } catch (Exception $e) {
+            } else {
                 $this->cookie->removeCookie();
                 $this->storage->destroySession();
-                $this->loginView->setMessage("Wrong information in cookies"); 
+                $this->loginView->setMessage("Wrong information in cookies");
                 return false;
             }
     }
@@ -64,4 +56,3 @@ class LoginController {
             $this->loginView->setMessage("Bye bye!");
     }
 }
-

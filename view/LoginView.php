@@ -82,9 +82,11 @@ class LoginView {
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 
 	public function userWantsToLogin () : bool {
-		$this->getMessage();
-		// Store the submitted username in the input field
-		$this->hasUsername() && self::$rememberedName = $_POST[self::$name];
+		$this->checkForEmptyFields();
+		
+		if ($this->hasUsername())  {
+			self::$rememberedName = $_POST[self::$name];
+		}
 		
 		if ($this->userHasClickedLogin() && $this->hasUsername() && $this->hasPassword()) {
 			return true;
@@ -127,7 +129,7 @@ class LoginView {
 		}
 	}
 
-	private function getMessage () {
+	private function checkForEmptyFields () {
 		if ($this->userHasClickedLogin()) {
 			if (!$this->hasPassword()) {
 					$this->setMessage("Password is missing");

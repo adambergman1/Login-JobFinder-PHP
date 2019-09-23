@@ -19,12 +19,10 @@ class AuthenticationSystem {
         $password = $userCredentials->getPassword()->getPassword();
 
         if ($username == 'Admin' && $password == 'Password' ) {
-            // Förändra session
             $this->setLoggedInUser($userCredentials->getUsername());
             // $this->isLoggedIn = true;
             return true;
         } else {
-            throw new InvalidCredentialsException("Wrong name or password");
             return false;
         }
 
