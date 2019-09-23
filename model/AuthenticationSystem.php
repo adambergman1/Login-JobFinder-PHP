@@ -18,16 +18,28 @@ class AuthenticationSystem {
         $username = $userCredentials->getUsername()->getUsername();
         $password = $userCredentials->getPassword()->getPassword();
 
-        if ($username == 'Admin' && $password == 'Password' ) {
+        $db = new \login\model\Database();
+        $db->connect();
+
+        $userCheck = $db->isUserValid($username, $password);
+
+        if ($userCheck) {
             $this->setLoggedInUser($userCredentials->getUsername());
-            // $this->isLoggedIn = true;
+            $this->isLoggedIn = true;
             return true;
         } else {
             return false;
         }
 
-        // $db = new \login\model\Database();
-        // $db-connect();
+
+        // if ($username == 'Admin' && $password == 'Password' ) {
+        //     $this->setLoggedInUser($userCredentials->getUsername());
+        //     // $this->isLoggedIn = true;
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+
 
     }
 

@@ -5,6 +5,8 @@ namespace login\model;
 class Database {
     private $connection;
     private $settings;
+    private $userCheck;
+    private $pwdCheck;
 
     public function __construct () {
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
@@ -24,6 +26,23 @@ class Database {
         }
 
         return $this->connection;
+    }
+
+    public function isUserValid (string $username, string $password) {
+        $query = "SELECT * FROM users WHERE username = ? and password = ?";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('ss', $username, $password);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['username'] == $username && $row['password'] == $password) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

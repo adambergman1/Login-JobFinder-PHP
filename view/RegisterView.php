@@ -12,9 +12,12 @@ class RegisterView {
 	private $message;
 
 	public function response($isLoggedIn) {
+		$ret = '';
 		if (!$isLoggedIn) {
-			return $this->generateRegistrationForm();
+			$ret = "<h2>Register new user</h2>";
+			$ret .= $this->generateRegistrationForm();
 		}
+		return $ret;
 	}
 
   private function generateRegistrationForm() {
@@ -26,14 +29,14 @@ class RegisterView {
           
           <label for="' . self::$name . '">Username :</label>
           <input type="text" size="20" name="' . self::$name . '" id="' . self::$name . '" value="" />
-          
+          <br>
           <label for="' . self::$password . '">Password :</label>
           <input type="password" size="20" name="' . self::$password . '" id="' . self::$password . '" value="" />
-        
+					<br>
           <label for="' . self::$passwordRepeat . '" >Repeat password  :</label>
           <input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$passwordRepeat . '" value="" />
-        
-          <input type="submit" name="' . self::$doRegistration . '"  value="register" />
+					<br>
+          <input type="submit" name="' . self::$doRegistration . '"  value="Register" />
       </fieldset>
     </form>
 		';
