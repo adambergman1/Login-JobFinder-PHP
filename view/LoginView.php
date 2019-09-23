@@ -148,11 +148,11 @@ class LoginView {
 		return isset($_POST[self::$logout]) && $this->storage->hasStoredUser();
 	}
 
-	public function getCookieName () {
+	public function getCookieNameReference () {
 		return self::$cookieName;
 	}
 
-	public function getCookiePassword () {
+	public function getCookiePasswordReference () {
 		return self::$cookiePassword;
 	}
 }

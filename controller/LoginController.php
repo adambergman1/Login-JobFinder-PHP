@@ -13,8 +13,8 @@ class LoginController {
     public function __construct(\login\view\LoginView $view, \login\model\AuthenticationSystem $authSystem) {
         $this->loginView = $view;
         $this->authSystem = $authSystem;
-        $this->cookie = new \login\model\Cookie();
         $this->storage = new \login\model\UserStorage();
+        $this->cookie = new \login\model\Cookie();
     }
 
     public function login () : bool {

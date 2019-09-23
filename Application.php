@@ -4,6 +4,7 @@ namespace login;
 
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
+require_once('view/RegisterView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 
@@ -25,6 +26,7 @@ class Application {
   private $authSystem;
   private $layoutView;
   private $loginView;
+  private $registerView;
   private $dateTimeView;
   private $loginController;
   private $cookie;
@@ -37,6 +39,7 @@ class Application {
     $this->layoutView = new \login\view\layoutView();
     $this->dateTimeView = new \login\view\DateTimeView();
     $this->loginView = new \login\view\LoginView($this->storage);
+    $this->registerView = new \login\view\RegisterView();
 
     $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem);
   }
@@ -52,6 +55,11 @@ class Application {
       $isLoggedIn = $this->loginController->logout();
     }
 
+    if ($this->layoutView->userHasClickedRegister()) {
+      $this->layoutView->render($isLoggedIn, $this->registerView, $this->dateTimeView);
+    } else {
       $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);
+    }
+
   }
 }
