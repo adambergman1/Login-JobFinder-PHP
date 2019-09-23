@@ -45,13 +45,10 @@ class Application {
     $isLoggedIn = $this->storage->hasStoredUser();
 
     if ($this->cookie->hasCookie() && !$isLoggedIn) {
-      echo "LOGIN BY COOKIE";
       $isLoggedIn = $this->loginController->loginByCookie();
     } else if ($this->loginView->userWantsToLogin() && !$isLoggedIn) {
-      echo "LOGIN WITHOUT BEING LOGGED IN";
       $isLoggedIn = $this->loginController->login();
     } else if ($this->loginView->userHasClickedLogout() && $isLoggedIn) {
-      echo "LOGOUT WHILE BEING LOGGED IN";
       $isLoggedIn = $this->loginController->logout();
     }
 
