@@ -34,7 +34,7 @@ class Application {
   public function __construct () {
     $this->storage = new \login\model\UserStorage();
     $this->cookie = new \login\model\Cookie();
-    $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
+    $this->authSystem = new \login\model\AuthenticationSystem($this->storage, $this->cookie);
 
     $this->layoutView = new \login\view\layoutView();
     $this->dateTimeView = new \login\view\DateTimeView();
@@ -60,6 +60,6 @@ class Application {
     } else {
       $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);
     }
-
   }
+  
 }

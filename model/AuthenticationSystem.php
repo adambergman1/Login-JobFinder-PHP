@@ -2,45 +2,37 @@
 
 namespace login\model;
 
-require_once('model/Exceptions.php');
+require_once('Exceptions.php');
 
 class AuthenticationSystem {
     private $isLoggedIn;
     private $loggedInUser;
     private $storage;
+    private $cookie;
 
-    public function __construct (\login\model\UserStorage $storage) {
+    public function __construct (\login\model\UserStorage $storage, \login\model\Cookie $cookie) {
         // Ta in databasen
         $this->storage = $storage;
+        $this->cookie = $cookie;
     }
 
-    public function tryToLogin (\login\model\UserCredentials $userCredentials) : bool {
+    public function tryToLogin (\login\model\UserCredentials $userCredentials) {
         $username = $userCredentials->getUsername()->getUsername();
         $password = $userCredentials->getPassword()->getPassword();
 
         $db = new \login\model\Database();
         $db->connect();
 
-        $userCheck = $db->isUserValid($username, $password);
+        $isAuthenticated = $db->isUserValid($username, $password);
 
-        if ($userCheck) {
+        if ($isAuthenticated) {
+            $userCredentials->stayLoggedIn() && $this->cookie->setCookie($username, $password);
             $this->setLoggedInUser($userCredentials->getUsername());
             $this->isLoggedIn = true;
             return true;
         } else {
-            return false;
+            throw new WrongNameOrPassword("Wrong name or password");
         }
-
-
-        // if ($username == 'Admin' && $password == 'Password' ) {
-        //     $this->setLoggedInUser($userCredentials->getUsername());
-        //     // $this->isLoggedIn = true;
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-
-
     }
 
     public function getIsUserLoggedIn () : bool {

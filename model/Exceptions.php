@@ -8,3 +8,4 @@ class InvalidCredentialsException extends \Exception { }
 
 class TooShortException extends \Exception { }
 
+class WrongNameOrPassword extends \Exception { }
