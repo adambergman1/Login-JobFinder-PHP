@@ -3,7 +3,7 @@
 namespace login\view;
 
 class RegisterView {
-	private static $messageId = 'RegisterView::Message';
+	private static $messageId = 'RegisterView::Message"';
 	private static $name = 'RegisterView::UserName';
 	private static $password = 'RegisterView::Password';
 	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
