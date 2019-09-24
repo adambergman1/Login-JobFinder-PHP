@@ -6,6 +6,8 @@ class InvalidCharactersException extends \Exception { }
 
 class InvalidCredentialsException extends \Exception { }
 
-class TooShortException extends \Exception { }
+class TooShortNameException extends \Exception { }
+
+class TooShortPasswordException extends \Exception { }
 
 class WrongNameOrPassword extends \Exception { }

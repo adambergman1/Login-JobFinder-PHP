@@ -41,7 +41,7 @@ class Application {
     $this->loginView = new \login\view\LoginView($this->storage);
     $this->registerView = new \login\view\RegisterView();
 
-    $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem);
+    $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem, $this->registerView);
   }
 
   public function run () {
@@ -54,8 +54,12 @@ class Application {
     } else if ($this->loginView->userHasClickedLogout() && $isLoggedIn) {
       $isLoggedIn = $this->loginController->logout();
     }
-
+    
     if ($this->layoutView->userHasClickedRegister()) {
+      if ($this->registerView->userhasClickedRegister()) {
+        $this->loginController->register();
+      }
+      
       $this->layoutView->render($isLoggedIn, $this->registerView, $this->dateTimeView);
     } else {
       $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);

@@ -6,11 +6,11 @@ require_once('Exceptions.php');
 
 class Username {
   private $username;
-  private static $MIN_USERNAME_LENGTH = 5;
+  private static $MIN_USERNAME_LENGTH = 3;
 
   public function __construct(string $username) {
     if ($this->hasInvalidLength($username)) {
-      throw new TooShortException("Username has too few characaters, at least 5 characters");
+      throw new TooShortNameException("Username has too few characters, at least 3 characters.");
     }
 
     if ($this->hasInvalidCharacters($username)) {

@@ -42,45 +42,42 @@ class RegisterView {
 		';
 	}
 
-	// public function getUsername () {
-	// 	if ($this->hasUsername()) {
-	// 		return self::$name;
-	// 	}
-	// }
+	public function getUsername () : \login\model\Username {
+		return new \login\model\Username($_POST[self::$name]);
+	}
 
-	// public function getPassword () {
-	// 	if ($this->hasPassword()) {
-	// 		return self::$password;
-	// 	}
-	// }
+	public function getPassword () : \login\model\Password {
+		return new \login\model\Password($_POST[self::$password]);
+	}
 
-	// public function getPasswordRepeat () {
-	// 	if ($this->hasPasswordRepeat()) {
-	// 		return self::$passwordRepeat;
-	// 	}
-	// }
+	public function getPasswordRepeat () : \login\model\Password {
+		return new \login\model\Password($_POST[self::$passwordRepeat]);
+	}
 
-	// public function hasUsername () : bool {
-	// 	if (isset($_POST[self::$name]) && !empty($_POST[self::$name])) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
+	public function inputFieldHasValue ($field) : bool {
+		if (isset($_POST[$field]) && !empty($_POST[$field])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-	// public function hasPassword () : bool {
-	// 	if (isset($_POST[self::$password]) && !empty($_POST[self::$password])) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
+	public function passwordsAreSame () : bool {
+		return $this->getPassword() == $this->getPasswordRepeat();
+	}
 
-	// public function hasPasswordRepeat () : bool {
-	// 	if (isset($_POST[self::$passwordRepeat]) && !empty($_POST[self::$passwordRepeat])) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
+	public function getNewUserCredentials () : \login\model\UserCredentials {
+		if ($this->inputFieldHasValue(self::$name) && $this->inputFieldHasValue(self::$password) 
+		&& $this->passwordsAreSame()) {
+			return new \login\model\UserCredentials($this->getUsername(), $this->getPassword(), false);
+		}
+	}
+
+	public function setMessage ($message) {
+		$this->message = $message;
+	}
+
+	public function userhasClickedRegister () : bool {
+		return isset($_POST[self::$doRegistration]);
+	}
 }
