@@ -2,7 +2,7 @@
 
 namespace login;
 
-class DBSettings {
+class ProductionSettings {
     public $DB_HOST;
     public $DB_NAME;
     public $DB_USERNAME;
