@@ -9,8 +9,8 @@ class ProductionSettings {
     public $DB_PASSWORD;
 
     public function __construct () {
-      $this->url = getenv('JAWSDB_URL');
-      $this->dbparts = parse_url($url);
+      $url = getenv('JAWSDB_URL');
+      $dbparts = parse_url($url);
       
       $this->DB_HOST = $dbparts['host'];
       $this->DB_USERNAME = $dbparts['user'];
