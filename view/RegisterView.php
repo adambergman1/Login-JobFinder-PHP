@@ -3,7 +3,7 @@
 namespace login\view;
 
 class RegisterView {
-	private static $messageId = 'RegisterView::Message"';
+	private static $messageId = 'RegisterView::Message';
 	private static $name = 'RegisterView::UserName';
 	private static $password = 'RegisterView::Password';
 	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
@@ -25,7 +25,7 @@ class RegisterView {
       <form action="?register" method="post" enctype="multipart/form-data">
         <fieldset>
           <legend>Register a new user - Write username and password</legend>
-          <p id=' . self::$messageId . '">' . $this->message . '</p>
+          <p id=' . self::$messageId . '>' . $this->message . '</p>
           
           <label for="' . self::$name . '">Username :</label>
           <input type="text" size="20" name="' . self::$name . '" id="' . self::$name . '" value="" />
