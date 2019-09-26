@@ -69,10 +69,7 @@ class RegisterView {
 	}
 
 	public function getNewUserCredentials () : \login\model\UserCredentials {
-		if ($this->inputFieldHasValue(self::$name) && $this->inputFieldHasValue(self::$password) 
-		&& $this->passwordsAreSame()) {
 			return new \login\model\UserCredentials($this->getUsername(), $this->getPassword(), false);
-		}
 	}
 
 	public function setMessage ($message) {

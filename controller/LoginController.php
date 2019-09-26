@@ -68,19 +68,31 @@ class LoginController {
     public function register () {
         $message = "";
         if ($this->registerView->userhasClickedRegister()) {
+            // try {
+            //     $username = $this->registerView->getUsername();
+            // } catch (TooShortNameException $e) {
+            //     $message .= $e->getMessage();
+            //     $message .= " ";
+            // }
+            // try {
+            //     $password = $this->registerView->getPassword();
+            //     $this->registerView->getPasswordRepeat();
+            // } catch (TooShortPasswordException $e) {
+            //     $message .= $e->getMessage();
+            // }
+
             try {
-                $username = $this->registerView->getUsername();
-            } catch (TooShortNameException $e) {
-                $message .= $e->getMessage();
-                $message .= " ";
+                $credentials = $this->registerView->getNewUserCredentials();
+                if (!$this->registerView->passwordsAreSame()) {
+                    throw new Exception("Passwords do not match.");
+                }
+            } catch (Exception $e) {
+                $this->registerView->setMessage($e->getMessage());
             }
-            try {
-                $password = $this->registerView->getPassword();
-                $this->registerView->getPasswordRepeat();
-            } catch (TooShortPasswordException $e) {
-                $message .= $e->getMessage();
-            }
-            $this->registerView->setMessage($message);
+            // catch (TooShortPasswordException $e) {
+            //     $this->registerView->setMessage($message);
+            // }
+            // $this->registerView->setMessage($message);
         }
     }
 }
