@@ -35,6 +35,11 @@ class AuthenticationSystem {
         }
     }
 
+    public function tryToRegister (\login\model\NewUser $newuser) {
+        $username = $newuser->getUsername()->getUsername();
+        $password = $newuser->getPassword()->getPassword();
+    }
+
     public function getIsUserLoggedIn () : bool {
         return $this->isLoggedIn;
     }

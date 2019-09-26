@@ -29,7 +29,7 @@ class Username {
   }
 
   private function hasInvalidLength (string $username) : bool {
-    if (strlen($username) < self::$MIN_USERNAME_LENGTH) {
+    if (empty($username) || strlen($username) < self::$MIN_USERNAME_LENGTH) {
       return true;
     } else {
       return false;

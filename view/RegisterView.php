@@ -44,16 +44,16 @@ class RegisterView {
 		';
 	}
 
-	public function getUsername () : \login\model\Username {
-		return new \login\model\Username($_POST[self::$name]);
+	public function getUsername () : string {
+		return $_POST[self::$name];
 	}
 
-	public function getPassword () : \login\model\Password {
-		return new \login\model\Password($_POST[self::$password]);
+	public function getPassword () : string {
+		return $_POST[self::$password];
 	}
 
-	public function getPasswordRepeat () : \login\model\Password {
-		return new \login\model\Password($_POST[self::$passwordRepeat]);
+	public function getPasswordRepeat () : string {
+		return $_POST[self::$passwordRepeat];
 	}
 
 	public function inputFieldHasValue ($field) : bool {
@@ -68,8 +68,8 @@ class RegisterView {
 		return $this->getPassword() == $this->getPasswordRepeat();
 	}
 
-	public function getNewUserCredentials () : \login\model\UserCredentials {
-			return new \login\model\UserCredentials($this->getUsername(), $this->getPassword(), false);
+	public function getNewUserCredentials () : \login\model\NewUser {
+			return new \login\model\NewUser($this->getUsername(), $this->getPassword(), $this->getPasswordRepeat());
 	}
 
 	public function setMessage ($message) {

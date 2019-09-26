@@ -3,6 +3,8 @@
 namespace login\controller;
 
 use Exception;
+use login\model\NameAndPasswordMissing;
+use login\model\PasswordsDoNotMatch;
 use login\model\TooShortNameException;
 use login\model\TooShortPasswordException;
 
@@ -83,16 +85,16 @@ class LoginController {
 
             try {
                 $credentials = $this->registerView->getNewUserCredentials();
-                if (!$this->registerView->passwordsAreSame()) {
-                    throw new Exception("Passwords do not match.");
-                }
-            } catch (Exception $e) {
+                $isAuthenticated = $this->authSystem->tryToRegister($credentials);
+            } catch (TooShortNameException $e) {
+                $this->registerView->setMessage($e->getMessage());
+            } catch (TooShortPasswordException $e) {
+                $this->registerView->setMessage($e->getMessage());
+            } catch (NameAndPasswordMissing $e) {
+                $this->registerView->setMessage($e->getMessage());
+            } catch (PasswordsDoNotMatch $e) {
                 $this->registerView->setMessage($e->getMessage());
             }
-            // catch (TooShortPasswordException $e) {
-            //     $this->registerView->setMessage($message);
-            // }
-            // $this->registerView->setMessage($message);
         }
     }
 }
