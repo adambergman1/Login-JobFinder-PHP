@@ -8,6 +8,8 @@ class RegisterView {
 	private static $password = 'RegisterView::Password';
 	private static $passwordRepeat = 'RegisterView::PasswordRepeat';
 	private static $doRegistration = 'RegisterView::DoRegistration';
+
+	private static $rememberedName;
 	
 	private $message;
 
@@ -28,7 +30,7 @@ class RegisterView {
           <p id=' . self::$messageId . '>' . $this->message . '</p>
           
           <label for="' . self::$name . '">Username :</label>
-          <input type="text" size="20" name="' . self::$name . '" id="' . self::$name . '" value="" />
+          <input type="text" size="20" name="' . self::$name . '" id="' . self::$name . '" value="' . self::$rememberedName .'" />
           <br>
           <label for="' . self::$password . '">Password :</label>
           <input type="password" size="20" name="' . self::$password . '" id="' . self::$password . '" value="" />
@@ -78,6 +80,10 @@ class RegisterView {
 	}
 
 	public function userhasClickedRegister () : bool {
+
+		if ($this->inputFieldHasValue(self::$name)) {
+			self::$rememberedName = $_POST[self::$name];
+		}
 		return isset($_POST[self::$doRegistration]);
 	}
 }

@@ -76,6 +76,7 @@ class LoginController {
             }
             try {
                 $password = $this->registerView->getPassword();
+                $this->registerView->getPasswordRepeat();
             } catch (TooShortPasswordException $e) {
                 $message .= $e->getMessage();
             }
