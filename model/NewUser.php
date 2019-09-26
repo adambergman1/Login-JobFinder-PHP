@@ -35,8 +35,4 @@ class NewUser {
   public function getPassword () {
       return $this->password;
   }
-
-  public function getPasswordRepeat () {
-      return $this->passwordRepeat;
-  }
 }

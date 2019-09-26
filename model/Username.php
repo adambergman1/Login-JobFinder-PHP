@@ -2,20 +2,13 @@
 
 namespace login\model;
 
-require_once('Exceptions.php');
-
 class Username {
   private $username;
   private static $MIN_USERNAME_LENGTH = 3;
 
   public function __construct(string $username) {
-    if ($this->hasInvalidLength($username)) {
-      throw new TooShortNameException("Username has too few characters, at least 3 characters.");
-    }
-
-    if ($this->hasInvalidCharacters($username)) {
-      throw new InvalidCharactersException("The username has invalid characters");
-    }
+    $this->handleInvalidLength($username);
+    $this->handleInvalidCharacters($username);
 
     $this->username = $username;
   }
@@ -37,10 +30,22 @@ class Username {
   }
 
   private function hasInvalidCharacters(string $username) : bool {
-    if ($username !== strip_tags($username) && ($username !== trim($username))) {
+    if ($username != strip_tags($username)) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  private function handleInvalidCharacters (string $username) {
+    if ($this->hasInvalidCharacters($username)) {
+      throw new InvalidCharactersException("Username contains invalid characters.");
+    }
+  }
+
+  private function handleInvalidLength (string $username) {
+    if ($this->hasInvalidLength($username)) {
+      throw new TooShortNameException("Username has too few characters, at least 3 characters.");
     }
   }
 }

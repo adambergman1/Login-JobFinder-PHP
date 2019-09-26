@@ -8,6 +8,7 @@ use login\model\PasswordsDoNotMatch;
 use login\model\TooShortNameException;
 use login\model\TooShortPasswordException;
 use login\model\UserAlreadyExists;
+use login\model\InvalidCharactersException;
 
 include_once('view/LoginView.php');
 
@@ -83,6 +84,8 @@ class LoginController {
             } catch (PasswordsDoNotMatch $e) {
                 $this->registerView->setMessage($e->getMessage());
             } catch (UserAlreadyExists $e) {
+                $this->registerView->setMessage($e->getMessage());
+            } catch (InvalidCharactersException $e) {
                 $this->registerView->setMessage($e->getMessage());
             }
         }

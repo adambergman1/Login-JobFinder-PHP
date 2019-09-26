@@ -5,7 +5,7 @@ namespace login\model;
 require_once('Exceptions.php');
 
 class AuthenticationSystem {
-    private $loggedInUser;
+    // private $loggedInUser;
     private $storage;
     private $cookie;
 
@@ -25,7 +25,7 @@ class AuthenticationSystem {
 
         if ($isAuthenticated) {
             $userCredentials->stayLoggedIn() && $this->cookie->setCookie($username, $password);
-            $this->setLoggedInUser($username);
+            $this->storage->saveUser($username);
             return true;
         } else {
             throw new WrongNameOrPassword("Wrong name or password");
@@ -52,14 +52,14 @@ class AuthenticationSystem {
     //     return $this->isLoggedIn;
     // }
 
-    public function getLoggedInUser () {
-        return $this->loggedInUser;
-    }
+    // public function getLoggedInUser () {
+    //     return $this->loggedInUser;
+    // }
 
-    public function setLoggedInUser (string $username) {
-        $savedUser = $this->storage->saveUser($username);
-        $this->loggedInUser = $savedUser;
-    }
+    // public function setLoggedInUser (string $username) {
+    //     $savedUser = $this->storage->saveUser($username);
+    //     $this->loggedInUser = $savedUser;
+    // }
 
 }
 
