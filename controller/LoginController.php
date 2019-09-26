@@ -94,7 +94,7 @@ class LoginController {
     public function welcomeNewUser () {
         $name = $this->storage->getNameFromRegistration();
         $this->loginView->setValueToUsernameField($name);
-        $this->loginView->setMessage("Registrered new user.");
+        $this->loginView->setMessage("Registered new user.");
         $this->storage->destroySession();
     }
 

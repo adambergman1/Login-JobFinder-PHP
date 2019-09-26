@@ -79,7 +79,7 @@ class RegisterView {
 	public function userhasClickedRegister () : bool {
 
 		if ($this->inputFieldHasValue(self::$name)) {
-			self::$rememberedName = $_POST[self::$name];
+			self::$rememberedName = strip_tags($_POST[self::$name]);
 		}
 		return isset($_POST[self::$doRegistration]);
 	}
