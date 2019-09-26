@@ -29,14 +29,14 @@ class NewUser {
   }
 
   public function getUsername () {
-    return $this->username->getUsername();
+    return $this->username;
   }
 
   public function getPassword () {
-      return $this->password->getPassword();
+      return $this->password;
   }
 
   public function getPasswordRepeat () {
-      return $this->passwordRepeat->getPassword();
+      return $this->passwordRepeat;
   }
 }

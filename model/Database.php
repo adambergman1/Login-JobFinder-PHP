@@ -44,5 +44,27 @@ class Database {
             return false;
         }
     }
+
+    public function doesUserExist(string $name) {
+        $query = "SELECT * FROM users WHERE username = ?";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $name);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['username'] === $name) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function registerUser (string $username, string $password) {
+        $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+        mysqli_query($this->connection, $query);
+    }
 }
 

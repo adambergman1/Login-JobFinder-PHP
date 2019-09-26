@@ -155,4 +155,8 @@ class LoginView {
 	public function getCookiePasswordReference () {
 		return self::$cookiePassword;
 	}
+
+	public function setValueToUsernameField(string $name) {
+		self::$rememberedName = $name;
+	}
 }

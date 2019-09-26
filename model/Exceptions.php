@@ -15,3 +15,5 @@ class WrongNameOrPassword extends \Exception { }
 class PasswordsDoNotMatch extends \Exception { }
 
 class NameAndPasswordMissing extends \Exception { }
+
+class UserAlreadyExists extends \Exception { }

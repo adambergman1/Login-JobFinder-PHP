@@ -7,6 +7,7 @@ use login\model\NameAndPasswordMissing;
 use login\model\PasswordsDoNotMatch;
 use login\model\TooShortNameException;
 use login\model\TooShortPasswordException;
+use login\model\UserAlreadyExists;
 
 include_once('view/LoginView.php');
 
@@ -68,24 +69,11 @@ class LoginController {
     }
 
     public function register () {
-        $message = "";
         if ($this->registerView->userhasClickedRegister()) {
-            // try {
-            //     $username = $this->registerView->getUsername();
-            // } catch (TooShortNameException $e) {
-            //     $message .= $e->getMessage();
-            //     $message .= " ";
-            // }
-            // try {
-            //     $password = $this->registerView->getPassword();
-            //     $this->registerView->getPasswordRepeat();
-            // } catch (TooShortPasswordException $e) {
-            //     $message .= $e->getMessage();
-            // }
-
             try {
                 $credentials = $this->registerView->getNewUserCredentials();
-                $isAuthenticated = $this->authSystem->tryToRegister($credentials);
+                $this->authSystem->tryToRegister($credentials);
+                header("Location: ./");
             } catch (TooShortNameException $e) {
                 $this->registerView->setMessage($e->getMessage());
             } catch (TooShortPasswordException $e) {
@@ -94,7 +82,17 @@ class LoginController {
                 $this->registerView->setMessage($e->getMessage());
             } catch (PasswordsDoNotMatch $e) {
                 $this->registerView->setMessage($e->getMessage());
+            } catch (UserAlreadyExists $e) {
+                $this->registerView->setMessage($e->getMessage());
             }
         }
     }
+
+    public function welcomeNewUser () {
+        $name = $this->storage->getNameFromRegistration();
+        $this->loginView->setValueToUsernameField($name);
+        $this->loginView->setMessage("Registrered new user.");
+        $this->storage->destroySession();
+    }
+
 }

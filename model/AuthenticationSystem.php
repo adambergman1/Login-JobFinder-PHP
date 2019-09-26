@@ -5,13 +5,11 @@ namespace login\model;
 require_once('Exceptions.php');
 
 class AuthenticationSystem {
-    private $isLoggedIn;
     private $loggedInUser;
     private $storage;
     private $cookie;
 
     public function __construct (\login\model\UserStorage $storage, \login\model\Cookie $cookie) {
-        // Ta in databasen
         $this->storage = $storage;
         $this->cookie = $cookie;
     }
@@ -27,28 +25,38 @@ class AuthenticationSystem {
 
         if ($isAuthenticated) {
             $userCredentials->stayLoggedIn() && $this->cookie->setCookie($username, $password);
-            $this->setLoggedInUser($userCredentials->getUsername());
-            $this->isLoggedIn = true;
+            $this->setLoggedInUser($username);
             return true;
         } else {
             throw new WrongNameOrPassword("Wrong name or password");
         }
     }
 
-    public function tryToRegister (\login\model\NewUser $newuser) {
-        $username = $newuser->getUsername()->getUsername();
-        $password = $newuser->getPassword()->getPassword();
+    public function tryToRegister (\login\model\NewUser $newUser) {
+        $username = $newUser->getUsername()->getUsername();
+        $password = $newUser->getPassword()->getPassword();
+
+        $db = new \login\model\Database();
+        $db->connect();
+
+        if ($db->doesUserExist($username)) {
+            throw new UserAlreadyExists("User exists, pick another username.");
+        } else {
+            $db->registerUser($username, $password);
+            $this->storage->saveNameFromRegistration($username);
+            return true;
+        }
     }
 
-    public function getIsUserLoggedIn () : bool {
-        return $this->isLoggedIn;
-    }
+    // public function isUserLoggedIn () {
+    //     return $this->isLoggedIn;
+    // }
 
     public function getLoggedInUser () {
         return $this->loggedInUser;
     }
 
-    public function setLoggedInUser ($username) {
+    public function setLoggedInUser (string $username) {
         $savedUser = $this->storage->saveUser($username);
         $this->loggedInUser = $savedUser;
     }

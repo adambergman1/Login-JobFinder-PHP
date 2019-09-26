@@ -41,14 +41,14 @@ class LayoutView {
     if (!$isLoggedIn) {
       $ret = '<a href="?register">Register a new user</a>';
     }
-    if (!$isLoggedIn && $this->userHasClickedRegister()) {
+    if (!$isLoggedIn && $this->userWantsToRegister()) {
       $ret = '<a href="?">Back to login</a>';
     }
 
     return $ret;
   }
 
-  public function userHasClickedRegister () {
+  public function userWantsToRegister () {
     if (isset($_GET["register"])) {
       return true;
     } else {

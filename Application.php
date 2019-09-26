@@ -56,15 +56,18 @@ class Application {
       $isLoggedIn = $this->loginController->logout();
     }
     
-    if ($this->layoutView->userHasClickedRegister()) {
+    if ($this->layoutView->userWantsToRegister()) {
       if ($this->registerView->userhasClickedRegister()) {
         $this->loginController->register();
       }
-      
-      $this->layoutView->render($isLoggedIn, $this->registerView, $this->dateTimeView);
-    } else {
-      $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);
+      return $this->layoutView->render($isLoggedIn, $this->registerView, $this->dateTimeView);
     }
+
+    if ($this->storage->hasNewRegistreredUser()) {
+      $this->loginController->welcomeNewUser();
+    }
+
+      return $this->layoutView->render($isLoggedIn, $this->loginView, $this->dateTimeView);
   }
   
 }
