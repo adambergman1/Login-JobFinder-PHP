@@ -51,8 +51,8 @@ class LoginController {
     public function loginByCookie () : bool {
         try {
             $credentials = $this->cookie->getUserCredentialsByCookie();
-            $decodedPwd = $this->cookie->decodePassword($credentials->getPassword()->getPassword());
-            $credentials->getPassword()->setPassword($decodedPwd);
+            // $decodedPwd = $this->cookie->decodePassword($credentials->getPassword()->getPassword());
+            // $credentials->getPassword()->setPassword($decodedPwd);
 
             $this->authSystem->tryToLogin($credentials);
             $this->loginView->setMessage("Welcome back with cookie");
