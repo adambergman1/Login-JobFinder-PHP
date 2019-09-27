@@ -49,13 +49,13 @@ class LoginController {
     }
 
     public function loginByCookie () : bool {
-        $credentials = $this->cookie->getUserCredentialsByCookie();
-        $isAuthenticated = $this->authSystem->tryToLogin($credentials);
-
-        if ($isAuthenticated) {
+        try {
+            $credentials = $this->cookie->getUserCredentialsByCookie();
+            $this->authSystem->tryToLogin($credentials);
             $this->loginView->setMessage("Welcome back with cookie");
             return true;
-        } else {
+    
+        } catch (Exception $e) {
             $this->cookie->removeCookie();
             $this->storage->destroySession();
             $this->loginView->setMessage("Wrong information in cookies");
