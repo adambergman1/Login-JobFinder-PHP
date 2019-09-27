@@ -25,8 +25,7 @@ class Cookie {
 
   public function getUserCredentialsByCookie () : \login\model\UserCredentials {
     $username = new \login\model\Username($_COOKIE[self::$COOKIE_NAME]);
-    $decodedPass = $this->decodePassword(self::$COOKIE_PWD);
-    $pass = new \login\model\Password($decodedPass);
+    $pass = new \login\model\Password($_COOKIE[self::$COOKIE_PWD]);
 
     return new \login\model\UserCredentials($username, $pass, true);
   }
