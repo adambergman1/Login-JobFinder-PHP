@@ -20,8 +20,9 @@ class Cookie {
 
   public function getUserCredentialsByCookie () : \login\model\UserCredentials {
     $username = new \login\model\Username($_COOKIE["LoginView::CookieName"]);
-    $pass = new \login\model\Password($_COOKIE["LoginView::CookiePassword"]);
-
+    $securedPwd = password_hash($_COOKIE["LoginView::CookiePassword"], PASSWORD_DEFAULT);
+    $pass = new \login\model\Password($securedPwd);
+    
     return new \login\model\UserCredentials($username, $pass, true);
   }
 }

@@ -29,16 +29,16 @@ class Database {
     }
 
     public function isUserValid (string $username, string $password) {
-        $query = "SELECT * FROM users WHERE username = ? and password = ?";
+        $query = "SELECT * FROM users WHERE username = ?";
 
         $stmt = $this->connection->prepare($query);
-        $stmt->bind_param('ss', $username, $password);
+        $stmt->bind_param('s', $username);
         $stmt->execute();
 
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
 
-        if ($row['username'] == $username && $row['password'] == $password) {
+        if ($row['username'] === $username && password_verify($password, $row['password'])) {
             return true;
         } else {
             return false;
@@ -63,6 +63,8 @@ class Database {
     }
 
     public function registerUser (string $username, string $password) {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
         $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
         mysqli_query($this->connection, $query);
     }

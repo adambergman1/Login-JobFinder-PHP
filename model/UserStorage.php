@@ -27,8 +27,8 @@ class UserStorage {
 	}
 	
 	public function destroySession () {
-		$_SESSION = array();
-		session_destroy();
+		unset($_SESSION[self::$SESSION_KEY]);
+		unset($_SESSION[self::$NEW_USER_TO_REMEMBER]);
 	}
 
 	public function saveNameFromRegistration (string $name) {
