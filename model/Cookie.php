@@ -3,26 +3,39 @@
 namespace login\model;
 
 class Cookie {
+  private static $COOKIE_NAME = "LoginView::CookieName";
+  private static $COOKIE_PWD = "LoginView::CookiePassword";
+  private $encodedPassword;
   
-  public function setCookie ($username, $password) {
-			setcookie("LoginView::CookieName", $username, time() + 1800);
-      setcookie("LoginView::CookiePassword", $password, time() + 1800);
+  public function setCookie (string $username, string $password) {
+    $password = $this->encodePassword($password);
+
+    setcookie(self::$COOKIE_NAME, $username, time() + 1800);
+    setcookie(self::$COOKIE_PWD, $password, time() + 1800);
   }
 
   public function removeCookie () {
-    setcookie("LoginView::CookieName", "", time() - 1800);
-    setcookie("LoginView::CookiePassword", "", time() - 1800);
+    setcookie(self::$COOKIE_NAME, "", time() - 1800);
+    setcookie(self::$COOKIE_PWD, "", time() - 1800);
   }
 
   public function hasCookie () : bool {
-    return isset($_COOKIE["LoginView::CookieName"]) && isset($_COOKIE["LoginView::CookiePassword"]);
+    return isset($_COOKIE[self::$COOKIE_NAME]) && isset($_COOKIE[self::$COOKIE_PWD]);
   }
 
   public function getUserCredentialsByCookie () : \login\model\UserCredentials {
-    $username = new \login\model\Username($_COOKIE["LoginView::CookieName"]);
-    $securedPwd = password_hash($_COOKIE["LoginView::CookiePassword"], PASSWORD_DEFAULT);
-    $pass = new \login\model\Password($securedPwd);
-    
+    $username = new \login\model\Username($_COOKIE[self::$COOKIE_NAME]);
+    $pass = new \login\model\Password($_COOKIE[self::$COOKIE_PWD]);
+
     return new \login\model\UserCredentials($username, $pass, true);
+  }
+
+  private function encodePassword (string $password) : string {
+    $this->encodedPassword = base64_encode($password);
+    return $this->encodedPassword;
+  }
+
+  public function decodePassword (string $password) : string {
+    return base64_decode($password);
   }
 }
