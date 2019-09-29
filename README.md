@@ -2,6 +2,8 @@
 
 92 % completion of 33 [automated tests](http://csquiz.lnu.se:25083/index.php).
 
+Press [here](https://ab224qr-1dv610-lab-2.herokuapp.com/) to see the live version.
+
 ## Installation instructions
 
 ### 1. Configure local database
