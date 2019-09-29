@@ -5,7 +5,7 @@ namespace login\view;
 class DateTimeView {
 
 	public function show() {
-
+		date_default_timezone_set("Europe/Stockholm");
 		$dayOfWeek = date('l');
 		$currentDateOfMonth = date('dS');
 		$currentMonth = date('F');

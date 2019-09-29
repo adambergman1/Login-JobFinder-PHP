@@ -54,6 +54,10 @@ class Application {
       $isLoggedIn = $this->loginController->login();
     } else if ($this->loginView->userHasClickedLogout() && $isLoggedIn) {
       $isLoggedIn = $this->loginController->logout();
+    } else if ($this->cookie->hasCookie() && $isLoggedIn) {
+      $credentials = $this->cookie->getUserCredentialsByCookie();
+      $decodedPwd = $this->cookie->decodePassword($credentials->getPassword()->getPassword());
+      $this->cookie->setCookie($credentials->getUsername()->getUsername(), $decodedPwd);
     }
     
     if ($this->layoutView->userWantsToRegister()) {

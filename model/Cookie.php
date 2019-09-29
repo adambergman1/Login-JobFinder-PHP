@@ -30,7 +30,7 @@ class Cookie {
     return new \login\model\UserCredentials($username, $pass, true);
   }
 
-  private function encodePassword (string $password) : string {
+  public function encodePassword (string $password) : string {
     $this->encodedPassword = base64_encode($password);
     return $this->encodedPassword;
   }
