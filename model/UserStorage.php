@@ -22,8 +22,8 @@ class UserStorage {
     }
   }
   
-	public function saveUser(string $toBeSaved) {
-		$_SESSION[self::$SESSION_KEY] = $toBeSaved;
+	public function saveUser(string $name) {
+		$_SESSION[self::$SESSION_KEY] = md5($name);
 	}
 	
 	public function destroySession () {

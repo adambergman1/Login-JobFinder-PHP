@@ -48,6 +48,9 @@ class AuthenticationSystem {
         }
     }
 
+
+    // NOT NEEDED FOR THE MOMENT:
+    
     // public function isUserLoggedIn () {
     //     return $this->isLoggedIn;
     // }
@@ -62,19 +65,3 @@ class AuthenticationSystem {
     // }
 
 }
-
-
-// Try to login
-
-// Isloggedin?
-
-// Get logged in user
-
-// Pratar med UserList som har en koppling till databasen?
-
-// Kanske har en session handler som kan titta i sessionen på rätt plats
-
-// Börja med session innan databasen
-
-// Hårdkoda in Admin och Password
-
