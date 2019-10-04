@@ -7,7 +7,7 @@ class DateTimeView {
 	public function show() {
 		date_default_timezone_set("Europe/Stockholm");
 		$dayOfWeek = date('l');
-		$currentDateOfMonth = date('dS');
+		$currentDateOfMonth = date('jS');
 		$currentMonth = date('F');
 		$currentYear = date('Y');
 		$currentTime = date('H:i:s');
