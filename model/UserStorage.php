@@ -16,10 +16,10 @@ class UserStorage {
 
   public function hasStoredUser () : bool {
     if (isset($_SESSION[self::$SESSION_KEY])) {
-			return true;
-		} else {
-      return false;
-    }
+		return true;
+	} else {
+		return false;
+	}
   }
   
 	public function saveUser(string $name) {

@@ -159,5 +159,4 @@ class LoginView {
 	public function setValueToUsernameField(string $name) {
 		self::$rememberedName = $name;
 	}
-
 }

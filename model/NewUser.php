@@ -18,13 +18,13 @@ class NewUser {
 
   public function nameAndPasswordIsEmpty ($username, $password) {
     if (empty($username) && empty($password)) {
-      throw new NameAndPasswordMissing("Username has too few characters, at least 3 characters. Password has too few characters, at least 6 characters.");
+      throw new NameAndPasswordMissing;
     }
   }
 
   public function passwordsMatch ($password, $passwordRepeat) {
     if ($password != $passwordRepeat) {
-      throw new PasswordsDoNotMatch("Passwords do not match.");
+      throw new PasswordsDoNotMatch;
     }
   }
 

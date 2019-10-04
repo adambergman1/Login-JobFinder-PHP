@@ -10,7 +10,7 @@ class Password {
 
   public function __construct(string $password) {
     if ($this->hasInvalidLength($password)) {
-      throw new TooShortPasswordException("Password has too few characters, at least " . self::$MIN_PASSWORD_LENGTH . " characters.");
+      throw new TooShortPasswordException;
     }
 
     $this->password = $password;

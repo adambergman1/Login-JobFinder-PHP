@@ -28,7 +28,7 @@ class AuthenticationSystem {
             $this->storage->saveUser($username);
             return true;
         } else {
-            throw new WrongNameOrPassword("Wrong name or password");
+            throw new WrongNameOrPassword;
         }
     }
 
@@ -40,7 +40,7 @@ class AuthenticationSystem {
         $db->connect();
 
         if ($db->doesUserExist($username)) {
-            throw new UserAlreadyExists("User exists, pick another username.");
+            throw new UserAlreadyExists;
         } else {
             $db->registerUser($username, $password);
             $this->storage->saveNameFromRegistration($username);

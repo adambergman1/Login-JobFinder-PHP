@@ -39,13 +39,13 @@ class Username {
 
   private function handleInvalidCharacters (string $username) {
     if ($this->hasInvalidCharacters($username)) {
-      throw new InvalidCharactersException("Username contains invalid characters.");
+      throw new InvalidCharactersException;
     }
   }
 
   private function handleInvalidLength (string $username) {
     if ($this->hasInvalidLength($username)) {
-      throw new TooShortNameException("Username has too few characters, at least 3 characters.");
+      throw new TooShortNameException;
     }
   }
 }

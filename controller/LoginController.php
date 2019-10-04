@@ -9,6 +9,7 @@ use login\model\TooShortNameException;
 use login\model\TooShortPasswordException;
 use login\model\UserAlreadyExists;
 use login\model\InvalidCharactersException;
+use login\model\WrongNameOrPassword;
 
 include_once('view/LoginView.php');
 
@@ -19,7 +20,8 @@ class LoginController {
     private $storage;
     private $registerView;
 
-    public function __construct(\login\view\LoginView $view, \login\model\AuthenticationSystem $authSystem, \login\view\RegisterView $registerView) {
+    public function __construct(\login\view\LoginView $view, 
+    \login\model\AuthenticationSystem $authSystem, \login\view\RegisterView $registerView) {
         $this->loginView = $view;
         $this->authSystem = $authSystem;
         $this->storage = new \login\model\UserStorage();
@@ -33,18 +35,22 @@ class LoginController {
             $isAuthenticated = $this->authSystem->tryToLogin($credentials);
 
             if ($isAuthenticated) {
-                if ($credentials->stayLoggedIn()) {
-                    $this->loginView->setMessage("Welcome and you will be remembered");
-                } else {
-                    $this->loginView->setMessage("Welcome");
-                }
+                $this->loginView->setMessage( $credentials->stayLoggedIn() 
+                ? \login\view\Messages::WELCOME_YOU_WILL_BE_REMEMBERED 
+                : \login\view\Messages::WELCOME );
                 return true;
             } else {
                 return false;
             }
             
-        } catch (Exception $e) {
-            $this->loginView->setMessage($e->getMessage());
+        } catch (NameAndPasswordMissing $e) {
+            $this->loginView->setMessage(\login\view\Messages::NAME_AND_PWD_MISSING);
+        } catch (TooShortNameException $e) {
+            $this->loginView->setMessage(\login\view\Messages::TOO_SHORT_NAME);
+        } catch (TooShortPasswordException $e) {
+            $this->loginView->setMessage(\login\view\Messages::TOO_SHORT_PWD);
+        } catch (WrongNameOrPassword $e) {
+            $this->loginView->setMessage(\login\view\Messages::WRONG_NAME_OR_PWD);
         }
     }
 
@@ -55,13 +61,13 @@ class LoginController {
             $credentials->getPassword()->setPassword($decodedPwd);
 
             $this->authSystem->tryToLogin($credentials);
-            $this->loginView->setMessage("Welcome back with cookie");
+            $this->loginView->setMessage(\login\view\Messages::WELCOME_BACK_WITH_COOKIE);
             return true;
     
         } catch (Exception $e) {
             $this->cookie->removeCookie();
             $this->storage->destroySession();
-            $this->loginView->setMessage("Wrong information in cookies");
+            $this->loginView->setMessage(\login\view\Messages::WRONG_COOKIE_INFO);
             return false;
         }
     }
@@ -69,7 +75,7 @@ class LoginController {
     public function logout () {
             $this->storage->destroySession();
             $this->cookie->removeCookie();
-            $this->loginView->setMessage("Bye bye!");
+            $this->loginView->setMessage(\login\view\Messages::BYE);
     }
 
     public function register () {
@@ -79,17 +85,17 @@ class LoginController {
                 $this->authSystem->tryToRegister($credentials);
                 header("Location: ./");
             } catch (TooShortNameException $e) {
-                $this->registerView->setMessage($e->getMessage());
+                $this->registerView->setMessage(\login\view\Messages::TOO_SHORT_NAME);
             } catch (TooShortPasswordException $e) {
-                $this->registerView->setMessage($e->getMessage());
+                $this->registerView->setMessage(\login\view\Messages::TOO_SHORT_PWD);
             } catch (NameAndPasswordMissing $e) {
-                $this->registerView->setMessage($e->getMessage());
+                $this->registerView->setMessage(\login\view\Messages::NAME_AND_PWD_MISSING);
             } catch (PasswordsDoNotMatch $e) {
-                $this->registerView->setMessage($e->getMessage());
+                $this->registerView->setMessage(\login\view\Messages::PASSWORDS_DONT_MATCH);
             } catch (UserAlreadyExists $e) {
-                $this->registerView->setMessage($e->getMessage());
+                $this->registerView->setMessage(\login\view\Messages::USER_ALREADY_EXISTS);
             } catch (InvalidCharactersException $e) {
-                $this->registerView->setMessage($e->getMessage());
+                $this->registerView->setMessage(\login\view\Messages::INVALID_CHARACTERS);
             }
         }
     }
@@ -97,7 +103,7 @@ class LoginController {
     public function welcomeNewUser () {
         $name = $this->storage->getNameFromRegistration();
         $this->loginView->setValueToUsernameField($name);
-        $this->loginView->setMessage("Registered new user.");
+        $this->loginView->setMessage(\login\view\Messages::NEW_USER_REGISTRERED);
         $this->storage->destroySession();
     }
 
