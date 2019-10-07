@@ -39,7 +39,7 @@ class Database {
     public function isCookieValid (string $username, string $password) {
         $row = $this->findUserByCookieInDB($username);
 
-        if ($row['username'] == $username && password_verify($password, $row['password'])) {
+        if ($row['username'] === $username && password_verify($password, $row['password'])) {
         return true;
         } else {
             return false;
@@ -90,7 +90,6 @@ class Database {
         }
 
         mysqli_query($this->connection, $query);
-        var_dump(mysqli_error($this->connection));
     }
 
     public function registerUser (string $username, string $password) {
