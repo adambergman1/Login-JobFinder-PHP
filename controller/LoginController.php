@@ -37,9 +37,8 @@ class LoginController {
                 return true;
             } else {
                 return false;
-            }
-                
-            
+            }   
+        
         } catch (NameAndPasswordMissing $e) {
             $this->loginView->setMessage(\login\view\Messages::NAME_AND_PWD_MISSING);
         } catch (TooShortNameException $e) {

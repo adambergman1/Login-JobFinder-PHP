@@ -183,8 +183,9 @@ class LoginView {
 		if ($this->getKeepLoggedIn()) {
 			$this->setCookie();
 			$this->setMessage(\login\view\Messages::WELCOME_YOU_WILL_BE_REMEMBERED);
+		} else {
+			$this->setMessage(\login\view\Messages::WELCOME);
 		}
-		$this->setMessage(\login\view\Messages::WELCOME);
 	}
 
 	public function setWelcomeBackMessage () {
