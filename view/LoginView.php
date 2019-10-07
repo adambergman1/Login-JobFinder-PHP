@@ -189,7 +189,7 @@ class LoginView {
 	}
 
 	public function setWelcomeBackMessage () {
-		$this->setCookie();
+		// $this->setCookie();
 		$this->setMessage(\login\view\Messages::WELCOME_BACK_WITH_COOKIE);
 	}
 
