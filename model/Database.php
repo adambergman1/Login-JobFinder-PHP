@@ -98,10 +98,5 @@ class Database {
         $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
         mysqli_query($this->connection, $query);
     }
-
-    public function getHashedPassword (string $name) {
-        $row = $this->findUserInDb($name);
-        return $row['password'];
-    }
 }
 

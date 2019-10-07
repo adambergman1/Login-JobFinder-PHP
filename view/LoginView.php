@@ -148,7 +148,7 @@ class LoginView {
 		self::$rememberedName = $name;
 	}
 
-	public function setCookieWithTemporaryPwd () {
+	public function setCookie () {
 		$name = $this->getUsername()->getUsername();
 		$pass = bin2hex(random_bytes(20));
 		
@@ -173,7 +173,7 @@ class LoginView {
 
 	public function setSuccessfulMessage () {
 		if ($this->getKeepLoggedIn()) {
-			$this->setCookieWithTemporaryPwd();
+			$this->setCookie();
 			$this->setMessage(\login\view\Messages::WELCOME_YOU_WILL_BE_REMEMBERED);
 		} else {
 			$this->setMessage(\login\view\Messages::WELCOME);

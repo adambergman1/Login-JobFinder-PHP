@@ -5,7 +5,6 @@ namespace login\model;
 require_once('Exceptions.php');
 
 class AuthenticationSystem {
-    // private $loggedInUser;
     private $storage;
     private $db;
 
@@ -65,21 +64,4 @@ class AuthenticationSystem {
             return true;
         }
     }
-
-
-    // NOT NEEDED FOR THE MOMENT:
-    
-    // public function isUserLoggedIn () {
-    //     return $this->isLoggedIn;
-    // }
-
-    // public function getLoggedInUser () {
-    //     return $this->loggedInUser;
-    // }
-
-    // public function setLoggedInUser (string $username) {
-    //     $savedUser = $this->storage->saveUser($username);
-    //     $this->loggedInUser = $savedUser;
-    // }
-
 }
