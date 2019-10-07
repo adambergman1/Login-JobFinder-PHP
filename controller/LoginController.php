@@ -16,7 +16,6 @@ include_once('view/LoginView.php');
 class LoginController {
     private $loginView;
     private $authSystem;
-    private $cookie;
     private $storage;
     private $registerView;
 
@@ -25,7 +24,6 @@ class LoginController {
         $this->loginView = $view;
         $this->authSystem = $authSystem;
         $this->storage = new \login\model\UserStorage();
-        $this->cookie = new \login\model\Cookie();
         $this->registerView = $registerView;
     }
 
@@ -35,13 +33,12 @@ class LoginController {
             $isAuthenticated = $this->authSystem->tryToLogin($credentials);
 
             if ($isAuthenticated) {
-                $this->loginView->setMessage( $credentials->stayLoggedIn() 
-                ? \login\view\Messages::WELCOME_YOU_WILL_BE_REMEMBERED 
-                : \login\view\Messages::WELCOME );
+                $this->loginView->setSuccessfulMessage();
                 return true;
             } else {
                 return false;
             }
+                
             
         } catch (NameAndPasswordMissing $e) {
             $this->loginView->setMessage(\login\view\Messages::NAME_AND_PWD_MISSING);
@@ -56,16 +53,13 @@ class LoginController {
 
     public function loginByCookie () : bool {
         try {
-            $credentials = $this->cookie->getUserCredentialsByCookie();
-            $decodedPwd = $this->cookie->decodePassword($credentials->getPassword()->getPassword());
-            $credentials->getPassword()->setPassword($decodedPwd);
-
+            $credentials = $this->loginView->getCredentialsByCookie();
             $this->authSystem->tryToLogin($credentials);
-            $this->loginView->setMessage(\login\view\Messages::WELCOME_BACK_WITH_COOKIE);
+            $this->loginView->setWelcomeBackMessage();
             return true;
     
         } catch (Exception $e) {
-            $this->cookie->removeCookie();
+            $this->loginView->removeCookie();
             $this->storage->destroySession();
             $this->loginView->setMessage(\login\view\Messages::WRONG_COOKIE_INFO);
             return false;
@@ -74,7 +68,7 @@ class LoginController {
 
     public function logout () {
             $this->storage->destroySession();
-            $this->cookie->removeCookie();
+            $this->loginView->removeCookie();
             $this->loginView->setMessage(\login\view\Messages::BYE);
     }
 

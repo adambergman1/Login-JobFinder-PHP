@@ -19,7 +19,6 @@ require_once('model/Password.php');
 require_once('model/UserCredentials.php');
 require_once('model/NewUser.php');
 require_once('model/UserStorage.php');
-require_once('model/Cookie.php');
 
 require_once('controller/LoginController.php');
 
@@ -31,12 +30,10 @@ class Application {
   private $registerView;
   private $dateTimeView;
   private $loginController;
-  private $cookie;
 
   public function __construct () {
     $this->storage = new \login\model\UserStorage();
-    $this->cookie = new \login\model\Cookie();
-    $this->authSystem = new \login\model\AuthenticationSystem($this->storage, $this->cookie);
+    $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
 
     $this->layoutView = new \login\view\layoutView();
     $this->dateTimeView = new \login\view\DateTimeView();
@@ -49,16 +46,12 @@ class Application {
   public function run () {
     $isLoggedIn = $this->storage->hasStoredUser();
 
-    if ($this->cookie->hasCookie() && !$isLoggedIn) {
+    if ($this->loginView->hasCookie() && !$isLoggedIn) {
       $isLoggedIn = $this->loginController->loginByCookie();
     } else if ($this->loginView->userWantsToLogin() && !$isLoggedIn) {
       $isLoggedIn = $this->loginController->login();
     } else if ($this->loginView->userHasClickedLogout() && $isLoggedIn) {
       $isLoggedIn = $this->loginController->logout();
-    } else if ($this->cookie->hasCookie() && $isLoggedIn) {
-      $credentials = $this->cookie->getUserCredentialsByCookie();
-      $decodedPwd = $this->cookie->decodePassword($credentials->getPassword()->getPassword());
-      $this->cookie->setCookie($credentials->getUsername()->getUsername(), $decodedPwd);
     }
     
     if ($this->layoutView->userWantsToRegister()) {

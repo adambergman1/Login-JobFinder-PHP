@@ -7,11 +7,9 @@ require_once('Exceptions.php');
 class AuthenticationSystem {
     // private $loggedInUser;
     private $storage;
-    private $cookie;
 
-    public function __construct (\login\model\UserStorage $storage, \login\model\Cookie $cookie) {
+    public function __construct (\login\model\UserStorage $storage) {
         $this->storage = $storage;
-        $this->cookie = $cookie;
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) {
@@ -24,7 +22,6 @@ class AuthenticationSystem {
         $isAuthenticated = $db->isUserValid($username, $password);
 
         if ($isAuthenticated) {
-            $userCredentials->stayLoggedIn() && $this->cookie->setCookie($username, $password);
             $this->storage->saveUser($username);
             return true;
         } else {
