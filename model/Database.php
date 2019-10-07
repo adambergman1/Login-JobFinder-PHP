@@ -36,6 +36,16 @@ class Database {
         }
     }
 
+    public function isCookieValid (string $username, string $password) {
+        $row = $this->findUserByCookieInDB($username);
+
+        if ($row['username'] == $username && password_verify($password, $row['password'])) {
+        return true;
+        } else {
+            return false;
+        }
+    }
+
     public function doesUserExist(string $name) {
         $row = $this->findUserInDb($name);
 
@@ -44,6 +54,18 @@ class Database {
         } else {
             return false;
         }
+    }
+
+    private function findUserByCookieInDB (string $name) {
+        $query = "SELECT * FROM cookies WHERE username = ?";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $name);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row;
     }
 
     private function findUserInDb (string $name) {
@@ -56,6 +78,19 @@ class Database {
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         return $row;
+    }
+
+    public function saveCookie (string $username, string $password) {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        if ($this->findUserByCookieInDB($username)) {
+            $query = "UPDATE cookies SET password = '$password' WHERE username = '$username'";
+        } else {
+            $query = "INSERT INTO cookies (username, password) VALUES ('$username', '$password')";
+        }
+
+        mysqli_query($this->connection, $query);
+        var_dump(mysqli_error($this->connection));
     }
 
     public function registerUser (string $username, string $password) {

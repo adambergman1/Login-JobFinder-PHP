@@ -7,19 +7,20 @@ require_once('Exceptions.php');
 class AuthenticationSystem {
     // private $loggedInUser;
     private $storage;
+    private $db;
 
     public function __construct (\login\model\UserStorage $storage) {
         $this->storage = $storage;
+        $this->db = new \login\model\Database();
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) {
+        $this->db->connect();
+
         $username = $userCredentials->getUsername()->getUsername();
         $password = $userCredentials->getPassword()->getPassword();
 
-        $db = new \login\model\Database();
-        $db->connect();
-
-        $isAuthenticated = $db->isUserValid($username, $password);
+        $isAuthenticated = $this->db->isUserValid($username, $password);
 
         if ($isAuthenticated) {
             $this->storage->saveUser($username);
@@ -29,17 +30,37 @@ class AuthenticationSystem {
         }
     }
 
+    public function loginWithTemporaryPwd (\login\model\UserCredentials $userCredentials) {
+        $this->db->connect();
+
+        $name = $userCredentials->getUsername()->getUsername();
+        $pass = $userCredentials->getPassword()->getPassword();
+
+        $isAuthenticated = $this->db->isCookieValid($name, $pass);
+
+        if ($isAuthenticated) {
+            $this->storage->saveUser($name);
+            return true;
+        } else {
+            throw new WrongNameOrPassword;
+        }
+    }
+
+    public function updateSavedPwd (\login\model\UserCredentials $credentials) {
+        $this->db->connect();
+        $this->db->saveCookie($credentials->getUsername()->getUsername(), $credentials->getPassword()->getPassword());
+    }
+
     public function tryToRegister (\login\model\NewUser $newUser) {
         $username = $newUser->getUsername()->getUsername();
         $password = $newUser->getPassword()->getPassword();
 
-        $db = new \login\model\Database();
-        $db->connect();
+        $this->db->connect();
 
-        if ($db->doesUserExist($username)) {
+        if ($this->db->doesUserExist($username)) {
             throw new UserAlreadyExists;
         } else {
-            $db->registerUser($username, $password);
+            $this->db->registerUser($username, $password);
             $this->storage->saveNameFromRegistration($username);
             return true;
         }

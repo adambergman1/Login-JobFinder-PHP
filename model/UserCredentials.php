@@ -6,6 +6,7 @@ class UserCredentials {
   private $username;
   private $password;
   private $stayLoggedIn;
+  private $temporaryPwd = "";
 
   public function __construct(Username $username, Password $password, bool $stayLoggedIn) {
     $this->username = $username;

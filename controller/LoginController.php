@@ -34,10 +34,15 @@ class LoginController {
 
             if ($isAuthenticated) {
                 $this->loginView->setSuccessfulMessage();
+                // $this->authSystem->updateSavedPwd();
+                if ($credentials->stayLoggedIn()) {
+                    $cookies = $this->loginView->getCredentialsByCookie();
+                    $this->authSystem->updateSavedPwd($cookies);
+                }
                 return true;
             } else {
                 return false;
-            }   
+            }
         
         } catch (NameAndPasswordMissing $e) {
             $this->loginView->setMessage(\login\view\Messages::NAME_AND_PWD_MISSING);
@@ -53,7 +58,8 @@ class LoginController {
     public function loginByCookie () : bool {
         try {
             $credentials = $this->loginView->getCredentialsByCookie();
-            $this->authSystem->tryToLogin($credentials);
+
+            $this->authSystem->loginWithTemporaryPwd($credentials);
             $this->loginView->setWelcomeBackMessage();
             return true;
     

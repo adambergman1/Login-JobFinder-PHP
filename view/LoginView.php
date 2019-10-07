@@ -77,6 +77,10 @@ class LoginView {
 		';
 	}
 
+	public function setMessage ($message) {
+		$this->message = $message;
+	}
+
 	public function userWantsToLogin () : bool {
 		$this->checkForEmptyFields();
 		
@@ -94,7 +98,7 @@ class LoginView {
 	private function checkForEmptyFields () {
 		if ($this->userHasClickedLogin()) {
 			if (!$this->hasPassword()) {
-					$this->setMessage("Password is missing");
+				$this->setMessage("Password is missing");
 			}
 			if (!$this->hasUsername()) {
 				$this->setMessage("Username is missing");
@@ -119,7 +123,7 @@ class LoginView {
 	}
 
 	private function getPassword () : \login\model\Password {
-			return new \login\model\Password($_POST[self::$password]);
+		return new \login\model\Password($_POST[self::$password]);
 	}
 
 	public function getKeepLoggedIn () : bool {
@@ -136,35 +140,23 @@ class LoginView {
 		}
 	}
 
-	public function setMessage ($message) {
-		$this->message = $message;
-	}
-
 	public function userHasClickedLogout () {
 		return isset($_POST[self::$logout]) && $this->storage->hasStoredUser();
-	}
-
-	public function getCookieNameReference () : string {
-		return self::$cookieName;
-	}
-
-	public function getCookiePasswordReference () : string {
-		return self::$cookiePassword;
 	}
 
 	public function setValueToUsernameField(string $name) {
 		self::$rememberedName = $name;
 	}
-	
-	public function setCookie () {
-		$username = $this->getUsername()->getUsername();
-		$password = $this->getPassword()->getPassword();
 
-		setcookie(self::$cookieName, $username, time() + 1800);
-		setcookie(self::$cookiePassword, $password, time() + 1800);
+	public function setCookieWithTemporaryPwd () {
+		$name = $this->getUsername()->getUsername();
+		$pass = bin2hex(random_bytes(20));
+		
+		setcookie(self::$cookieName, $name, time() + 1800);
+		setcookie(self::$cookiePassword, $pass, time() + 1800);
 
-		$_COOKIE[self::$cookieName] = $username;
-		$_COOKIE[self::$cookiePassword] = $password;
+		$_COOKIE[self::$cookieName] = $name;
+		$_COOKIE[self::$cookiePassword] = $pass;
 	}
 	
 	public function removeCookie () {
@@ -181,7 +173,7 @@ class LoginView {
 
 	public function setSuccessfulMessage () {
 		if ($this->getKeepLoggedIn()) {
-			$this->setCookie();
+			$this->setCookieWithTemporaryPwd();
 			$this->setMessage(\login\view\Messages::WELCOME_YOU_WILL_BE_REMEMBERED);
 		} else {
 			$this->setMessage(\login\view\Messages::WELCOME);
@@ -189,7 +181,7 @@ class LoginView {
 	}
 
 	public function setWelcomeBackMessage () {
-		// $this->setCookie();
+		// $this->setCookieWithTemporaryPwd();
 		$this->setMessage(\login\view\Messages::WELCOME_BACK_WITH_COOKIE);
 	}
 
