@@ -39,7 +39,7 @@ class UserStorage {
 		return $_SESSION[self::$NEW_USER_TO_REMEMBER];
 	}
 
-	public function hasNewRegistreredUser () {
+	public function hasNewRegistreredUser () : bool {
 		return isset($_SESSION[self::$NEW_USER_TO_REMEMBER]);
 	}
 }

@@ -64,6 +64,7 @@ class Application {
         $this->registerController->register();
       }
       return $this->layoutView->render($isLoggedIn, $this->registerView, $this->dateTimeView);
+      
     } else if ($this->storage->hasNewRegistreredUser()) {
       $this->loginController->welcomeNewUser();
     }

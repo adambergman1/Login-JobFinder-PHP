@@ -140,7 +140,7 @@ class LoginView {
 		}
 	}
 
-	public function userHasClickedLogout () {
+	public function userHasClickedLogout () : bool {
 		return isset($_POST[self::$logout]) && $this->storage->hasStoredUser();
 	}
 
