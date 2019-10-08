@@ -21,15 +21,19 @@ require_once('model/NewUser.php');
 require_once('model/UserStorage.php');
 
 require_once('controller/LoginController.php');
+require_once('controller/RegisterController.php');
 
 class Application {
   private $storage;
   private $authSystem;
+  
   private $layoutView;
   private $loginView;
   private $registerView;
   private $dateTimeView;
+
   private $loginController;
+  private $registerController;
 
   public function __construct () {
     $this->storage = new \login\model\UserStorage();
@@ -40,7 +44,8 @@ class Application {
     $this->loginView = new \login\view\LoginView($this->storage);
     $this->registerView = new \login\view\RegisterView();
 
-    $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem, $this->registerView);
+    $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem);
+    $this->registerController = new \login\controller\RegisterController($this->registerView, $this->authSystem);
   }
 
   public function run () {
@@ -56,7 +61,7 @@ class Application {
     
     if ($this->layoutView->userWantsToRegister()) {
       if ($this->registerView->userhasClickedRegister()) {
-        $this->loginController->register();
+        $this->registerController->register();
       }
       return $this->layoutView->render($isLoggedIn, $this->registerView, $this->dateTimeView);
     } else if ($this->storage->hasNewRegistreredUser()) {

@@ -26,8 +26,28 @@ class Database {
         return $this->connection;
     }
 
-    public function isUserValid (string $username, string $password) {
-        $row = $this->findUserInDb($username);
+    // public function isUserValid (string $username, string $password) {
+    //     $row = $this->findUserInDb($username);
+
+    //     if ($row['username'] === $username && password_verify($password, $row['password'])) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    // public function isCookieValid (string $username, string $password) {
+    //     $row = $this->findUserByCookieInDB($username);
+
+    //     if ($row['username'] === $username && password_verify($password, $row['password'])) {
+    //     return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    public function isValid (string $tableName, string $username, string $password) {
+        $row = $this->findTableInDB($tableName, $username);
 
         if ($row['username'] === $username && password_verify($password, $row['password'])) {
             return true;
@@ -36,18 +56,20 @@ class Database {
         }
     }
 
-    public function isCookieValid (string $username, string $password) {
-        $row = $this->findUserByCookieInDB($username);
+    public function findTableInDB(string $tableName, string $name) {
+        $query = "SELECT * FROM $tableName WHERE username = ?";
 
-        if ($row['username'] === $username && password_verify($password, $row['password'])) {
-        return true;
-        } else {
-            return false;
-        }
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('s', $name);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row;
     }
 
     public function doesUserExist(string $name) {
-        $row = $this->findUserInDb($name);
+        $row = $this->findTableInDB("users", $name);
 
         if ($row['username'] === $name) {
             return true;
@@ -56,34 +78,34 @@ class Database {
         }
     }
 
-    private function findUserByCookieInDB (string $name) {
-        $query = "SELECT * FROM cookies WHERE username = ?";
+    // private function findUserByCookieInDB (string $name) {
+    //     $query = "SELECT * FROM cookies WHERE username = ?";
 
-        $stmt = $this->connection->prepare($query);
-        $stmt->bind_param('s', $name);
-        $stmt->execute();
+    //     $stmt = $this->connection->prepare($query);
+    //     $stmt->bind_param('s', $name);
+    //     $stmt->execute();
 
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row;
-    }
+    //     $result = $stmt->get_result();
+    //     $row = $result->fetch_assoc();
+    //     return $row;
+    // }
 
-    private function findUserInDb (string $name) {
-        $query = "SELECT * FROM users WHERE username = ?";
+    // private function findUserInDb (string $name) {
+    //     $query = "SELECT * FROM users WHERE username = ?";
 
-        $stmt = $this->connection->prepare($query);
-        $stmt->bind_param('s', $name);
-        $stmt->execute();
+    //     $stmt = $this->connection->prepare($query);
+    //     $stmt->bind_param('s', $name);
+    //     $stmt->execute();
 
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row;
-    }
+    //     $result = $stmt->get_result();
+    //     $row = $result->fetch_assoc();
+    //     return $row;
+    // }
 
     public function saveCookie (string $username, string $password) {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
-        if ($this->findUserByCookieInDB($username)) {
+        if ($this->findTableInDB("cookies", $username)) {
             $query = "UPDATE cookies SET password = '$password' WHERE username = '$username'";
         } else {
             $query = "INSERT INTO cookies (username, password) VALUES ('$username', '$password')";
