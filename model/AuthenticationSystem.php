@@ -19,7 +19,7 @@ class AuthenticationSystem {
         $username = $userCredentials->getUsername()->getUsername();
         $password = $userCredentials->getPassword()->getPassword();
 
-        $isAuthenticated = $this->db->isValid("users", $username, $password);
+        $isAuthenticated = $this->db->isValid(\login\model\Database::USERS_TABLE, $username, $password);
 
         if ($isAuthenticated) {
             $this->storage->saveUser($username);
@@ -35,7 +35,7 @@ class AuthenticationSystem {
         $name = $userCredentials->getUsername()->getUsername();
         $pass = $userCredentials->getPassword()->getPassword();
 
-        $isAuthenticated = $this->db->isValid("cookies", $name, $pass);
+        $isAuthenticated = $this->db->isValid(\login\model\Database::COOKIES_TABLE, $name, $pass);
 
         if ($isAuthenticated) {
             $this->storage->saveUser($name);

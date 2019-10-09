@@ -5,6 +5,8 @@ namespace login\model;
 class Database {
     private $connection;
     private $settings;
+    const USERS_TABLE = "users";
+    const COOKIES_TABLE = "cookies";
 
     public function __construct () {
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
@@ -25,26 +27,6 @@ class Database {
 
         return $this->connection;
     }
-
-    // public function isUserValid (string $username, string $password) {
-    //     $row = $this->findUserInDb($username);
-
-    //     if ($row['username'] === $username && password_verify($password, $row['password'])) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-    // public function isCookieValid (string $username, string $password) {
-    //     $row = $this->findUserByCookieInDB($username);
-
-    //     if ($row['username'] === $username && password_verify($password, $row['password'])) {
-    //     return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
     public function isValid (string $tableName, string $username, string $password) {
         $row = $this->findTableInDB($tableName, $username);
@@ -69,7 +51,7 @@ class Database {
     }
 
     public function doesUserExist(string $name) {
-        $row = $this->findTableInDB("users", $name);
+        $row = $this->findTableInDB(self::USERS_TABLE, $name);
 
         if ($row['username'] === $name) {
             return true;
@@ -78,34 +60,10 @@ class Database {
         }
     }
 
-    // private function findUserByCookieInDB (string $name) {
-    //     $query = "SELECT * FROM cookies WHERE username = ?";
-
-    //     $stmt = $this->connection->prepare($query);
-    //     $stmt->bind_param('s', $name);
-    //     $stmt->execute();
-
-    //     $result = $stmt->get_result();
-    //     $row = $result->fetch_assoc();
-    //     return $row;
-    // }
-
-    // private function findUserInDb (string $name) {
-    //     $query = "SELECT * FROM users WHERE username = ?";
-
-    //     $stmt = $this->connection->prepare($query);
-    //     $stmt->bind_param('s', $name);
-    //     $stmt->execute();
-
-    //     $result = $stmt->get_result();
-    //     $row = $result->fetch_assoc();
-    //     return $row;
-    // }
-
     public function saveCookie (string $username, string $password) {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
-        if ($this->findTableInDB("cookies", $username)) {
+        if ($this->findTableInDB(self::COOKIES_TABLE, $username)) {
             $query = "UPDATE cookies SET password = '$password' WHERE username = '$username'";
         } else {
             $query = "INSERT INTO cookies (username, password) VALUES ('$username', '$password')";

@@ -74,5 +74,4 @@ class LoginController {
         $this->view->setMessage(\login\view\Messages::NEW_USER_REGISTRERED);
         $this->storage->destroySession();
     }
-
 }
