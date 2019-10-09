@@ -1,8 +1,7 @@
 <?php
 
-namespace login;
+namespace login\controller;
 
-//INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
 require_once('view/RegisterView.php');
 require_once('view/DateTimeView.php');
@@ -23,7 +22,7 @@ require_once('model/UserStorage.php');
 require_once('controller/LoginController.php');
 require_once('controller/RegisterController.php');
 
-class Application {
+class MainController {
   private $storage;
   private $authSystem;
   
