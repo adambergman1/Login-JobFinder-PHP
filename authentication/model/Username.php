@@ -2,6 +2,9 @@
 
 namespace login\model;
 
+use login\model\InvalidCharactersException;
+use login\model\TooShortNameException;
+
 class Username {
   private $username;
   private static $MIN_USERNAME_LENGTH = 3;

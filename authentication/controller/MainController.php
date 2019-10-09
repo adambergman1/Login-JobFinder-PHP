@@ -2,6 +2,31 @@
 
 namespace login\controller;
 
+# View
+require_once('authentication/view/LoginView.php');
+require_once('authentication/view/RegisterView.php');
+require_once('authentication/view/DateTimeView.php');
+require_once('authentication/view/LayoutView.php');
+require_once('authentication/view/Messages.php');
+
+# Settings
+require_once('authentication/LocalSettings.php');
+require_once('authentication/ProductionSettings.php');
+
+# Model
+require_once('authentication/model/Database.php');
+require_once('authentication/model/AuthenticationSystem.php');
+require_once('authentication/model/Username.php');
+require_once('authentication/model/Password.php');
+require_once('authentication/model/UserCredentials.php');
+require_once('authentication/model/NewUser.php');
+require_once('authentication/model/UserStorage.php');
+
+# Controller
+require_once('authentication/controller/LoginController.php');
+require_once('authentication/controller/RegisterController.php');
+require_once('authentication/controller/MainController.php');
+
 class MainController {
   private $storage;
   private $authSystem;
