@@ -76,8 +76,10 @@ class LoginController {
     }
 
     public function generateNewPassword () {
-        $this->view->setCookie();
-        $cookies = $this->view->getCredentialsByCookie();
-        $this->authSystem->updateSavedPwd($cookies);
+        if ($this->view->hasUsername()) {
+            $this->view->setCookie();
+            $cookies = $this->view->getCredentialsByCookie();
+            $this->authSystem->updateSavedPwd($cookies);
+        }
     }
 }

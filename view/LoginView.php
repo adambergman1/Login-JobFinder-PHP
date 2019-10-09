@@ -106,7 +106,7 @@ class LoginView {
 		}
 	}
 
-	private function hasUsername () : bool {
+	public function hasUsername () : bool {
 		return isset($_POST[self::$name]) && !empty($_POST[self::$name]);
 	}
 
