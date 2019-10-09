@@ -57,6 +57,8 @@ class Application {
       $isLoggedIn = $this->loginController->login();
     } else if ($this->loginView->userHasClickedLogout() && $isLoggedIn) {
       $isLoggedIn = $this->loginController->logout();
+    } else if ($this->loginView->hasCookie() && $isLoggedIn) {
+      $this->loginController->generateNewPassword();
     }
     
     if ($this->layoutView->userWantsToRegister()) {

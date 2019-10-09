@@ -74,4 +74,10 @@ class LoginController {
         $this->view->setMessage(\login\view\Messages::NEW_USER_REGISTRERED);
         $this->storage->destroySession();
     }
+
+    public function generateNewPassword () {
+        $this->view->setCookie();
+        $cookies = $this->view->getCredentialsByCookie();
+        $this->authSystem->updateSavedPwd($cookies);
+    }
 }
