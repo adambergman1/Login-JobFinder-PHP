@@ -2,8 +2,6 @@
 
 namespace login\view;
 
-include_once('model/Exceptions.php');
-
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';

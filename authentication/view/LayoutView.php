@@ -4,7 +4,7 @@ namespace login\view;
 
 class LayoutView {
   
-  public function render($isLoggedIn, $v, DateTimeView $dtv) {
+  public function render($isLoggedIn, $v, DateTimeView $dtv, $loggedInView = null) {
     echo '
     <!DOCTYPE html>
       <html>
@@ -18,13 +18,20 @@ class LayoutView {
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           <div class="container">
               ' . $v->response($isLoggedIn) . '
-              
+              ' . $this->renderLoggedInApplication($loggedInView) . '
               ' . $dtv->show() . '
           </div>
          </body>
       </html>
     ';
   }
+
+  public function renderLoggedInApplication ($loggedInView) {
+    if ($loggedInView != null) {
+      return $loggedInView->renderHTML();
+    }
+  }
+
   
   private function renderIsLoggedIn($isLoggedIn) {
     if ($isLoggedIn) {
@@ -44,7 +51,6 @@ class LayoutView {
     if (!$isLoggedIn && $this->userWantsToRegister()) {
       $ret = '<a href="?">Back to login</a>';
     }
-
     return $ret;
   }
 

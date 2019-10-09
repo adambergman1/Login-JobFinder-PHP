@@ -1,14 +1,15 @@
 <?php
 
-namespace login;
-
-session_start();
+require_once('authentication/Authentication.php');
+require_once('application/index.php');
+require_once('application/view/MainView.php');
 
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 ini_set('display_startup_errors', 'On');
 
-require_once('controller/MainController.php');
+$auth = new \login\Authentiction();
+$authController = new \login\controller\MainController();
 
-$app = new \login\controller\MainController();
-$app->run();
+$appView = new \application\view\MainView();
+$authController->renderHTML($appView);
