@@ -66,6 +66,7 @@ class LoginController {
             $this->storage->destroySession();
             $this->view->removeCookie();
             $this->view->setMessage(\login\view\Messages::BYE);
+            return false;
     }
 
     public function welcomeNewUser () {

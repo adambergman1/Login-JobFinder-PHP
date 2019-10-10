@@ -82,4 +82,12 @@ class RegisterView {
 		}
 		return isset($_POST[self::$doRegistration]);
 	}
+
+	public function userWantsToRegister () {
+		if (isset($_GET["register"])) {
+		  return true;
+		} else {
+		  return false;
+		}
+	  }
 }

@@ -2,39 +2,12 @@
 
 namespace login\controller;
 
-# View
-require_once('authentication/view/LoginView.php');
-require_once('authentication/view/RegisterView.php');
-require_once('authentication/view/DateTimeView.php');
-require_once('authentication/view/LayoutView.php');
-require_once('authentication/view/Messages.php');
-
-# Settings
-require_once('authentication/LocalSettings.php');
-require_once('authentication/ProductionSettings.php');
-
-# Model
-require_once('authentication/model/Database.php');
-require_once('authentication/model/AuthenticationSystem.php');
-require_once('authentication/model/Username.php');
-require_once('authentication/model/Password.php');
-require_once('authentication/model/UserCredentials.php');
-require_once('authentication/model/NewUser.php');
-require_once('authentication/model/UserStorage.php');
-
-# Controller
-require_once('authentication/controller/LoginController.php');
-require_once('authentication/controller/RegisterController.php');
-require_once('authentication/controller/MainController.php');
-
 class MainController {
   private $storage;
   private $authSystem;
   
-  private $layoutView;
   private $loginView;
   private $registerView;
-  private $dateTimeView;
 
   private $loginController;
   private $registerController;
@@ -45,8 +18,6 @@ class MainController {
     $this->storage = new \login\model\UserStorage();
     $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
 
-    $this->layoutView = new \login\view\layoutView();
-    $this->dateTimeView = new \login\view\DateTimeView();
     $this->loginView = new \login\view\LoginView($this->storage);
     $this->registerView = new \login\view\RegisterView();
 
@@ -67,23 +38,34 @@ class MainController {
       $this->loginController->generateNewPassword();
     }
     
-    if ($this->layoutView->userWantsToRegister()) {
+    if ($this->registerView->userWantsToRegister()) {
       if ($this->registerView->userhasClickedRegister()) {
         $this->registerController->register();
       }
+      
+      return $this->registerView;
 
     } else if ($this->storage->hasNewRegistreredUser()) {
       $this->loginController->welcomeNewUser();
     }
+
+    return $this->loginView;
   }
 
-  public function renderHTML ($view = null) {
-    if (!$this->isLoggedIn && $this->layoutView->userWantsToRegister()) {
-      return $this->layoutView->render($this->isLoggedIn, $this->registerView, $this->dateTimeView);  
-    } else if (!$this->isLoggedIn) {
-      return $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView);
-    } else {
-      return $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $view);
-    }
+  public function isLoggedIn () : bool {
+    return $this->isLoggedIn;
   }
+
+  // public function renderHTML ($view = null) {
+  //   if (!$this->isLoggedIn && $this->layoutView->userWantsToRegister()) {
+  //     return $this->registerView;
+  //     // return $this->layoutView->render($this->isLoggedIn, $this->registerView, $this->dateTimeView);  
+  //   } else if (!$this->isLoggedIn) {
+  //     return $this->loginView;
+  //     // return $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView);
+  //   } 
+  //   // else {
+  //   //   return $this->layoutView->render($this->isLoggedIn, $this->loginView, $this->dateTimeView, $view);
+  //   // }
+  // }
 }

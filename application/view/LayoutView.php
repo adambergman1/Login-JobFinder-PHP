@@ -1,6 +1,6 @@
 <?php
 
-namespace login\view;
+namespace application\view;
 
 class LayoutView {
   
@@ -9,6 +9,7 @@ class LayoutView {
     <!DOCTYPE html>
       <html>
         <head>
+          <link rel="stylesheet" type="text/css" href="public/css/style.css">
           <meta charset="utf-8">
           <title>Login Example</title>
         </head>
@@ -45,7 +46,7 @@ class LayoutView {
   private function renderRegisterLink ($isLoggedIn) {
     $ret = '';
 
-    if (!$isLoggedIn) {
+    if (!$isLoggedIn && !$this->userWantsToRegister()) {
       $ret = '<a href="?register">Register a new user</a>';
     }
     if (!$isLoggedIn && $this->userWantsToRegister()) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace login\view;
+namespace application\view;
 
 class DateTimeView {
 
