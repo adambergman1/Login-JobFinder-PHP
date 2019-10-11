@@ -17,3 +17,5 @@ class PasswordsDoNotMatch extends \Exception { }
 class NameAndPasswordMissing extends \Exception { }
 
 class UserAlreadyExists extends \Exception { }
+
+class MissingDBVariable extends \Exception { }

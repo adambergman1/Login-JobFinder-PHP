@@ -2,6 +2,8 @@
 
 namespace login\controller;
 
+use login\model\MissingDBVariable;
+
 class MainController {
   private $storage;
   private $authSystem;
@@ -24,28 +26,32 @@ class MainController {
   }
 
   public function run () {
-    if ($this->loginView->hasCookie() && !$this->isLoggedIn()) {
-      $this->loginController->loginByCookie();
-    } else if ($this->loginView->userWantsToLogin() && !$this->isLoggedIn()) {
-      $this->loginController->login();
-    } else if ($this->loginView->userHasClickedLogout() && $this->isLoggedIn()) {
-      $this->loginController->logout();
-    } else if ($this->loginView->hasCookie() && $this->isLoggedIn()) {
-      $this->loginController->generateNewPassword();
-    }
-    
-    if ($this->registerView->userWantsToRegister()) {
-      if ($this->registerView->userhasClickedRegister()) {
-        $this->registerController->register();
+    try {
+      if ($this->loginView->hasCookie() && !$this->isLoggedIn()) {
+        $this->loginController->loginByCookie();
+      } else if ($this->loginView->userWantsToLogin() && !$this->isLoggedIn()) {
+        $this->loginController->login();
+      } else if ($this->loginView->userHasClickedLogout() && $this->isLoggedIn()) {
+        $this->loginController->logout();
+      } else if ($this->loginView->hasCookie() && $this->isLoggedIn()) {
+        $this->loginController->generateNewPassword();
       }
       
-      return $this->registerView;
-
-    } else if ($this->storage->hasNewRegistreredUser()) {
-      $this->loginController->welcomeNewUser();
+      if ($this->registerView->userWantsToRegister()) {
+        if ($this->registerView->userhasClickedRegister()) {
+          $this->registerController->register();
+        }
+        
+        return $this->registerView;
+  
+      } else if ($this->storage->hasNewRegistreredUser()) {
+        $this->loginController->welcomeNewUser();
+      }
+  
+        return $this->loginView;
+    } catch (MissingDBVariable $e) {
+      $this->loginView->setMessage(\login\view\Messages::EMPTY_DB_STRING);
     }
-
-      return $this->loginView;
   }
 
   public function isLoggedIn () : bool {

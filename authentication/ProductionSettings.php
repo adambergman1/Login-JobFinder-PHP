@@ -10,7 +10,14 @@ class ProductionSettings {
 
     public function __construct () {
       $url = getenv('JAWSDB_URL');
-      $url = '';
+
+      $url = 'http://asdasd.com/asdasds/';
+
+      if (empty($url)) {
+        throw new MissingDBVariable;
+      }
+
+      
       $dbparts = parse_url($url);
       
       $this->DB_HOST = $dbparts['host'];

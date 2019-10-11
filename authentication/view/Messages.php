@@ -16,4 +16,5 @@ class Messages {
     const TOO_SHORT_PWD = "Password has too few characters, at least 6 characters.";
     const INVALID_CHARACTERS = "Username contains invalid characters.";
     const TOO_SHORT_NAME = "Username has too few characters, at least 3 characters.";
+    const EMPTY_DB_STRING = "Could not find any environment variable called 'JAWSDB_URL'";
 }
