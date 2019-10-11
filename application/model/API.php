@@ -2,8 +2,6 @@
 
 namespace application\model;
 
-require_once('application/LocalAPIKey.php');
-
 class API {
     private $api;
 
