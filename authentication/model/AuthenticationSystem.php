@@ -2,8 +2,6 @@
 
 namespace login\model;
 
-require_once('Exceptions.php');
-
 class AuthenticationSystem {
     private $storage;
     private $db;

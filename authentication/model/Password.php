@@ -2,8 +2,6 @@
 
 namespace login\model;
 
-require_once('Exceptions.php');
-
 class Password {
   private $password;
   private static $MIN_PASSWORD_LENGTH = 6;

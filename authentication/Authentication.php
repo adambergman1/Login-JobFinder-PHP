@@ -19,6 +19,7 @@ require_once('model/Password.php');
 require_once('model/UserCredentials.php');
 require_once('model/NewUser.php');
 require_once('model/UserStorage.php');
+require_once('model/Exceptions.php');
 
 # Controller
 require_once('controller/LoginController.php');
