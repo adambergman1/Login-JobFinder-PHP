@@ -2,6 +2,8 @@
 
 namespace login;
 
+use login\model\MissingDBVariable;
+
 class ProductionSettings {
     public $DB_HOST;
     public $DB_NAME;
