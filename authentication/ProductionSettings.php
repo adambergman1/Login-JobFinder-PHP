@@ -11,7 +11,7 @@ class ProductionSettings {
     public function __construct () {
       $url = getenv('JAWSDB_URL');
 
-      $url = 'http://asdasd.com/asdasds/';
+      $url = '';
 
       if (empty($url)) {
         throw new MissingDBVariable;
