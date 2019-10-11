@@ -8,10 +8,9 @@ class AuthenticationSystem {
 
     public function __construct (\login\model\UserStorage $storage) {
         $this->storage = $storage;
+        $this->db = new \login\model\Database();
 
-        try {
-            $this->db = new \login\model\Database();
-        } catch (MissingDBVariable $e) {
+        if (empty($this->db->HOST)) {
             throw new MissingDBVariable;
         }
     }

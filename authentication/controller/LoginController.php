@@ -3,6 +3,7 @@
 namespace login\controller;
 
 use Exception;
+use login\model\MissingDBVariable;
 use login\model\NameAndPasswordMissing;
 use login\model\TooShortNameException;
 use login\model\TooShortPasswordException;
@@ -31,9 +32,6 @@ class LoginController {
                     $cookies = $this->view->getCredentialsByCookie();
                     $this->authSystem->updateSavedPwd($cookies);
                 }
-                // return true;
-            } else {
-                // return false;
             }
         
         } catch (NameAndPasswordMissing $e) {
@@ -44,6 +42,8 @@ class LoginController {
             $this->view->setMessage(\login\view\Messages::TOO_SHORT_PWD);
         } catch (WrongNameOrPassword $e) {
             $this->view->setMessage(\login\view\Messages::WRONG_NAME_OR_PWD);
+        } catch (MissingDBVariable $e) {
+            $this->view->setMessage(\login\view\Messages::EMPTY_DB_STRING);
         }
     }
 
@@ -52,13 +52,11 @@ class LoginController {
             $credentials = $this->view->getCredentialsByCookie();
             $this->authSystem->loginWithTemporaryPwd($credentials);
             $this->view->setWelcomeBackMessage();
-            // return true;
     
         } catch (Exception $e) {
             $this->view->removeCookie();
             $this->storage->destroySession();
             $this->view->setMessage(\login\view\Messages::WRONG_COOKIE_INFO);
-            // return false;
         }
     }
 
@@ -66,7 +64,6 @@ class LoginController {
             $this->storage->destroySession();
             $this->view->removeCookie();
             $this->view->setMessage(\login\view\Messages::BYE);
-            // return false;
     }
 
     public function welcomeNewUser () {
