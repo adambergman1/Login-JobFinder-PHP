@@ -11,6 +11,8 @@ class API {
 
         $url = 'https://jobsearch.api.jobtechdev.se/search?q=' . $phrase . '&offset=0&limit=2';
 
+        $api = getenv("API_KEY");
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -22,6 +24,7 @@ class API {
 
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
             'Accept: application/json',
+            'api-key: ' . $api,
             $filterResult
             ));
 
