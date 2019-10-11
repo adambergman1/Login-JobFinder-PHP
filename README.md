@@ -23,17 +23,22 @@ class LocalSettings {
 }
 ```
 
-### 2. Configure remote database
+### 2. Get your API key from JobTechDev
+
+Click [here](https://apirequest.jobtechdev.se/)
+
+### 3. Configure remote database
 
 Currently configured with jawsDB.
 
-Create a `.env` file in the root folder:
+Create the following dotenv variables:
 
 ```
 JAWSDB_URL='YOUR_MYSQL_REMOTE_CONNECTION_STRING'
+AF_KEY='YOUR_AF_KEY'
 ```
 
-### 3. Create a database table called `users`
+### 4. Create a database table called `users`
 
 | Column name | Type | Null | Extra |
 | ----------- | ----------- | ----------- | ----------- |
@@ -41,7 +46,7 @@ JAWSDB_URL='YOUR_MYSQL_REMOTE_CONNECTION_STRING'
 | username | varchar(255) | NOT NULL | UNIQUE |
 | password | varchar(255) | NOT NULL | --- |
 
-### 4. Create a database table called `cookies`
+### 5. Create a database table called `cookies`
 
 | Column name | Type | Null | Extra |
 | ----------- | ----------- | ----------- | ----------- |

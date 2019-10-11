@@ -2,6 +2,7 @@
 
 namespace application;
 
+require_once('view/Messages.php');
 require_once('view/LayoutView.php');
 require_once('view/MainView.php');
 require_once('view/DateTimeView.php');

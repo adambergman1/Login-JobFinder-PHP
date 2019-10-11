@@ -2,6 +2,8 @@
 
 namespace application\model;
 
+require_once('Exceptions.php');
+
 class API {
     private $api;
 
@@ -16,6 +18,8 @@ class API {
         } else {
             $this->api = getenv("AF_KEY");
         }
+        $this->api = '';
+
     }
 
     public function fetchJobs (string $keyword, string $city) {
@@ -44,7 +48,13 @@ class API {
         curl_close($ch);
 
         $json = json_decode($data, true);
-        return $json;
+
+        if (array_key_exists('message', $json)) {
+            throw new APIConnectionError;
+        } else {
+            return $json;
+        }
+
     }
 
     // public function convertJobs (Array $jobs) {
