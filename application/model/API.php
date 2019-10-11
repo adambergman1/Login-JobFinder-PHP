@@ -11,12 +11,12 @@ class API {
 
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 
-        if ($serverName == 'localhost') {
-            $api = new \application\LocalAPIKey();
-            $this->api = $api->API_KEY;
-        } else {
-            $this->api = getenv("AF_KEY");
-        }
+        // if ($serverName == 'localhost') {
+        //     $api = new \application\LocalAPIKey();
+        //     $this->api = $api->API_KEY;
+        // } else {
+        //     $this->api = getenv("AF_KEY");
+        // }
     }
 
     public function fetchJobs (string $keyword, string $city) {
