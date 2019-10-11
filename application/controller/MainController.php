@@ -8,7 +8,7 @@ class MainController {
 
     public function __construct (\application\view\MainView $mv) {
         $this->mv = $mv;
-        $this->model = new \application\model\API();
+        // $this->model = new \application\model\API();
     }
 
     public function start () {
@@ -20,7 +20,7 @@ class MainController {
     public function search () {
         $keyword = $this->mv->getKeyword();
         $city = $this->mv->getCity();
-        $result = $this->model->fetchJobs($keyword, $city);
-        $this->mv->renderJobs($result);
+        // $result = $this->model->fetchJobs($keyword, $city);
+        // $this->mv->renderJobs($result);
     }
 }
