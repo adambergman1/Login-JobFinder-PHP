@@ -18,10 +18,10 @@ class MainController {
   public function __construct () {
     try {
       $this->storage = new \login\model\UserStorage();
+      $this->loginView = new \login\view\LoginView($this->storage);
+
       $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
 
-      $this->loginView = new \login\view\LoginView($this->storage);
-      
     } catch (MissingDBVariable $e) {
       $this->loginView->setMessage(\login\view\Messages::EMPTY_DB_STRING);
     }
