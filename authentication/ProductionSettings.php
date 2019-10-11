@@ -2,6 +2,8 @@
 
 namespace login;
 
+use login\model\MissingDBVariable;
+
 class ProductionSettings {
     public $DB_HOST;
     public $DB_NAME;
@@ -11,6 +13,10 @@ class ProductionSettings {
     public function __construct () {
       $url = getenv('JAWSDB_URL');
       $url = '';
+
+      if (empty($url)) {
+        throw new MissingDBVariable;
+      }
       
       $dbparts = parse_url($url);
       

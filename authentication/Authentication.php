@@ -2,10 +2,13 @@
 
 namespace login;
 
+use Exception;
+
 # View
 require_once('view/LoginView.php');
 require_once('view/RegisterView.php');
 require_once('view/Messages.php');
+require_once('view/ErrorView.php');
 
 # Settings
 require_once('LocalSettings.php');
@@ -36,6 +39,10 @@ class Authentication {
     }
 
     public function getMainController () {
-        return $this->mainController;
+        try {
+            return $this->mainController;
+        } catch (Exception $e) {
+            ErrorView::echoError($e->getMessage());
+        }
     }
 }

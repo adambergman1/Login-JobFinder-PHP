@@ -12,7 +12,6 @@ class AuthenticationSystem {
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) {
-        $this->handleDBErrors();
         $this->db->connect();
 
         $username = $userCredentials->getUsername()->getUsername();
@@ -29,7 +28,6 @@ class AuthenticationSystem {
     }
 
     public function loginWithTemporaryPwd (\login\model\UserCredentials $userCredentials) {
-        $this->handleDBErrors();
         $this->db->connect();
 
         $name = $userCredentials->getUsername()->getUsername();
@@ -54,7 +52,6 @@ class AuthenticationSystem {
         $username = $newUser->getUsername()->getUsername();
         $password = $newUser->getPassword()->getPassword();
 
-        $this->handleDBErrors();
         $this->db->connect();
 
         if ($this->db->doesUserExist($username)) {
@@ -64,11 +61,5 @@ class AuthenticationSystem {
             $this->storage->saveNameFromRegistration($username);
             return true;
         }
-    }
-
-    public function handleDBErrors () {
-        if (empty($this->db->DatabaseHasHost())) {
-            throw new MissingDBVariable;
-          }
     }
 }

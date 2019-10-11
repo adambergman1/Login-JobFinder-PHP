@@ -3,7 +3,6 @@
 namespace login\controller;
 
 use Exception;
-use login\model\MissingDBVariable;
 use login\model\NameAndPasswordMissing;
 use login\model\TooShortNameException;
 use login\model\TooShortPasswordException;
@@ -42,8 +41,6 @@ class LoginController {
             $this->view->setMessage(\login\view\Messages::TOO_SHORT_PWD);
         } catch (WrongNameOrPassword $e) {
             $this->view->setMessage(\login\view\Messages::WRONG_NAME_OR_PWD);
-        } catch (MissingDBVariable $e) {
-            $this->view->setMessage(\login\view\Messages::EMPTY_DB_STRING);
         }
     }
 
