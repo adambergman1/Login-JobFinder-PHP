@@ -2,6 +2,7 @@
 
 namespace login\controller;
 
+use Exception;
 use login\model\MissingDBVariable;
 
 class MainController {
@@ -16,7 +17,11 @@ class MainController {
 
   public function __construct () {
     $this->storage = new \login\model\UserStorage();
-    $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
+    try {
+      $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
+    } catch (MissingDBVariable $e) {
+      echo "Error";
+    }
 
     $this->loginView = new \login\view\LoginView($this->storage);
     $this->registerView = new \login\view\RegisterView();
@@ -26,7 +31,6 @@ class MainController {
   }
 
   public function run () {
-    try {
       if ($this->loginView->hasCookie() && !$this->isLoggedIn()) {
         $this->loginController->loginByCookie();
       } else if ($this->loginView->userWantsToLogin() && !$this->isLoggedIn()) {
@@ -49,9 +53,6 @@ class MainController {
       }
   
         return $this->loginView;
-    } catch (MissingDBVariable $e) {
-      $this->loginView->setMessage(\login\view\Messages::EMPTY_DB_STRING);
-    }
   }
 
   public function isLoggedIn () : bool {
