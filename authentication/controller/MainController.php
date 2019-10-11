@@ -19,15 +19,17 @@ class MainController {
     try {
       $this->storage = new \login\model\UserStorage();
       $this->authSystem = new \login\model\AuthenticationSystem($this->storage);
-  
+
       $this->loginView = new \login\view\LoginView($this->storage);
-      $this->registerView = new \login\view\RegisterView();
-  
-      $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem, $this->storage);
-      $this->registerController = new \login\controller\RegisterController($this->registerView, $this->authSystem);
+      
     } catch (MissingDBVariable $e) {
       $this->loginView->setMessage(\login\view\Messages::EMPTY_DB_STRING);
     }
+
+    $this->registerView = new \login\view\RegisterView();
+
+    $this->loginController = new \login\controller\LoginController($this->loginView, $this->authSystem, $this->storage);
+    $this->registerController = new \login\controller\RegisterController($this->registerView, $this->authSystem);
   }
 
   public function run () {
