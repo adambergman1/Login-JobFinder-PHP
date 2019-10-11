@@ -8,7 +8,6 @@ use Exception;
 require_once('view/LoginView.php');
 require_once('view/RegisterView.php');
 require_once('view/Messages.php');
-require_once('view/ErrorView.php');
 
 # Settings
 require_once('LocalSettings.php');
@@ -39,10 +38,6 @@ class Authentication {
     }
 
     public function getMainController () {
-        try {
-            return $this->mainController;
-        } catch (Exception $e) {
-            ErrorView::echoError($e->getMessage());
-        }
+        return $this->mainController;
     }
 }

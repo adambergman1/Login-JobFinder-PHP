@@ -9,7 +9,6 @@ class AuthenticationSystem {
     public function __construct (\login\model\UserStorage $storage) {
         $this->storage = $storage;
         $this->db = new \login\model\Database();
-        $this->handleDBErrors();
     }
 
     public function tryToLogin (\login\model\UserCredentials $userCredentials) {
@@ -61,12 +60,6 @@ class AuthenticationSystem {
             $this->db->registerUser($username, $password);
             $this->storage->saveNameFromRegistration($username);
             return true;
-        }
-    }
-
-    public function handleDBErrors () {
-        if (!$this->db->databaseHasHost()) {
-            throw new MissingDBVariable;
         }
     }
 }

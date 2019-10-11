@@ -10,8 +10,6 @@ class ProductionSettings {
 
     public function __construct () {
       $url = getenv('JAWSDB_URL');
-      $url = '';
-      
       $dbparts = parse_url($url);
       
       $this->DB_HOST = $dbparts['host'];
