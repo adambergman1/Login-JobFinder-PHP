@@ -10,6 +10,7 @@ class API {
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 
         if ($serverName == 'localhost') {
+            require_once('application/LocalAPIKey.php');
             $api = new \application\LocalAPIKey();
             $this->api = $api->API_KEY;
         } else {

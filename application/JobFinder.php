@@ -7,7 +7,6 @@ require_once('view/MainView.php');
 require_once('view/DateTimeView.php');
 require_once('controller/MainController.php');
 require_once('model/API.php');
-require_once('LocalAPIKey.php');
 
 class JobFinder {
     private $auth;
