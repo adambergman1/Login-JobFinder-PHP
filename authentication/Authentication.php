@@ -2,8 +2,6 @@
 
 namespace login;
 
-use Exception;
-
 # View
 require_once('view/LoginView.php');
 require_once('view/RegisterView.php');

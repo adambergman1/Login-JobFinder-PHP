@@ -8,18 +8,18 @@ class API {
     private $api;
 
     public function __construct () {
-
         $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        $this->api = $this->getAPIKey($serverName);
+    }
 
+    private function getAPIKey ($serverName) {
         if ($serverName == 'localhost') {
             require_once('application/LocalAPIKey.php');
             $api = new \application\LocalAPIKey();
-            $this->api = $api->API_KEY;
+            return $api->API_KEY;
         } else {
-            $this->api = getenv("AF_KEY");
+            return getenv("AF_KEY");
         }
-        $this->api = '';
-
     }
 
     public function fetchJobs (string $keyword, string $city) {
