@@ -9,7 +9,7 @@ class API {
 
     public function __construct () {
 
-        $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        // $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 
         // if ($serverName == 'localhost') {
         //     $api = new \application\LocalAPIKey();
