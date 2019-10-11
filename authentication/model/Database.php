@@ -16,6 +16,14 @@ class Database {
             $this->settings = new \login\ProductionSettings();
         }
     }
+
+    public function DatabaseHasHost () {
+        if (empty($this->settings->DB_HOST)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     
     public function connect () {
         $this->connection = mysqli_connect($this->settings->DB_HOST, $this->settings->DB_USERNAME, 
