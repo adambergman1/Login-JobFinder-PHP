@@ -47,4 +47,5 @@ class JobFinder {
     private function getAuthView () {
         return $this->auth->getMainController()->run();
     }
+    
 }
