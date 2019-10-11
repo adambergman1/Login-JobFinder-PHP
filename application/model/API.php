@@ -47,7 +47,7 @@ class API {
         return $json;
     }
 
-    public function convertJobs (Array $jobs) {
+    // public function convertJobs (Array $jobs) {
         
-    }
+    // }
 }
