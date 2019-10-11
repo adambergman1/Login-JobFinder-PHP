@@ -2,7 +2,22 @@
 
 namespace application\model;
 
+require_once('application/LocalAPIKey.php');
+
 class API {
+    private $api;
+
+    public function __construct () {
+
+        $serverName = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+
+        if ($serverName == 'localhost') {
+            $api = new \application\LocalAPIKey();
+            $this->api = $api->API_KEY;
+        } else {
+            $this->api = getenv("AF_KEY");
+        }
+    }
 
     public function fetchJobs (string $keyword, string $city) {
         $phrase = $keyword;
@@ -10,8 +25,6 @@ class API {
         $phrase .= $city;
 
         $url = 'https://jobsearch.api.jobtechdev.se/search?q=' . $phrase . '&offset=0&limit=2';
-
-        $api = getenv("API_KEY");
 
         $ch = curl_init();
 
@@ -24,7 +37,7 @@ class API {
 
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
             'Accept: application/json',
-            'api-key: ' . $api,
+            'api-key: ' . $this->api,
             $filterResult
             ));
 

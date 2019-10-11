@@ -9,4 +9,5 @@ ini_set('display_startup_errors', 'On');
 
 $auth = new \login\Authentication();
 $app = new \application\JobFinder($auth);
-$app->start();
+$app->handleInput();
+$app->getOutput();

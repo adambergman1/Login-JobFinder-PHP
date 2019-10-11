@@ -23,7 +23,7 @@ class AuthenticationSystem {
 
         if ($isAuthenticated) {
             $this->storage->saveUser($username);
-            return true;
+            return true; 
         } else {
             throw new WrongNameOrPassword;
         }

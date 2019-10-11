@@ -9,7 +9,9 @@ class MainController {
     public function __construct (\application\view\MainView $mv) {
         $this->mv = $mv;
         $this->model = new \application\model\API();
+    }
 
+    public function start () {
         if ($this->mv->userWantsToSearch()) {
             $this->search();
         }

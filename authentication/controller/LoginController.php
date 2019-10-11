@@ -13,10 +13,11 @@ class LoginController {
     private $authSystem;
     private $storage;
 
-    public function __construct(\login\view\LoginView $view, \login\model\AuthenticationSystem $authSystem) {
+    public function __construct(\login\view\LoginView $view, \login\model\AuthenticationSystem $authSystem, 
+    \login\model\UserStorage $storage) {
         $this->view = $view;
         $this->authSystem = $authSystem;
-        $this->storage = new \login\model\UserStorage();
+        $this->storage = $storage;
     }
 
     public function login () {
@@ -30,9 +31,9 @@ class LoginController {
                     $cookies = $this->view->getCredentialsByCookie();
                     $this->authSystem->updateSavedPwd($cookies);
                 }
-                return true;
+                // return true;
             } else {
-                return false;
+                // return false;
             }
         
         } catch (NameAndPasswordMissing $e) {
@@ -46,19 +47,18 @@ class LoginController {
         }
     }
 
-    public function loginByCookie () : bool {
+    public function loginByCookie () {
         try {
             $credentials = $this->view->getCredentialsByCookie();
-
             $this->authSystem->loginWithTemporaryPwd($credentials);
             $this->view->setWelcomeBackMessage();
-            return true;
+            // return true;
     
         } catch (Exception $e) {
             $this->view->removeCookie();
             $this->storage->destroySession();
             $this->view->setMessage(\login\view\Messages::WRONG_COOKIE_INFO);
-            return false;
+            // return false;
         }
     }
 
@@ -66,7 +66,7 @@ class LoginController {
             $this->storage->destroySession();
             $this->view->removeCookie();
             $this->view->setMessage(\login\view\Messages::BYE);
-            return false;
+            // return false;
     }
 
     public function welcomeNewUser () {
