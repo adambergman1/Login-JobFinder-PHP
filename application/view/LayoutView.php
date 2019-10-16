@@ -14,7 +14,6 @@ class LayoutView {
           <title>Login Example</title>
         </head>
         <body>
-        <header>
           <div class="container">
           <div class="site-title">
             <h1><a href="./">Assignment 2</a></h1>
@@ -24,18 +23,13 @@ class LayoutView {
             ' . $this->renderIsLoggedIn($isLoggedIn) . '
           </div>
           </div>
-        </header>
-        <main>
           <div class="container">
               ' . $v->response($isLoggedIn) . '
               ' . $this->renderLoggedInApplication($loggedInView) . '
           </div>
-        </main>
-        <footer>
           <div class="container">
           ' . $dtv->show() . '
           </div>
-        </footer>
          </body>
       </html>
     ';
