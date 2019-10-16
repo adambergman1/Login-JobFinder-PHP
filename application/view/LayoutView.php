@@ -16,7 +16,7 @@ class LayoutView {
         <body>
           <div class="container">
           <div class="site-title">
-            <h1><a href="./">Assignment 2</a></h1>
+            <h1>Assignment 2</h1>
             </div>
           <div class="logged-in-details">
             ' . $this->renderRegisterLink($isLoggedIn) . '
