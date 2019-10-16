@@ -41,8 +41,8 @@ class LoginView {
 	*/
 	private function generateLogoutButtonHTML($message) {
 		return '
-			<form  method="post" >
-				<p id="' . self::$messageId . '">' . $message .'</p>
+			<form  method="post" class="logout-form">
+				<p class="message" id="' . self::$messageId . '">' . $message .'</p>
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
 		';
@@ -55,10 +55,10 @@ class LoginView {
 	*/
 	private function generateLoginFormHTML($message) {
 		return '
-			<form method="post" > 
+			<form method="post" class="login-form"> 
 				<fieldset>
 					<legend>Login - enter Username and password</legend>
-					<p id="' . self::$messageId . '">' . $message . '</p>
+					<p class="error-message" id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
 					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . self::$rememberedName . '" />
@@ -179,7 +179,6 @@ class LoginView {
 	}
 
 	public function setWelcomeBackMessage () {
-		// $this->setCookieWithTemporaryPwd();
 		$this->setMessage(\login\view\Messages::WELCOME_BACK_WITH_COOKIE);
 	}
 

@@ -11,17 +11,31 @@ class LayoutView {
         <head>
           <link rel="stylesheet" type="text/css" href="public/css/style.css">
           <meta charset="utf-8">
-          <title>Login Example</title>
+          <title>Job Finder</title>
         </head>
         <body>
-          <h1>Assignment 2</h1>
-          ' . $this->renderRegisterLink($isLoggedIn) . '
-          ' . $this->renderIsLoggedIn($isLoggedIn) . '
+        <header>
+          <div class="container">
+          <div class="site-title">
+            <h1><a href="./">Assignment 2</a></h1>
+            </div>
+          <div class="logged-in-details">
+            ' . $this->renderRegisterLink($isLoggedIn) . '
+            ' . $this->renderIsLoggedIn($isLoggedIn) . '
+          </div>
+          </div>
+        </header>
+        <main>
           <div class="container">
               ' . $v->response($isLoggedIn) . '
               ' . $this->renderLoggedInApplication($loggedInView) . '
-              ' . $dtv->show() . '
           </div>
+        </main>
+        <footer>
+          <div class="container">
+          ' . $dtv->show() . '
+          </div>
+        </footer>
          </body>
       </html>
     ';
@@ -36,10 +50,10 @@ class LayoutView {
   
   private function renderIsLoggedIn($isLoggedIn) {
     if ($isLoggedIn) {
-      return '<h2>Logged in</h2>';
+      return '<h2 class="logged-in">Logged in</h2>';
     }
     else {
-      return '<h2>Not logged in</h2>';
+      return '<h2 class="not-logged-in">Not logged in</h2>';
     }
   }
 
@@ -47,10 +61,10 @@ class LayoutView {
     $ret = '';
 
     if (!$isLoggedIn && !$this->userWantsToRegister()) {
-      $ret = '<a href="?register">Register a new user</a>';
+      $ret = '<a href="?register" class="register-btn">Register a new user</a>';
     }
     if (!$isLoggedIn && $this->userWantsToRegister()) {
-      $ret = '<a href="?">Back to login</a>';
+      $ret = '<a href="?" "go-back-btn">Back to login</a>';
     }
     return $ret;
   }

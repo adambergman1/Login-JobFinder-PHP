@@ -22,12 +22,8 @@ class API {
         }
     }
 
-    public function fetchJobs (string $keyword, string $city) {
-        $phrase = $keyword;
-        $phrase .= '%20';
-        $phrase .= $city;
-
-        $url = 'https://jobsearch.api.jobtechdev.se/search?q=' . $phrase . '&offset=0&limit=2';
+    public function fetchJobs (string $phrase) : \application\model\JobsCollection {
+        $url = 'https://jobsearch.api.jobtechdev.se/search?q=' . $phrase . '&offset=0&limit=10';
 
         $ch = curl_init();
 
@@ -35,11 +31,11 @@ class API {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 
-        $filterResult = 'X-Fields: hits{headline, description, number_of_vacancies, application_deadline, 
-            logo_url, application_details{url}, workplace_address{municipality}, employment_type{label}, employer{name, url}}';
+        $filterResult = 'X-Fields: hits{headline, logo_url, webpage_url, description{text}, number_of_vacancies, application_deadline,
+            application_details{url, email}, workplace_address{municipality}, employment_type{label}, employer{name, url}, publication_date }';
 
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array(
-            'Accept: application/json',
+            'Accept: application/json; charset=utf-8',
             'api-key: ' . $this->api,
             $filterResult
             ));
@@ -48,16 +44,46 @@ class API {
         curl_close($ch);
 
         $json = json_decode($data, true);
+        // $json = json_encode($data, JSON_PRETTY_PRINT);
 
         if (array_key_exists('message', $json)) {
             throw new APIConnectionError;
         } else {
-            return $json;
+            return $this->createJobsFromJSON($json);
         }
-
     }
 
-    // public function convertJobs (Array $jobs) {
-        
-    // }
+    private function createJobsFromJSON ($jsonArray) : \application\model\JobsCollection {
+        $jobsCollection = new \application\model\JobsCollection();
+
+        foreach ($jsonArray as $job) {
+            foreach ($job as $item) {
+                $title = $item['headline'];
+                $description = nl2br($item['description']['text']);
+                $logoUrl = $item['logo_url'];
+                $amountOfVacancies = $item['number_of_vacancies'];
+                $publicationDate = $item['publication_date'];
+                $deadline = $item['application_deadline'];
+                $city = $item['workplace_address']['municipality'];
+                $employmentType = $item['employment_type']['label'];
+                $websiteUrl = $this->validateUrl($item['employer']['url']);
+                $employerName = $item['employer']['name'];
+                $applyJobUrl = $this->validateUrl($item['application_details']['url']);
+                $applyJobEmail = $item['application_details']['email'];
+
+                $jobsCollection->add(new \application\model\Job($title, $description, $logoUrl, $amountOfVacancies, 
+                $publicationDate, $deadline, $city, $employmentType, $websiteUrl, $employerName, $applyJobUrl, $applyJobEmail));
+            }
+        }
+        return $jobsCollection;
+    }
+
+    private function validateUrl ($url) {
+        if ($url) {
+            if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+                $url = "http://" . $url;
+            }
+            return $url;
+        }
+    }
 }

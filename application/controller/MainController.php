@@ -3,7 +3,6 @@
 namespace application\controller;
 
 use application\model\APIConnectionError;
-use Exception;
 
 class MainController {
     private $mv;
@@ -24,7 +23,10 @@ class MainController {
         try {
             $keyword = $this->mv->getKeyword();
             $city = $this->mv->getCity();
-            $result = $this->model->fetchJobs($keyword, $city);
+
+            $this->searchModel = new \application\model\SearchPhrase($keyword, $city);
+            $phrase = $this->searchModel->getPhrase();
+            $result = $this->model->fetchJobs($phrase);
             $this->mv->renderJobs($result);
         } catch (APIConnectionError $e) {
             $this->mv->setMessage(\application\view\Messages::API_CONNECTION_ERROR);

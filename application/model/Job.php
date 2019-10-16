@@ -3,19 +3,33 @@
 namespace application\model;
 
 class Job {
-    private $title;
-    private $description;
-    private $city;
-    private $deadline;
-    private $numOfVacancies;
-    private $logoURL;
-    
-    public function __construct (string $title, string $description, string $city, string $deadline, string $numOfVacancies, string $logoURL) {
+    public $title;
+    public $description;
+    public $publicationDate;
+    public $deadline;
+    public $city;
+    public $numOfVacancies;
+    public $logoUrl;
+    public $employmentType;
+    public $websiteUrl;
+    public $employerName;
+    public $applyJobUrl;
+    public $applyJobEmail;
+
+    public function __construct (string $title, string $description, $logo, $amountOfVacancies, 
+    $publicationDate, $deadline, $city, $employmentType, $websiteUrl, $employerName,
+    $applyJobUrl, $applyJobEmail) {
         $this->title = $title;
         $this->description = $description;
-        $this->city = $city;
+        $this->logoUrl = $logo;
+        $this->numOfVacancies = $amountOfVacancies;
+        $this->publicationDate = $publicationDate;
         $this->deadline = $deadline;
-        $this->numOfVacancies = $numOfVacancies;
-        $this->logoURL = $logoURL;
+        $this->city = $city;
+        $this->employmentType = $employmentType;
+        $this->websiteUrl = $websiteUrl;
+        $this->employerName = $employerName;
+        $this->applyJobUrl = $applyJobUrl;
+        $this->applyJobEmail = $applyJobEmail;
     }
 }
