@@ -11,7 +11,7 @@ class LayoutView {
         <head>
           <link rel="stylesheet" type="text/css" href="public/css/style.css">
           <meta charset="utf-8">
-          <title>Job Finder</title>
+          <title>Login Example</title>
         </head>
         <body>
         <header>
