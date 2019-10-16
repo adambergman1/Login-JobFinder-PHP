@@ -58,7 +58,7 @@ class LayoutView {
       $ret = '<a href="?register" class="register-btn">Register a new user</a>';
     }
     if (!$isLoggedIn && $this->userWantsToRegister()) {
-      $ret = '<a href="?" "go-back-btn">Back to login</a>';
+      $ret = '<a href="?" class="go-back-btn">Back to login</a>';
     }
     return $ret;
   }
