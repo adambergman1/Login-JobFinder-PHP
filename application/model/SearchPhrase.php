@@ -11,8 +11,7 @@ class SearchPhrase {
     private $phrase;
 
     public function __construct (string $keyword, string $city) {
-        $this->validateKeyword($keyword);
-        $this->validateCity($city);
+        $this->validateSearchPhrase($keyword, $city);
 
         $this->keyword = $keyword;
         $this->city = $city;
@@ -28,15 +27,29 @@ class SearchPhrase {
     public function getPhrase () : string {
         return strtolower($this->phrase);
     }
-    
-    private function validateKeyword (string $keyword) : void {
-        if (empty($keyword) || strlen($keyword) < self::$MIN_KEYWORD_LENGTH) {
-            throw new InvalidKeywordLength;
+
+    private function isKeywordValid (string $keyword) : bool {
+        if (!empty($keyword) && strlen($keyword) >= self::$MIN_KEYWORD_LENGTH) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    private function validateCity (string $city) : void {
-        if (empty($city) || strlen($city) < self::$MIN_CITY_LENGTH) {
+    private function isCityValid (string $city) : bool {
+        if (empty($city) || strlen($city) >= self::$MIN_CITY_LENGTH) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function validateSearchPhrase (string $keyword, string $city) : void {
+        if (!$this->isKeywordValid($keyword) && !$this->isCityValid($city)) {
+            throw new KeywordAndCityTooShort;
+        } else if (!$this->isKeywordValid($keyword)) {
+            throw new InvalidKeywordLength;
+        } else if (!$this->isCityValid($city)) {
             throw new InvalidCityLength;
         }
     }

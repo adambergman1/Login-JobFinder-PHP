@@ -3,6 +3,9 @@
 namespace application\controller;
 
 use application\model\APIConnectionError;
+use application\model\InvalidCityLength;
+use application\model\InvalidKeywordLength;
+use application\model\KeywordAndCityTooShort;
 
 class MainController {
     private $mv;
@@ -31,6 +34,12 @@ class MainController {
             $this->mv->renderJobs($result);
         } catch (APIConnectionError $e) {
             $this->mv->setMessage(\application\view\Messages::API_CONNECTION_ERROR);
+        } catch (KeywordAndCityTooShort $e) {
+            $this->mv->setMessage(\application\view\Messages::KEYWORD_AND_CITY_IS_INVALID);
+        } catch (InvalidCityLength $e) {
+            $this->mv->setMessage(\application\view\Messages::INVALID_CITY_LENGTH);
+        } catch (InvalidKeywordLength $e) {
+            $this->mv->setMessage(\application\view\Messages::INVALID_KEYWORD_LENGTH);
         }
     }
 }

@@ -10,11 +10,9 @@ class MainView {
     private static $messageId = 'Message';
     private $message;
     private $jobs = "";
-    
-    const MIN_KEYWORD_LENGTH = 3;
 
     public function renderHTML () : string {
-        $this->validateKeywordLength();
+        $this->validateKeyword();
         return $this->showOutput();
     }
 
@@ -110,20 +108,19 @@ class MainView {
         return isset($_GET[self::$keyword]) && empty($_GET[self::$keyword]);
     }
 
-    private function isKeywordTooShort () : bool {
-        return $this->hasKeyword() && strlen($_GET[self::$keyword]) < self::MIN_KEYWORD_LENGTH;
-    }
-
-    private function validateKeywordLength () : void {
-        if ($this->isKeywordTooShort()) {
-            $this->setMessage("Keyword is too short. Minimum 3 characters.");
-        } else if ($this->hasEmptyKeyword()) {
-            $this->setMessage("Keyword is missing");
+    private function validateKeyword () : void {
+        if ($this->hasEmptyKeyword()) {
+            $this->setMessage(\application\view\Messages::MISSING_KEYWORD);
         }
     }
 
+    private function formatDate (string $date) : string {
+        $s = strtotime($date);
+        return date('d/m/Y', $s);
+    }
+
     public function userWantsToSearch () : bool {
-        if ($this->hasKeyword() && strlen($_GET[self::$keyword]) > self::MIN_KEYWORD_LENGTH)  {
+        if ($this->hasKeyword())  {
             return true;
         } else {
             return false;
@@ -140,10 +137,5 @@ class MainView {
 
     public function getCity () : string {
         return $_GET[self::$city];
-    }
-
-    private function formatDate (string $date) : string {
-        $s = strtotime($date);
-        return date('d/m/Y', $s);
     }
 }
