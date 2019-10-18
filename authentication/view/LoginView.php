@@ -2,7 +2,7 @@
 
 namespace login\view;
 
-class LoginView {
+class LoginView implements View {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';

@@ -26,6 +26,7 @@ class MainController {
 
             $this->searchModel = new \application\model\SearchPhrase($keyword, $city);
             $phrase = $this->searchModel->getPhrase();
+
             $result = $this->model->fetchJobs($phrase);
             $this->mv->renderJobs($result);
         } catch (APIConnectionError $e) {

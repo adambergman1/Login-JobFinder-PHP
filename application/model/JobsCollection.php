@@ -4,6 +4,7 @@ namespace application\model;
 
 // TODO: Consider using traversable interface 
 // with visitor pattern 
+
 class JobsCollection {
     private $jobs = array();
 

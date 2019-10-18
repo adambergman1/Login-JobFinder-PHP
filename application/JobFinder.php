@@ -36,11 +36,11 @@ class JobFinder {
         }
     }
 
-    public function getOutput () {
+    public function getOutput () : void {
         if ($this->isLoggedIn()) {
-            return $this->layoutView->render($this->isLoggedIn(), $this->authView, $this->dtv, $this->mainView);
+            $this->layoutView->render($this->isLoggedIn(), $this->authView, $this->dtv, $this->mainView);
         } else {
-            return $this->layoutView->render($this->isLoggedIn(), $this->authView, $this->dtv);
+            $this->layoutView->render($this->isLoggedIn(), $this->authView, $this->dtv);
         }
     }
 
@@ -48,8 +48,7 @@ class JobFinder {
         return $this->auth->getMainController()->isLoggedIn();
     }
 
-    private function getAuthView () {
+    private function getAuthView () : \login\view\View {
         return $this->auth->getMainController()->run();
     }
-    
 }

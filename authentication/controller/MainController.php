@@ -23,7 +23,7 @@ class MainController {
       $this->registerController = new \login\controller\RegisterController($this->registerView, $this->authSystem);
   }
 
-  public function run () {
+  public function run () : \login\view\View {
       if ($this->loginView->hasCookie() && !$this->isLoggedIn()) {
         $this->loginController->loginByCookie();
       } else if ($this->loginView->userWantsToLogin() && !$this->isLoggedIn()) {
