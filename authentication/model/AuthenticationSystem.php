@@ -11,7 +11,7 @@ class AuthenticationSystem {
         $this->db = new \login\model\Database();
     }
 
-    public function tryToLogin (\login\model\UserCredentials $userCredentials) {
+    public function tryToLogin (\login\model\UserCredentials $userCredentials) : bool {
         $this->db->connect();
 
         $username = $userCredentials->getUsername()->getUsername();
@@ -27,7 +27,9 @@ class AuthenticationSystem {
         }
     }
 
-    public function loginWithTemporaryPwd (\login\model\UserCredentials $userCredentials) {
+    // TODO: Fix code duplication. 
+    // tryToLogin() and loginWithTemporaryPwd() are practically the same
+    public function loginWithTemporaryPwd (\login\model\UserCredentials $userCredentials) : bool {
         $this->db->connect();
 
         $name = $userCredentials->getUsername()->getUsername();
@@ -43,12 +45,12 @@ class AuthenticationSystem {
         }
     }
 
-    public function updateSavedPwd (\login\model\UserCredentials $credentials) {
+    public function updateSavedPwd (\login\model\UserCredentials $credentials) : void {
         $this->db->connect();
         $this->db->saveCookie($credentials->getUsername()->getUsername(), $credentials->getPassword()->getPassword());
     }
 
-    public function tryToRegister (\login\model\NewUser $newUser) {
+    public function tryToRegister (\login\model\NewUser $newUser) : bool {
         $username = $newUser->getUsername()->getUsername();
         $password = $newUser->getPassword()->getPassword();
 

@@ -28,7 +28,7 @@ class JobFinder {
         $this->mc = new \application\controller\MainController($this->mainView);
     }
 
-    public function handleInput () {
+    public function handleInput () : void {
         $this->authView = $this->getAuthView();
         
         if ($this->isLoggedIn()) {
@@ -44,7 +44,7 @@ class JobFinder {
         }
     }
 
-    private function isLoggedIn () {
+    private function isLoggedIn () : bool {
         return $this->auth->getMainController()->isLoggedIn();
     }
 

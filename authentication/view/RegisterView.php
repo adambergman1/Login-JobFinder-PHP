@@ -12,7 +12,7 @@ class RegisterView {
 	
 	private $message;
 
-	public function response($isLoggedIn) {
+	public function response($isLoggedIn) : string {
 		$ret = '';
 		if (!$isLoggedIn) {
 			$ret = "<h2>Register new user</h2>";
@@ -21,7 +21,7 @@ class RegisterView {
 		return $ret;
 	}
 
-  private function generateRegistrationForm() {
+  private function generateRegistrationForm() : string {
 		return '
       <form action="?register" method="post" enctype="multipart/form-data">
         <fieldset>
@@ -71,7 +71,7 @@ class RegisterView {
 			return new \login\model\NewUser($this->getUsername(), $this->getPassword(), $this->getPasswordRepeat());
 	}
 
-	public function setMessage ($message) {
+	public function setMessage ($message) : void {
 		$this->message = $message;
 	}
 
@@ -83,7 +83,7 @@ class RegisterView {
 		return isset($_POST[self::$doRegistration]);
 	}
 
-	public function userWantsToRegister () {
+	public function userWantsToRegister () : bool {
 		if (isset($_GET["register"])) {
 		  return true;
 		} else {

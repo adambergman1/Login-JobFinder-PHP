@@ -2,13 +2,10 @@
 
 namespace application\model;
 
+// TODO: Consider using traversable interface 
+// with visitor pattern 
 class JobsCollection {
     private $jobs = array();
-
-    public function __construct () {
-        // Traversable
-        // Visitor pattern?
-    }
 
     public function add (\application\model\Job $job) : void {
         $this->jobs[] = $job;

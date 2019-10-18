@@ -16,7 +16,7 @@ class Username {
     $this->username = $username;
   }
 
-  public function setUsername (string $username) {
+  public function setUsername (string $username) : void {
     $this->username = $username;
   }
 
@@ -40,13 +40,13 @@ class Username {
     }
   }
 
-  private function handleInvalidCharacters (string $username) {
+  private function handleInvalidCharacters (string $username) : void {
     if ($this->hasInvalidCharacters($username)) {
       throw new InvalidCharactersException;
     }
   }
 
-  private function handleInvalidLength (string $username) {
+  private function handleInvalidLength (string $username) : void {
     if ($this->hasInvalidLength($username)) {
       throw new TooShortNameException;
     }

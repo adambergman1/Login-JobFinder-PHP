@@ -20,7 +20,7 @@ class LoginController {
         $this->storage = $storage;
     }
 
-    public function login () {
+    public function login () : void {
         try {
             $credentials = $this->view->getUserCredentials();
             $isAuthenticated = $this->authSystem->tryToLogin($credentials);
@@ -32,7 +32,7 @@ class LoginController {
                     $this->authSystem->updateSavedPwd($cookies);
                 }
             }
-        
+
         } catch (NameAndPasswordMissing $e) {
             $this->view->setMessage(\login\view\Messages::NAME_AND_PWD_MISSING);
         } catch (TooShortNameException $e) {
@@ -44,7 +44,7 @@ class LoginController {
         }
     }
 
-    public function loginByCookie () {
+    public function loginByCookie () : void {
         try {
             $credentials = $this->view->getCredentialsByCookie();
             $this->authSystem->loginWithTemporaryPwd($credentials);
@@ -57,20 +57,20 @@ class LoginController {
         }
     }
 
-    public function logout () {
+    public function logout () : void {
             $this->storage->destroySession();
             $this->view->removeCookie();
             $this->view->setMessage(\login\view\Messages::BYE);
     }
 
-    public function welcomeNewUser () {
+    public function welcomeNewUser () : void {
         $name = $this->storage->getNameFromRegistration();
         $this->view->setValueToUsernameField($name);
         $this->view->setMessage(\login\view\Messages::NEW_USER_REGISTRERED);
         $this->storage->destroySession();
     }
 
-    public function generateNewPassword () {
+    public function generateNewPassword () : void {
         if ($this->view->hasUsername()) {
             $this->view->setCookie();
             $cookies = $this->view->getCredentialsByCookie();

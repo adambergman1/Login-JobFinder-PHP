@@ -28,7 +28,7 @@ class Database {
         return $this->connection;
     }
 
-    public function isValid (string $tableName, string $username, string $password) {
+    public function isValid (string $tableName, string $username, string $password) : bool {
         $row = $this->findTableInDB($tableName, $username);
 
         if ($row['username'] === $username && password_verify($password, $row['password'])) {
@@ -50,7 +50,7 @@ class Database {
         return $row;
     }
 
-    public function doesUserExist(string $name) {
+    public function doesUserExist(string $name) : bool {
         $row = $this->findTableInDB(self::USERS_TABLE, $name);
 
         if ($row['username'] === $name) {
@@ -60,7 +60,7 @@ class Database {
         }
     }
 
-    public function saveCookie (string $username, string $password) {
+    public function saveCookie (string $username, string $password) : void {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         if ($this->findTableInDB(self::COOKIES_TABLE, $username)) {
@@ -72,7 +72,7 @@ class Database {
         mysqli_query($this->connection, $query);
     }
 
-    public function registerUser (string $username, string $password) {
+    public function registerUser (string $username, string $password) : void {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";

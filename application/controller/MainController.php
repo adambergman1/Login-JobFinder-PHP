@@ -13,13 +13,13 @@ class MainController {
         $this->model = new \application\model\API();
     }
 
-    public function start () {
+    public function start () : void {
         if ($this->mv->userWantsToSearch()) {
             $this->search();
         }
     }
 
-    public function search () {
+    public function search () : void {
         try {
             $keyword = $this->mv->getKeyword();
             $city = $this->mv->getCity();

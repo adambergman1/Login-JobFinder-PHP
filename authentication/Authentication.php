@@ -35,7 +35,7 @@ class Authentication {
         $this->mainController = new \login\controller\MainController();
     }
 
-    public function getMainController () {
+    public function getMainController () : \login\controller\MainController {
         return $this->mainController;
     }
 }

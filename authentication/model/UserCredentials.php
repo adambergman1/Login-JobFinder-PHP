@@ -13,11 +13,11 @@ class UserCredentials {
     $this->stayLoggedIn = $stayLoggedIn;
   }
 
-  public function getUsername () {
+  public function getUsername () : \login\model\Username {
     return $this->username;
   }
 
-  public function getPassword () {
+  public function getPassword () : \login\model\Password {
       return $this->password;
   }
 

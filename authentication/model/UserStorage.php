@@ -6,7 +6,7 @@ class UserStorage {
 	private static $SESSION_KEY =  __CLASS__ .  "::UserName";
 	private static $NEW_USER_TO_REMEMBER = __CLASS__ . "::NewUser";
   
-	public function loadUser() {
+	public function loadUser() : string {
 		if ($this->hasStoredUser()) {
 			return $_SESSION[self::$SESSION_KEY];
 		} else {
@@ -22,16 +22,16 @@ class UserStorage {
 	}
   }
   
-	public function saveUser(string $name) {
+	public function saveUser(string $name) : void {
 		$_SESSION[self::$SESSION_KEY] = md5($name);
 	}
 	
-	public function destroySession () {
+	public function destroySession () : void {
 		unset($_SESSION[self::$SESSION_KEY]);
 		unset($_SESSION[self::$NEW_USER_TO_REMEMBER]);
 	}
 
-	public function saveNameFromRegistration (string $name) {
+	public function saveNameFromRegistration (string $name) : void {
 		$_SESSION[self::$NEW_USER_TO_REMEMBER] = $name;
 	}
 

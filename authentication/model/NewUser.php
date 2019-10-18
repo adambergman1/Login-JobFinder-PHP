@@ -16,23 +16,23 @@ class NewUser {
     $this->passwordRepeat = new \login\model\Password($passwordRepeat);
   }
 
-  public function nameAndPasswordIsEmpty ($username, $password) {
+  public function nameAndPasswordIsEmpty ($username, $password) : void {
     if (empty($username) && empty($password)) {
       throw new NameAndPasswordMissing;
     }
   }
 
-  public function passwordsMatch ($password, $passwordRepeat) {
+  public function passwordsMatch ($password, $passwordRepeat) : void {
     if ($password != $passwordRepeat) {
       throw new PasswordsDoNotMatch;
     }
   }
 
-  public function getUsername () {
+  public function getUsername () : \login\model\Username {
     return $this->username;
   }
 
-  public function getPassword () {
+  public function getPassword () : \login\model\Password {
       return $this->password;
   }
 }

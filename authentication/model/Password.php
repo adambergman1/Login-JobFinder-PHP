@@ -14,7 +14,7 @@ class Password {
     $this->password = $password;
   }
 
-  public function setPassword (string $password) {
+  public function setPassword (string $password) : void {
     $this->password = $password;
   }
 

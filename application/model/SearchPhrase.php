@@ -29,13 +29,13 @@ class SearchPhrase {
         return strtolower($this->phrase);
     }
     
-    private function validateKeyword (string $keyword) {
+    private function validateKeyword (string $keyword) : void {
         if (empty($keyword) || strlen($keyword) < self::$MIN_KEYWORD_LENGTH) {
             throw new InvalidKeywordLength;
         }
     }
 
-    private function validateCity (string $city) {
+    private function validateCity (string $city) : void {
         if (empty($city) || strlen($city) < self::$MIN_CITY_LENGTH) {
             throw new InvalidCityLength;
         }

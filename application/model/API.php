@@ -12,7 +12,7 @@ class API {
         $this->api = $this->getAPIKey($serverName);
     }
 
-    private function getAPIKey ($serverName) {
+    private function getAPIKey ($serverName) : string {
         if ($serverName == 'localhost') {
             require_once('application/LocalAPIKey.php');
             $api = new \application\LocalAPIKey();
@@ -44,7 +44,6 @@ class API {
         curl_close($ch);
 
         $json = json_decode($data, true);
-        // $json = json_encode($data, JSON_PRETTY_PRINT);
 
         if (array_key_exists('message', $json)) {
             throw new APIConnectionError;
@@ -66,9 +65,9 @@ class API {
                 $deadline = $item['application_deadline'];
                 $city = $item['workplace_address']['municipality'];
                 $employmentType = $item['employment_type']['label'];
-                $websiteUrl = $this->validateUrl($item['employer']['url']);
+                $websiteUrl = $this->setHTTPProtocol($item['employer']['url']);
                 $employerName = $item['employer']['name'];
-                $applyJobUrl = $this->validateUrl($item['application_details']['url']);
+                $applyJobUrl = $this->setHTTPProtocol($item['application_details']['url']);
                 $applyJobEmail = $item['application_details']['email'];
 
                 $jobsCollection->add(new \application\model\Job($title, $description, $logoUrl, $amountOfVacancies, 
@@ -78,12 +77,12 @@ class API {
         return $jobsCollection;
     }
 
-    private function validateUrl ($url) {
-        if ($url) {
-            if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-                $url = "http://" . $url;
-            }
-            return $url;
+    private function setHTTPProtocol ($url) : string {
+        if ($url && !preg_match("~^(?:f|ht)tps?://~i", $url)) {
+            $url = "http://" . $url;
+        } else if (!$url) {
+            $url = "";
         }
+        return $url;
     }
 }

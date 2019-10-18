@@ -13,9 +13,12 @@ class MainView {
     
     const MIN_KEYWORD_LENGTH = 3;
 
-    public function renderHTML () {
-        $this->validateKeyword();
+    public function renderHTML () : string {
+        $this->validateKeywordLength();
+        return $this->showOutput();
+    }
 
+    private function showOutput () : string {
         $output = '<div class="job-finder">';
         $output .= $this->renderHeader();
         $output .= $this->renderSearchForm($this->message);
@@ -24,11 +27,11 @@ class MainView {
         return $output;
     }
 
-    public function renderHeader () {
+    public function renderHeader () : string {
         return '<h3 class="job-finder-title">Find jobs in Sweden - The easy way</h3>';
     }
 
-    public function renderSearchForm ($message) {
+    public function renderSearchForm ($message) : string {
         return '
         <form method="get" class="job-finder-form"> 
             <div class="input-form">
@@ -48,28 +51,26 @@ class MainView {
     ';
     }
 
-    public function renderJobs (\application\model\JobsCollection $jobs) {
-        // Bryter law of demeter, notera!
-
+    public function renderJobs (\application\model\JobsCollection $jobs) : void {
+        // TODO: Fix law of demeter by not calling methods from the argument
         $jobsArray = $jobs->getJobs();
         $ret = $this->renderJobsCount($jobs->getAmountOfJobs());
 
         $ret .= '<div class="jobs">';
         foreach ($jobsArray as $job) {
             $ret .= '<div class="job">';
-            
-            $ret .= "<div class='headline'><p>" . $job->title . "</p></div>";
-
-            $ret .= "<div class='content'>";
-            $ret .= "<div class='description'><p>" . $job->description . "</p></div>";
+            $ret .= '<div class="headline"><p>' . $job->title . '</p></div>';
+            $ret .= '<div class="content">';
+            $ret .= '<div class="description"><p>' . $job->description . '</p></div>';
             $ret .= $this->getJobSpecifications($job);
-            $ret .= "</div></div>";
+            $ret .= '</div></div>';
         }
-        $ret .= "</div>";
+        $ret .= '</div>';
+
         $this->jobs = $ret;
     }
 
-    public function renderJobsCount (int $jobsCount) {
+    public function renderJobsCount (int $jobsCount) : string {
         $count = $jobsCount > 0 ? $jobsCount : 0;
         return '<p class="jobs-count">Found ' . $count . ' job listings' . '</p>';
     }
@@ -101,23 +102,27 @@ class MainView {
 
     }
 
-    private function hasKeyword () {
+    private function hasKeyword () : bool {
         return isset($_GET[self::$keyword]) && !empty($_GET[self::$keyword]);
     }
 
-    private function hasEmptyKeyword () {
+    private function hasEmptyKeyword () : bool {
         return isset($_GET[self::$keyword]) && empty($_GET[self::$keyword]);
     }
 
-    private function validateKeyword () {
-        if ($this->hasKeyword() && strlen($_GET[self::$keyword]) < self::MIN_KEYWORD_LENGTH) {
+    private function isKeywordTooShort () : bool {
+        return $this->hasKeyword() && strlen($_GET[self::$keyword]) < self::MIN_KEYWORD_LENGTH;
+    }
+
+    private function validateKeywordLength () : void {
+        if ($this->isKeywordTooShort()) {
             $this->setMessage("Keyword is too short. Minimum 3 characters.");
         } else if ($this->hasEmptyKeyword()) {
             $this->setMessage("Keyword is missing");
         }
     }
 
-    public function userWantsToSearch () {
+    public function userWantsToSearch () : bool {
         if ($this->hasKeyword() && strlen($_GET[self::$keyword]) > self::MIN_KEYWORD_LENGTH)  {
             return true;
         } else {
@@ -125,15 +130,15 @@ class MainView {
         }
     }
 
-    public function setMessage ($message) {
+    public function setMessage ($message) : void {
         $this->message = $message;
     }
 
-    public function getKeyword () {
+    public function getKeyword () : string {
         return $_GET[self::$keyword];
     }
 
-    public function getCity () {
+    public function getCity () : string {
         return $_GET[self::$city];
     }
 
