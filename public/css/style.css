@@ -1,9 +1,8 @@
 
-header .container {
+.header.container {
     background: darkslategray;
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 html {
@@ -14,14 +13,14 @@ html {
 
 body {
     max-width: 1200px;
-    height: 100%;
+    min-height: 100%;
     margin: 0 auto;
     font-family: Helvetica, Arial, sans-serif;
     box-shadow: 5px 5px 30px #eee;
+    background-color: #EEE;
 }
 
-main {
-    background: #eee;
+.main.container {
     min-height: 50vh;
 }
 
@@ -45,9 +44,8 @@ h5 {
     font-size: 16px;
 }
 
-footer {
+.container.footer {
     background: darkslategray;
-    padding: .7em 0;
     color: #999;
 }
 
@@ -56,7 +54,7 @@ footer {
     position: relative;
 }
 
-header .container h1 {
+.header.container h1 {
     margin-block-start: 0;
     margin-block-end: 0;
     color: #FFF;
@@ -150,11 +148,10 @@ header .container h1 {
 
 .register-btn {
     cursor: pointer;
-    border-radius: 6rem;
     text-decoration: none;
-    background-color: lightgreen;
-    color: inherit;
-    padding: 10px 20px;
+    color: lightgreen;
+    text-decoration: underline;
+    padding: 0 20px;
 }
 
 .one-half label {
@@ -174,8 +171,6 @@ header .container h1 {
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
     flex-direction: row;
-    padding: 1rem;
-    background: #eee;
 }
 
 .job-finder-form input {
@@ -200,14 +195,35 @@ header .container h1 {
     visibility: hidden;
 }
 
+.logged-in, .not-logged-in {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 .logged-in {
-    color: green;
+    color: lightgreen;
+}
+
+.logged-in:before {
+    content: "✓";
+    display: inline-block;
+    margin-right: 15px;
 }
 
 input[name="LoginView::Logout"] {
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+input[name="LoginView::Login"] {
+    margin: 0;
+    text-align: center;
+    background-color: lightgreen !important;
+    border: .125rem solid lightgreen !important;
+    cursor: pointer;
+    border-radius: 30px;
+    text-transform: capitalize;
 }
 
 .site-title h1 a {
@@ -218,16 +234,28 @@ input[name="LoginView::Logout"] {
 .logged-in-details {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 
 .message {
     font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
     font-weight: 600;
 }
 
 .login-form {
     padding-top: 60px;
-    max-width: 700px;
+    max-width: 780px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.login-form input {
+    padding: 6px 12px;
+}
+
+.go-back-btn {
+    color: #FFF;
+    padding: 0 20px;
 }

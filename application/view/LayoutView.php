@@ -14,20 +14,20 @@ class LayoutView {
           <title>Login Example</title>
         </head>
         <body>
-          <div class="container">
-          <div class="site-title">
-            <h1>Assignment 2</h1>
+          <div class="header container">
+            <div class="site-title">
+              <h1>Assignment 2</h1>
             </div>
-          <div class="logged-in-details">
-            ' . $this->renderRegisterLink($isLoggedIn) . '
-            ' . $this->renderIsLoggedIn($isLoggedIn) . '
+            <div class="logged-in-details">
+              ' . $this->renderRegisterLink($isLoggedIn) . '
+              ' . $this->renderIsLoggedIn($isLoggedIn) . '
+            </div>
           </div>
+          <div class="main container">
+            ' . $v->response($isLoggedIn) . '
+            ' . $this->renderLoggedInApplication($loggedInView) . '
           </div>
-          <div class="container">
-              ' . $v->response($isLoggedIn) . '
-              ' . $this->renderLoggedInApplication($loggedInView) . '
-          </div>
-          <div class="container">
+          <div class="container footer">
           ' . $dtv->show() . '
           </div>
          </body>
