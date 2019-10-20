@@ -17,14 +17,14 @@ class Database {
         }
     }
     
-    public function connect () {
+    public function connect () : \mysqli {
         $this->connection = mysqli_connect($this->settings->DB_HOST, $this->settings->DB_USERNAME, 
         $this->settings->DB_PASSWORD, $this->settings->DB_NAME);
 
         if (!$this->connection) {
             echo "Connection failed " . mysqli_connect_error();
         }
-
+        
         return $this->connection;
     }
 
@@ -38,7 +38,7 @@ class Database {
         }
     }
 
-    public function findTableInDB(string $tableName, string $name) {
+    public function findTableInDB(string $tableName, string $name) : ?array {
         $query = "SELECT * FROM $tableName WHERE username = ?";
 
         $stmt = $this->connection->prepare($query);

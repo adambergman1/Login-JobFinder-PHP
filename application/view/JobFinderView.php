@@ -2,7 +2,7 @@
 
 namespace application\view;
 
-class MainView {
+class JobFinderView {
 
     private static $keyword = 'Keyword';
     private static $city = 'City';
@@ -25,11 +25,11 @@ class MainView {
         return $output;
     }
 
-    public function renderHeader () : string {
+    private function renderHeader () : string {
         return '<h3 class="job-finder-title">Find jobs in Sweden - The easy way</h3>';
     }
 
-    public function renderSearchForm ($message) : string {
+    private function renderSearchForm ($message) : string {
         return '
         <form method="get" class="job-finder-form"> 
             <div class="input-form">
@@ -68,7 +68,7 @@ class MainView {
         $this->jobs = $ret;
     }
 
-    public function renderJobsCount (int $jobsCount) : string {
+    private function renderJobsCount (int $jobsCount) : string {
         $count = $jobsCount > 0 ? $jobsCount : 0;
         return '<p class="jobs-count">Found ' . $count . ' job listings' . '</p>';
     }

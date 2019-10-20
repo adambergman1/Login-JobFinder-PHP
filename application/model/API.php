@@ -12,7 +12,7 @@ class API {
         $this->api = $this->getAPIKey($serverName);
     }
 
-    private function getAPIKey ($serverName) : string {
+    private function getAPIKey (string $serverName) : string {
         if ($serverName == 'localhost') {
             require_once('application/LocalAPIKey.php');
             $api = new \application\LocalAPIKey();
@@ -52,7 +52,7 @@ class API {
         }
     }
 
-    private function createJobsFromJSON ($jsonArray) : \application\model\JobsCollection {
+    private function createJobsFromJSON (array $jsonArray) : \application\model\JobsCollection {
         $jobsCollection = new \application\model\JobsCollection();
 
         foreach ($jsonArray as $job) {
@@ -65,9 +65,9 @@ class API {
                 $deadline = $item['application_deadline'];
                 $city = $item['workplace_address']['municipality'];
                 $employmentType = $item['employment_type']['label'];
-                $websiteUrl = $this->setHTTPProtocol($item['employer']['url']);
+                $websiteUrl = $item['employer']['url'] ? $this->setHTTPProtocol($item['employer']['url']) : '';
                 $employerName = $item['employer']['name'];
-                $applyJobUrl = $this->setHTTPProtocol($item['application_details']['url']);
+                $applyJobUrl = $item['application_details']['url'] ? $this->setHTTPProtocol($item['application_details']['url']) : '';
                 $applyJobEmail = $item['application_details']['email'];
 
                 $jobsCollection->add(new \application\model\Job($title, $description, $logoUrl, $amountOfVacancies, 
@@ -77,11 +77,9 @@ class API {
         return $jobsCollection;
     }
 
-    private function setHTTPProtocol ($url) : string {
-        if ($url && !preg_match("~^(?:f|ht)tps?://~i", $url)) {
+    private function setHTTPProtocol (string $url) : string {
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
             $url = "http://" . $url;
-        } else if (!$url) {
-            $url = "";
         }
         return $url;
     }

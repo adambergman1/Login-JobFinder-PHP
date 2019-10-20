@@ -12,7 +12,7 @@ class RegisterView implements View {
 	
 	private $message;
 
-	public function response($isLoggedIn) : string {
+	public function response(bool $isLoggedIn) : string {
 		$ret = '';
 		if (!$isLoggedIn) {
 			$ret = "<h2>Register new user</h2>";
@@ -55,7 +55,7 @@ class RegisterView implements View {
 		return $_POST[self::$passwordRepeat];
 	}
 
-	public function inputFieldHasValue ($field) : bool {
+	private function inputFieldHasValue ($field) : bool {
 		if (isset($_POST[$field]) && !empty($_POST[$field])) {
 			return true;
 		} else {
@@ -63,7 +63,7 @@ class RegisterView implements View {
 		}
 	}
 
-	public function passwordsAreSame () : bool {
+	private function passwordsAreSame () : bool {
 		return $this->getPassword() == $this->getPasswordRepeat();
 	}
 

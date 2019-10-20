@@ -3,7 +3,7 @@
 namespace application\model;
 
 // TODO: Consider using traversable interface 
-// with visitor pattern 
+// and visitor pattern 
 
 class JobsCollection {
     private $jobs = array();

@@ -10,11 +10,6 @@ class Password {
     if ($this->hasInvalidLength($password)) {
       throw new TooShortPasswordException;
     }
-
-    $this->password = $password;
-  }
-
-  public function setPassword (string $password) : void {
     $this->password = $password;
   }
 

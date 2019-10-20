@@ -4,7 +4,7 @@ namespace application\view;
 
 class LayoutView {
   
-  public function render($isLoggedIn, $v, DateTimeView $dtv, $loggedInView = null) : void {
+  public function render(bool $isLoggedIn, \login\view\View $v, DateTimeView $dtv, $loggedInView = null) : void {
     echo '
     <!DOCTYPE html>
       <html>
@@ -35,9 +35,11 @@ class LayoutView {
     ';
   }
 
-  public function renderLoggedInApplication ($loggedInView) {
+  private function renderLoggedInApplication ($loggedInView) : string {
     if ($loggedInView != null) {
       return $loggedInView->renderHTML();
+    } else {
+      return "";
     }
   }
 
@@ -63,7 +65,7 @@ class LayoutView {
     return $ret;
   }
 
-  public function userWantsToRegister () : bool {
+  private function userWantsToRegister () : bool {
     if (isset($_GET["register"])) {
       return true;
     } else {

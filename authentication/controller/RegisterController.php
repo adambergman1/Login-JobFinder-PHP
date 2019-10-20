@@ -18,7 +18,7 @@ class RegisterController {
         $this->authSystem = $authSystem;
     }
 
-    public function register () {
+    public function register () : void {
         if ($this->view->userhasClickedRegister()) {
             try {
                 $credentials = $this->view->getNewUserCredentials();

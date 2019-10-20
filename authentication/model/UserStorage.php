@@ -5,22 +5,14 @@ namespace login\model;
 class UserStorage {
 	private static $SESSION_KEY =  __CLASS__ .  "::UserName";
 	private static $NEW_USER_TO_REMEMBER = __CLASS__ . "::NewUser";
-  
-	public function loadUser() : string {
-		if ($this->hasStoredUser()) {
-			return $_SESSION[self::$SESSION_KEY];
-		} else {
-			throw new Exception("No user exits");
-		}
-  }
 
-  public function hasStoredUser () : bool {
-    if (isset($_SESSION[self::$SESSION_KEY])) {
-		return true;
-	} else {
-		return false;
-	}
-  }
+  	public function hasStoredUser () : bool {
+		if (isset($_SESSION[self::$SESSION_KEY])) {
+			return true;
+		} else {
+			return false;
+		}
+  	}
   
 	public function saveUser(string $name) : void {
 		$_SESSION[self::$SESSION_KEY] = md5($name);

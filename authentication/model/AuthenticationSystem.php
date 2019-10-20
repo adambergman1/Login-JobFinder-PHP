@@ -11,7 +11,7 @@ class AuthenticationSystem {
         $this->db = new \login\model\Database();
     }
 
-    public function tryToLogin (\login\model\UserCredentials $userCredentials) : bool {
+    public function tryToLogin (\login\model\UserCredentials $userCredentials) : void {
         $this->db->connect();
 
         $username = $userCredentials->getUsername()->getUsername();
@@ -21,15 +21,14 @@ class AuthenticationSystem {
 
         if ($isAuthenticated) {
             $this->storage->saveUser($username);
-            return true; 
         } else {
             throw new WrongNameOrPassword;
         }
     }
 
-    // TODO: Fix code duplication. 
-    // tryToLogin() and loginWithTemporaryPwd() are practically the same
-    public function loginWithTemporaryPwd (\login\model\UserCredentials $userCredentials) : bool {
+    // TODO: Fix code duplication.
+    // The only difference between tryToLogin & loginWithTemporaryPwd is which DB table to look through
+    public function loginWithTemporaryPwd (\login\model\UserCredentials $userCredentials) : void {
         $this->db->connect();
 
         $name = $userCredentials->getUsername()->getUsername();
@@ -39,7 +38,6 @@ class AuthenticationSystem {
 
         if ($isAuthenticated) {
             $this->storage->saveUser($name);
-            return true;
         } else {
             throw new WrongNameOrPassword;
         }
@@ -50,7 +48,7 @@ class AuthenticationSystem {
         $this->db->saveCookie($credentials->getUsername()->getUsername(), $credentials->getPassword()->getPassword());
     }
 
-    public function tryToRegister (\login\model\NewUser $newUser) : bool {
+    public function tryToRegister (\login\model\NewUser $newUser) : void {
         $username = $newUser->getUsername()->getUsername();
         $password = $newUser->getPassword()->getPassword();
 
@@ -61,7 +59,6 @@ class AuthenticationSystem {
         } else {
             $this->db->registerUser($username, $password);
             $this->storage->saveNameFromRegistration($username);
-            return true;
         }
     }
 }

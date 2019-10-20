@@ -23,14 +23,12 @@ class LoginController {
     public function login () : void {
         try {
             $credentials = $this->view->getUserCredentials();
-            $isAuthenticated = $this->authSystem->tryToLogin($credentials);
-
-            if ($isAuthenticated) {
-                $this->view->setSuccessfulMessage();
-                if ($credentials->stayLoggedIn()) {
-                    $cookies = $this->view->getCredentialsByCookie();
-                    $this->authSystem->updateSavedPwd($cookies);
-                }
+            $this->authSystem->tryToLogin($credentials);
+            $this->view->setSuccessfulMessage();
+            
+            if ($credentials->stayLoggedIn()) {
+                $cookies = $this->view->getCredentialsByCookie();
+                $this->authSystem->updateSavedPwd($cookies);
             }
 
         } catch (NameAndPasswordMissing $e) {
@@ -58,9 +56,9 @@ class LoginController {
     }
 
     public function logout () : void {
-            $this->storage->destroySession();
-            $this->view->removeCookie();
-            $this->view->setMessage(\login\view\Messages::BYE);
+        $this->storage->destroySession();
+        $this->view->removeCookie();
+        $this->view->setMessage(\login\view\Messages::BYE);
     }
 
     public function welcomeNewUser () : void {

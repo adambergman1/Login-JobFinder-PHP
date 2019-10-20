@@ -35,7 +35,21 @@ Create the following dotenv variables:
 
 ```
 JAWSDB_URL='YOUR_MYSQL_REMOTE_CONNECTION_STRING'
-AF_KEY='YOUR_AF_KEY'
+AF_KEY='YOUR_API_KEY'
+```
+
+### 4. Configure local API settings for Arbetsförmedlingen
+
+Create a file called `LocalAPIKey.php` inside the folder `application`
+
+```
+<?php
+
+namespace application;
+
+class LocalAPIKey {
+    public $API_KEY = 'YOUR_API_KEY';
+}
 ```
 
 ### 4. Create a database table called `users`

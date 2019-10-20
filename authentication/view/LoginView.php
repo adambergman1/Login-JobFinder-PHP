@@ -25,7 +25,7 @@ class LoginView implements View {
 	 * Should be called after a login attempt has been determined
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response($isLoggedIn) : string {
+	public function response(bool $isLoggedIn) : string {
 		if (!$isLoggedIn) {
 			$response = $this->generateLoginFormHTML($this->message);
 		} else {
@@ -124,7 +124,7 @@ class LoginView implements View {
 		return new \login\model\Password($_POST[self::$password]);
 	}
 
-	public function getKeepLoggedIn () : bool {
+	private function getKeepLoggedIn () : bool {
 		return isset($_POST[self::$keep]);
 	}
 

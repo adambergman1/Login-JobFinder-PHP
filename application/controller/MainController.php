@@ -11,7 +11,7 @@ class MainController {
     private $mv;
     private $model;
 
-    public function __construct (\application\view\MainView $mv) {
+    public function __construct (\application\view\JobFinderView $mv) {
         $this->mv = $mv;
         $this->model = new \application\model\API();
     }

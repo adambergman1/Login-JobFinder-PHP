@@ -20,12 +20,8 @@ class SearchPhrase {
         $this->replaceCharacters();
     }
 
-    public function replaceCharacters () : void {
+    private function replaceCharacters () : void {
         $this->phrase = urlencode($this->phrase);
-    }
-
-    public function getPhrase () : string {
-        return strtolower($this->phrase);
     }
 
     private function isKeywordValid (string $keyword) : bool {
@@ -52,5 +48,9 @@ class SearchPhrase {
         } else if (!$this->isCityValid($city)) {
             throw new InvalidCityLength;
         }
+    }
+
+    public function getPhrase () : string {
+        return strtolower($this->phrase);
     }
 }
