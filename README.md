@@ -1,6 +1,10 @@
-# Login System in PHP for course 1DV610
+# Job Finder
 
-96 % completion of 33 [automated tests](http://csquiz.lnu.se:25083/index.php).
+This application has been developed during the course 1DV610 and is based on a login system and a portal for finding jobs. It is written according to the MVC principle in PHP.
+
+The login system provides the ability to login and register. It has 96 % completion of 33 [automated tests](http://csquiz.lnu.se:25083/index.php).
+
+The Job Finder portal allows users to search for jobs in Sweden based on `keyword` and `city`. Currently, the results are obtained from the [Swedish public employment service](https://arbetsformedlingen.se/).
 
 Press [here](https://ab224qr-1dv610-lab-2.herokuapp.com/) to see the live version.
 
@@ -8,9 +12,9 @@ Press [here](https://ab224qr-1dv610-lab-2.herokuapp.com/) to see the live versio
 
 ### 1. Configure local database
 
-Edit the `LocalSettings.php` in root folder with your preferred values.
+Edit the `LocalSettings.php` in `authentication` folder with your preferred values.
 
-```
+```php
 <?php
 
 namespace login;
@@ -42,7 +46,7 @@ AF_KEY='YOUR_API_KEY'
 
 Create a file called `LocalAPIKey.php` inside the folder `application`
 
-```
+```php
 <?php
 
 namespace application;
