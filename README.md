@@ -10,14 +10,14 @@ Press [here](https://ab224qr-1dv610-lab-2.herokuapp.com/) to see the live versio
 
 ## Testing the application
 
-### Login System
+### Authentication
 
-[Use cases](https://github.com/WPUtvecklare/1dv610/wiki/Use-Cases-for-Authentication)
+[Use cases](https://github.com/WPUtvecklare/1dv610/wiki/Use-Cases-for-Authentication)  
 [Manual test cases](https://github.com/WPUtvecklare/1dv610/wiki/Test-Cases-for-Authentication)
 
 ### Job Finder
 
-[Use cases](https://github.com/WPUtvecklare/1dv610/wiki/Use-Cases-for-JobFinder)
+[Use cases](https://github.com/WPUtvecklare/1dv610/wiki/Use-Cases-for-JobFinder)  
 [Manual test cases](https://github.com/WPUtvecklare/1dv610/wiki/Test-Cases-for-JobFinder)
 
 ## Installation instructions
