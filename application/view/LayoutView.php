@@ -7,7 +7,7 @@ class LayoutView {
   public function render(bool $isLoggedIn, \login\view\View $v, DateTimeView $dtv, $loggedInView = null) : void {
     echo '
     <!DOCTYPE html>
-      <html>
+      <html lang="en">
         <head>
           <link rel="stylesheet" type="text/css" href="public/css/style.css">
           <meta charset="utf-8">

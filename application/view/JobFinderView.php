@@ -39,7 +39,7 @@ class JobFinderView {
 
             <div class="input-form">
                 <label for="' . self::$city . '">City (leave empty for all cities):</label>
-                <input type="city" id="' . self::$city . '" name="' . self::$city . '" placeholder="E.g. Stockholm" />
+                <input type="text" id="' . self::$city . '" name="' . self::$city . '" placeholder="E.g. Stockholm" />
             </div>
             <div class="button-form"> 
                 <input type="submit" name="' . self::$submit . '" value="Search" />
@@ -75,7 +75,7 @@ class JobFinderView {
 
     private function getJobSpecifications (\application\model\Job $job) : string {
         $ret = "<div class='specifications'>";
-        $ret .= "<div class='company-logo'><img src=' " . $job->logoUrl . " '/></div>";
+        $ret .= "<div class='company-logo'><img alt='" . $job->title . "' src=' " . $job->logoUrl . " '/></div>";
         $ret .= "<p>Number of vacancies: " . $job->numOfVacancies . "</p>";
         $ret .= "<p>Published: " . $this->formatDate($job->publicationDate) . "</p>";
         $ret .= "<p>Deadline: " . $this->formatDate($job->deadline) . "</p>";
@@ -91,7 +91,7 @@ class JobFinderView {
         if ($job->applyJobUrl) {
             $ret .= "<div class='apply-job'><a class='apply-job' target='_blank' href=' ". $job->applyJobUrl ." '>Apply this job</a></div>";
         } else if ($job->applyJobEmail) {
-            $ret .= "<div class='apply-job'><a target='_blank' href='mailto:". $job->applyJobEmail ."?subject=" . $job->title . "'>Apply this job</a></div>";
+            $ret .= "<div class='apply-job'><a target='_blank' href='mailto:". $job->applyJobEmail ."?subject=" . rawurlencode($job->title) . "'>Apply this job</a></div>";
         }
 
         $ret .= "</div>";
