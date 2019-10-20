@@ -2,11 +2,23 @@
 
 This application has been developed during the course 1DV610 and is based on a login system and a portal for finding jobs. It is written according to the MVC principle in PHP.
 
-The login system provides the ability to login and register. It has 96 % completion of 33 [automated tests](http://csquiz.lnu.se:25083/index.php).
+The login system provides the ability to login and register. It has `96%` completion of 33 [automated tests](http://csquiz.lnu.se:25083/index.php).
 
-The Job Finder portal allows users to search for jobs in Sweden based on `keyword` and `city`. Currently, the results are obtained from the [Swedish public employment service](https://arbetsformedlingen.se/).
+The Job Finder portal allows users to search for jobs in Sweden based on `keyword` and `city`. Currently, the results are obtained from the [Swedish public employment service](https://arbetsformedlingen.se/). It fullfills 100% of the provided [test cases](https://github.com/WPUtvecklare/1dv610/wiki/Test-Cases-for-JobFinder).
 
 Press [here](https://ab224qr-1dv610-lab-2.herokuapp.com/) to see the live version.
+
+## Testing the application
+
+### Login System
+
+[Use cases](https://github.com/WPUtvecklare/1dv610/wiki/Use-Cases-for-Authentication)
+[Manual test cases](https://github.com/WPUtvecklare/1dv610/wiki/Test-Cases-for-Authentication)
+
+### Job Finder
+
+[Use cases](https://github.com/WPUtvecklare/1dv610/wiki/Use-Cases-for-JobFinder)
+[Manual test cases](https://github.com/WPUtvecklare/1dv610/wiki/Test-Cases-for-JobFinder)
 
 ## Installation instructions
 
